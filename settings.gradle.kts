@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "LifeHub"
 include(":app")
+include(":core")
