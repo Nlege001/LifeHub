@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.core.R
+import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
@@ -19,7 +20,8 @@ import com.example.core.values.Dimens.pd16
 @Composable
 fun ErrorView(
     modifier: Modifier = Modifier,
-    refresh: () -> Unit
+    refresh: () -> Unit,
+    page: Page
 ) {
     Column(
         modifier = modifier
@@ -37,7 +39,8 @@ fun ErrorView(
         )
         PrimaryButton(
             onClick = refresh,
-            label = stringResource(R.string.refresh)
+            label = stringResource(R.string.refresh),
+            screen = page
         )
     }
 }
@@ -45,5 +48,8 @@ fun ErrorView(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewErrorView() {
-    ErrorView(refresh = {})
+    ErrorView(
+        refresh = {},
+        page = Page.LOGIN
+    )
 }

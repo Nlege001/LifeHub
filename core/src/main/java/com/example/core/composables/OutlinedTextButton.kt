@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.core.analytics.LocalAnalyticsLogger
+import com.example.core.analytics.Page
 import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd20
@@ -26,14 +28,19 @@ import com.example.core.values.Dimens.pd24
 fun OutlinedTextButton(
     modifier: Modifier = Modifier,
     label: String,
+    screen: Page,
     onClick: () -> Unit,
     isLoading: Boolean = false,
     enabled: Boolean = true,
 ) {
+    val analytics = LocalAnalyticsLogger.current
     OutlinedButton(
         modifier = modifier,
         enabled = enabled && !isLoading,
-        onClick = onClick,
+        onClick = {
+            analytics.logCtaClicked(label, screen)
+            onClick()
+        },
         shape = RoundedCornerShape(pd12)
     ) {
         Box(
@@ -66,14 +73,16 @@ private fun PreviewOutlinedTextButton() {
         OutlinedTextButton(
             modifier = Modifier.fillMaxWidth(),
             label = "Button",
-            onClick = {}
+            onClick = {},
+            screen = Page.LOGIN
         )
 
         OutlinedTextButton(
             modifier = Modifier.fillMaxWidth(),
             label = "Button",
             isLoading = true,
-            onClick = {}
+            onClick = {},
+            screen = Page.LOGIN
         )
     }
 }

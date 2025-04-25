@@ -10,13 +10,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.core.analytics.LocalAnalyticsLogger
+import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
@@ -27,14 +28,19 @@ import com.example.core.values.Dimens.pd24
 fun PrimaryButton(
     modifier: Modifier = Modifier,
     label: String,
+    screen: Page,
     onClick: () -> Unit,
     isLoading: Boolean = false,
     enabled: Boolean = true,
 ) {
+    val analytics = LocalAnalyticsLogger.current
     Button(
         modifier = modifier,
         enabled = enabled && !isLoading,
-        onClick = onClick,
+        onClick = {
+            analytics.logCtaClicked(label, screen)
+            onClick()
+        },
         shape = RoundedCornerShape(pd12),
         content = {
             Box(
@@ -68,14 +74,16 @@ private fun PreviewPrimaryButton() {
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             label = "Button",
-            onClick = {}
+            onClick = {},
+            screen = Page.LOGIN
         )
 
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             label = "Button",
             isLoading = true,
-            onClick = {}
+            onClick = {},
+            screen = Page.LOGIN
         )
     }
 }

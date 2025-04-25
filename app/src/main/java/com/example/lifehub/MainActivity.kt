@@ -7,11 +7,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.core.analytics.FirebaseAnalyticsLogger
+import com.example.core.analytics.LocalAnalyticsLogger
+import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTheme
+import com.example.lifehub.features.login.LogInScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,28 +27,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             LifeHubTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    val navController = rememberNavController()
+                    CompositionLocalProvider(
+                        LocalAnalyticsLogger provides FirebaseAnalyticsLogger()
+                    ) {
+                        NavHost(
+                            modifier = Modifier.padding(innerPadding),
+                            navController = navController,
+                            startDestination = Page.LOGIN.route,
+                            builder = {
+                                composable(Page.LOGIN.route) {
+                                    LogInScreen(
+                                        onSignInSuccessful = {},
+                                        navToSignUp = {}
+                                    )
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LifeHubTheme {
-        Greeting("Android")
     }
 }

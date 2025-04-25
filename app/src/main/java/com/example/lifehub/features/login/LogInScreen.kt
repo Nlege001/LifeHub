@@ -37,6 +37,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.core.analytics.Page
+import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.LogoAndAppTitle
 import com.example.core.composables.OutLinedTextField
 import com.example.core.composables.PrimaryButton
@@ -50,12 +52,14 @@ import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd8
 import com.example.wpinterviewpractice.R
 
+val page = Page.LOGIN
 @Composable
 fun LogInScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     onSignInSuccessful: () -> Unit,
     navToSignUp: () -> Unit,
 ) {
+    TrackScreenSeen(page)
     val postResult = viewModel.postResult.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
 
@@ -132,7 +136,7 @@ private fun Content(
         val password = rememberSaveable { mutableStateOf<String>("") }
         val shouldShowPassword = rememberSaveable { mutableStateOf(false) }
         val isPasswordError = remember {
-            derivedStateOf { InputValidator.isPasswordValid(password.value) && shouldValidateInput.value }
+            derivedStateOf { !InputValidator.isPasswordValid(password.value) && shouldValidateInput.value }
         }
         OutLinedTextField(
             modifier = Modifier
@@ -245,6 +249,7 @@ private fun Content(
                 }
             },
             isLoading = isLoading,
+            screen = page
         )
 
     }
