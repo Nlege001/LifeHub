@@ -1,4 +1,4 @@
-package com.example.lifehub.features.login
+package com.example.lifehub.features.signup
 
 import com.example.core.data.PostResult
 import com.example.lifehub.network.auth.FirebaseAuthService
@@ -7,16 +7,16 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @ViewModelScoped
-class LoginRepo @Inject constructor(
+class SignUpRepo @Inject constructor(
     private val firebaseAuthService: FirebaseAuthService
 ) {
-    suspend fun signIn(
+    suspend fun signUp(
         email: String,
         password: String
     ): PostResult<Unit> {
         return try {
             firebaseAuthService
-                .signIn(email, password)
+                .signUp(email, password)
                 .await()
 
             PostResult.Success(Unit)

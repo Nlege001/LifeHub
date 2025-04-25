@@ -13,5 +13,9 @@
 
     <!-- Sign up -->
     <string name="sign_up">Sign up</string>
+    <string name="sign_up_password_length">Password is at least 8 characters long.</string>
+    <string name="sign_up_one_capital_letter">Password has at least one upper case letter.</string>
+    <string name="sign_up_special_character">Password has at least one special character.</string>
+    <string name="sign_up_one_number">Password has at least one number.</string>
 
 </resources>

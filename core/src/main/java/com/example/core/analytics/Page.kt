@@ -8,5 +8,9 @@ enum class Page(
     LOGIN(
         label = "Log in",
         route = "Login"
+    ),
+    SIGN_UP(
+        label = "Sign up",
+        route = "SignUp"
     )
 }

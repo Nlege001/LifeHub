@@ -30,6 +30,7 @@ playservices_location = "21.0.1"
 firebase-bom = "32.7.3"
 appcompat = "1.7.0"
 material = "1.12.0"
+coroutines-play-services = "1.7.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -82,6 +83,7 @@ mockito-android = { module = "org.mockito:mockito-android", version.ref = "mocki
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito_kotlin" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "coroutines-play-services" }
 # Jetpack Compose Pager (from foundation)
 compose-pager = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeFoundation" }
 

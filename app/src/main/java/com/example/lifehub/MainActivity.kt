@@ -17,6 +17,7 @@ import com.example.core.analytics.LocalAnalyticsLogger
 import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTheme
 import com.example.lifehub.features.login.LogInScreen
+import com.example.lifehub.features.signup.SignUpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,7 +40,14 @@ class MainActivity : ComponentActivity() {
                                 composable(Page.LOGIN.route) {
                                     LogInScreen(
                                         onSignInSuccessful = {},
-                                        navToSignUp = {}
+                                        navToSignUp = {
+                                            navController.navigate(Page.SIGN_UP.route)
+                                        }
+                                    )
+                                }
+                                composable(Page.SIGN_UP.route) {
+                                    SignUpScreen(
+                                        done = {}
                                     )
                                 }
                             }

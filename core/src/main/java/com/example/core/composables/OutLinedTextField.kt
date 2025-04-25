@@ -1,6 +1,7 @@
 package com.example.core.composables
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -32,9 +33,9 @@ fun OutLinedTextField(
     colors: TextFieldColors? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-    Column {
+    Column(modifier = modifier) {
         OutlinedTextField(
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth(),
             textStyle = textStyle,
             label = {
                 if (!label.isNullOrEmpty()) {
