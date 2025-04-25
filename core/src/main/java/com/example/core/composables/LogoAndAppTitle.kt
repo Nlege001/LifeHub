@@ -15,7 +15,7 @@ import com.example.core.theme.LifeHubTypography
 @Composable
 fun LogoAndAppTitle(
     modifier: Modifier = Modifier,
-    textColor: Color = Color.Black
+    textColor: Color = Color.White
 ) {
     Column(
         modifier = modifier,

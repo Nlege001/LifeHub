@@ -17,7 +17,9 @@ import com.example.core.analytics.LocalAnalyticsLogger
 import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTheme
 import com.example.lifehub.features.login.LogInScreen
-import com.example.lifehub.features.signup.SignUpScreen
+import com.example.lifehub.features.signup.composables.EmailVerificationScreen
+import com.example.lifehub.features.signup.composables.SignUpScreen
+import com.example.lifehub.features.signup.composables.SignUpSuccessScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,7 +49,17 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable(Page.SIGN_UP.route) {
                                     SignUpScreen(
-                                        done = {}
+                                        done = { navController.navigate(Page.EMAIL_VERIFICATION.route) }
+                                    )
+                                }
+                                composable(Page.EMAIL_VERIFICATION.route) {
+                                    EmailVerificationScreen(
+                                        onSuccess = { navController.navigate(Page.SIGN_UP_SUCCESS.route) }
+                                    )
+                                }
+                                composable(Page.SIGN_UP_SUCCESS.route) {
+                                    SignUpSuccessScreen(
+                                        getStarted = {}
                                     )
                                 }
                             }

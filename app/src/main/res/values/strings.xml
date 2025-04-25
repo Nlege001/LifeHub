@@ -17,5 +17,16 @@
     <string name="sign_up_one_capital_letter">Password has at least one upper case letter.</string>
     <string name="sign_up_special_character">Password has at least one special character.</string>
     <string name="sign_up_one_number">Password has at least one number.</string>
+    <string name="sign_up_success">Sign up success!</string>
+    <string name="sign_up_success_message">You have signed up successfully! You will be now prompted to our questionnaire. We are glad to have you!</string>
+    <string name="get_started">Get Started</string>
+    <string name="sign_up_error">An error happened when trying to sign up. Try again.</string>
+
+    <!-- Email verification -->
+    <string name="email_verification">Email verification sent</string>
+    <string name="email_verification_body">Please check your email and click on the link to verify your email address</string>
+    <string name="resend">Resend</string>
+    <string name="email_verification_error">Failed to send email verification. Please try again.</string>
+
 
 </resources>

@@ -6,11 +6,19 @@ enum class Page(
 ) {
     // AUTH
     LOGIN(
-        label = "Log in",
+        label = "Log In",
         route = "Login"
     ),
     SIGN_UP(
-        label = "Sign up",
+        label = "Sign Up",
         route = "SignUp"
+    ),
+    SIGN_UP_SUCCESS(
+        label = "Sign Up Success",
+        route = "SignUpSuccess"
+    ),
+    EMAIL_VERIFICATION(
+        label = "Email Verification",
+        route = "EmailVerification"
     )
 }

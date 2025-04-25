@@ -1,4 +1,4 @@
-package com.example.lifehub.features.signup
+package com.example.lifehub.features.signup.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,6 +51,7 @@ import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
 import com.example.lifehub.features.signup.data.PasswordChecks
+import com.example.lifehub.features.signup.viewmodel.SignUpViewModel
 import com.example.wpinterviewpractice.R
 
 private val page = Page.SIGN_UP
@@ -187,7 +189,7 @@ private fun Content(
                     .padding(vertical = pd12, horizontal = pd16)
             ) {
                 Text(
-                    text = "An error happened when trying to sign up. Try again.",
+                    text = stringResource(R.string.sign_up_error),
                     color = Color.Red,
                     style = LifeHubTypography.bodyLarge,
                     textAlign = TextAlign.Center,
@@ -259,7 +261,13 @@ private fun Check(
             Text(
                 modifier = Modifier.weight(1f),
                 text = stringResource(check.checkLabel),
-                style = LifeHubTypography.bodySmall,
+                style = if (isValid) {
+                    LifeHubTypography.bodySmall.copy(
+                        textDecoration = TextDecoration.LineThrough
+                    )
+                } else {
+                    LifeHubTypography.bodySmall
+                },
                 color = Color.White
             )
         }

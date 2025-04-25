@@ -133,4 +133,7 @@ dependencies {
     implementation(libs.firebase.analytics)
 
     implementation(libs.kotlinx.coroutines.play.services)
+
+    // lottie
+    implementation(libs.lottie)
 }

@@ -1,7 +1,8 @@
 package com.example.lifehub.features.di
 
 import com.example.lifehub.features.login.LoginRepo
-import com.example.lifehub.features.signup.SignUpRepo
+import com.example.lifehub.features.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.signup.repo.SignUpRepo
 import com.example.lifehub.network.auth.FirebaseAuthService
 import dagger.Module
 import dagger.Provides
@@ -19,5 +20,9 @@ class AuthRepoModule {
     @Provides
     fun provideSignUpRepo(firebaseAuthService: FirebaseAuthService): SignUpRepo =
         SignUpRepo(firebaseAuthService)
+
+    @Provides
+    fun provideEmailVerificationRepo(firebaseAuthService: FirebaseAuthService): EmailVerificationRepo =
+        EmailVerificationRepo(firebaseAuthService)
 
 }
