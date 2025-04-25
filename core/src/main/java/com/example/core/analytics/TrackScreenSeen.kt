@@ -6,7 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 @Composable
 fun TrackScreenSeen(page: Page) {
     val analytics = LocalAnalyticsLogger.current
-    LaunchedEffect(page) {
+    LaunchedEffect(page.label) {
         analytics.logScreenSeen(page.label)
     }
 }
