@@ -1,5 +1,7 @@
 package com.example.lifehub.features.signup.viewmodel
 
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.PostResult
@@ -28,6 +30,7 @@ class EmailVerificationViewModel @Inject constructor(
         sendEmailVerification()
     }
 
+    @VisibleForTesting(otherwise = PRIVATE)
     fun sendEmailVerification() {
         viewModelScope.launch {
             _postResult.value = repo.sendEmailVerification()
