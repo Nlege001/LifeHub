@@ -1,8 +1,8 @@
 package com.example.lifehub.features.di
 
-import com.example.lifehub.features.login.LoginRepo
-import com.example.lifehub.features.signup.repo.EmailVerificationRepo
-import com.example.lifehub.features.signup.repo.SignUpRepo
+import com.example.lifehub.features.auth.login.LoginRepo
+import com.example.lifehub.features.auth.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.auth.signup.repo.SignUpRepo
 import com.example.lifehub.network.auth.FirebaseAuthService
 import dagger.Module
 import dagger.Provides

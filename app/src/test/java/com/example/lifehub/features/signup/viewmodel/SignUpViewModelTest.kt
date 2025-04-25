@@ -1,7 +1,8 @@
 package com.example.lifehub.features.signup.viewmodel
 
 import com.example.core.data.PostResult
-import com.example.lifehub.features.signup.repo.SignUpRepo
+import com.example.lifehub.features.auth.signup.repo.SignUpRepo
+import com.example.lifehub.features.auth.signup.viewmodel.SignUpViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

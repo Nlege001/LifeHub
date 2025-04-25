@@ -14,12 +14,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.core.analytics.FirebaseAnalyticsLogger
 import com.example.core.analytics.LocalAnalyticsLogger
+import com.example.core.analytics.NavFlows
 import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTheme
-import com.example.lifehub.features.login.LogInScreen
-import com.example.lifehub.features.signup.composables.EmailVerificationScreen
-import com.example.lifehub.features.signup.composables.SignUpScreen
-import com.example.lifehub.features.signup.composables.SignUpSuccessScreen
+import com.example.lifehub.features.auth.login.LogInScreen
+import com.example.lifehub.features.auth.nav.auth
+import com.example.lifehub.features.auth.signup.composables.EmailVerificationScreen
+import com.example.lifehub.features.auth.signup.composables.SignUpScreen
+import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,31 +39,9 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             modifier = Modifier.padding(innerPadding),
                             navController = navController,
-                            startDestination = Page.LOGIN.route,
+                            startDestination = NavFlows.AUTH.route,
                             builder = {
-                                composable(Page.LOGIN.route) {
-                                    LogInScreen(
-                                        onSignInSuccessful = {},
-                                        navToSignUp = {
-                                            navController.navigate(Page.SIGN_UP.route)
-                                        }
-                                    )
-                                }
-                                composable(Page.SIGN_UP.route) {
-                                    SignUpScreen(
-                                        done = { navController.navigate(Page.EMAIL_VERIFICATION.route) }
-                                    )
-                                }
-                                composable(Page.EMAIL_VERIFICATION.route) {
-                                    EmailVerificationScreen(
-                                        onSuccess = { navController.navigate(Page.SIGN_UP_SUCCESS.route) }
-                                    )
-                                }
-                                composable(Page.SIGN_UP_SUCCESS.route) {
-                                    SignUpSuccessScreen(
-                                        getStarted = {}
-                                    )
-                                }
+                                auth(navController)
                             }
                         )
                     }

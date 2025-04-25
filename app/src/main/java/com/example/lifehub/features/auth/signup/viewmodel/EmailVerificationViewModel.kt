@@ -1,11 +1,11 @@
-package com.example.lifehub.features.signup.viewmodel
+package com.example.lifehub.features.auth.signup.viewmodel
 
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.PostResult
-import com.example.lifehub.features.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.auth.signup.repo.EmailVerificationRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,7 +1,7 @@
 package com.example.lifehub.features.login
 
 import com.example.core.data.PostResult
-import com.example.lifehub.features.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.auth.signup.repo.EmailVerificationRepo
 import com.example.lifehub.network.auth.FirebaseAuthService
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser

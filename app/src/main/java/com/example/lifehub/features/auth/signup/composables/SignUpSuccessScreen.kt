@@ -1,4 +1,4 @@
-package com.example.lifehub.features.signup.composables
+package com.example.lifehub.features.auth.signup.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

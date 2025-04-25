@@ -1,4 +1,4 @@
-package com.example.lifehub.features.signup.repo
+package com.example.lifehub.features.auth.signup.repo
 
 import com.example.core.data.PostResult
 import com.example.lifehub.network.auth.FirebaseAuthService

@@ -1,4 +1,4 @@
-package com.example.lifehub.features.signup.composables
+package com.example.lifehub.features.auth.signup.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +36,7 @@ import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
-import com.example.lifehub.features.signup.viewmodel.EmailVerificationViewModel
+import com.example.lifehub.features.auth.signup.viewmodel.EmailVerificationViewModel
 import com.example.wpinterviewpractice.R
 import kotlinx.coroutines.delay
 

@@ -1,9 +1,9 @@
-package com.example.lifehub.features.signup.viewmodel
+package com.example.lifehub.features.auth.signup.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.PostResult
-import com.example.lifehub.features.signup.repo.SignUpRepo
+import com.example.lifehub.features.auth.signup.repo.SignUpRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

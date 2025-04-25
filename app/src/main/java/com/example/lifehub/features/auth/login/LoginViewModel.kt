@@ -1,4 +1,4 @@
-package com.example.lifehub.features.login
+package com.example.lifehub.features.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

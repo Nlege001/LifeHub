@@ -1,7 +1,8 @@
 package com.example.lifehub.features.signup.viewmodel
 
 import com.example.core.data.PostResult
-import com.example.lifehub.features.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.auth.signup.repo.EmailVerificationRepo
+import com.example.lifehub.features.auth.signup.viewmodel.EmailVerificationViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

@@ -1,4 +1,4 @@
-package com.example.lifehub.features.signup.data
+package com.example.lifehub.features.auth.signup.data
 
 import com.example.core.utils.InputValidator
 import com.example.wpinterviewpractice.R
