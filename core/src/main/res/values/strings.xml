@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="life_hub">Life Hub</string>
+    <string name="life_hub_logo">Life Hub Logo</string>
+    <string name="refresh">Refresh</string>
+    <string name="generic_error">Something went wrong</string>
+</resources>

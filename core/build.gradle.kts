@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
 
+    // material
+    implementation(libs.androidx.material3)
+
     // glide
     implementation(libs.glidecompose)
 }

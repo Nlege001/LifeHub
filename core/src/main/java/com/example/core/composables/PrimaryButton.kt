@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd20
@@ -49,7 +50,7 @@ fun PrimaryButton(
                     Text(
                         text = label,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.h6
+                        style = LifeHubTypography.titleMedium
                     )
                 }
             }

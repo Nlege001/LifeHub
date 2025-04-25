@@ -1,4 +1,4 @@
-package com.example.lifehub.ui.theme
+package com.example.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
