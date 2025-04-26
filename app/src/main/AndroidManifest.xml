@@ -7,9 +7,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/lifehub"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/lifehub"
         android:supportsRtl="true"
         android:theme="@style/Theme.LifeHub"
         tools:targetApi="31">
@@ -18,11 +18,36 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LifeHub">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="lifehub-c1851.firebaseapp.com"
+                    android:pathPrefix="/PasswordResetSuccess"
+                    android:scheme="https" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="lifehub-c1851.firebaseapp.com"
+                    android:pathPrefix="/EmailVerificationSuccess"
+                    android:scheme="https" />
+            </intent-filter>
+
         </activity>
     </application>
 

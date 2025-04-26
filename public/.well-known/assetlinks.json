@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.lifehub",
+      "sha256_cert_fingerprints": [
+        "E3:C9:F6:6F:D5:96:19:52:C7:63:6B:58:99:23:0E:44:DF:75:44:C3:2E:C1:64:7C:AA:D2:61:73:B0:A9:72:B4"
+      ]
+    }
+  }
+]

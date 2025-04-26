@@ -45,24 +45,10 @@ private val page = Page.EMAIL_VERIFICATION
 @Composable
 fun EmailVerificationScreen(
     viewModel: EmailVerificationViewModel = hiltViewModel(),
-    onSuccess: () -> Unit,
 ) {
     TrackScreenSeen(page)
     val postResult = viewModel.postResult.collectAsState().value
     val isResendLoading = viewModel.isResendLoading.collectAsState().value
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            viewModel.isEmailVerified()
-            delay(5000)
-
-            val result = viewModel.isEmailVerified.value
-            if (result is PostResult.Success && result.data) {
-                onSuccess()
-                break
-            }
-        }
-    }
 
     Content(
         hasRequestFailed = postResult == PostResult.Error(),

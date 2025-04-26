@@ -1,7 +1,10 @@
 package com.example.lifehub.features.auth.signup.repo
 
+import com.example.core.analytics.Page
 import com.example.core.data.PostResult
+import com.example.core.utils.Constants
 import com.example.lifehub.network.auth.FirebaseAuthService
+import com.google.firebase.auth.ActionCodeSettings
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -13,7 +16,17 @@ class EmailVerificationRepo @Inject constructor(
     suspend fun sendEmailVerification(): PostResult<Unit> {
         return try {
             firebaseAuthService
-                .emailVerification()
+                .emailVerification(
+                    actionCodeSettings = ActionCodeSettings.newBuilder()
+                        .setUrl(Page.SIGN_UP_SUCCESS.deeplinkRoute)
+                        .setHandleCodeInApp(true)
+                        .setAndroidPackageName(
+                            Constants.PACKAGE_NAME,
+                            true,
+                            null
+                        )
+                        .build()
+                )
                 .await()
 
             PostResult.Success(Unit)

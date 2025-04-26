@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 import kotlin.test.Test
@@ -40,7 +41,7 @@ class EmailVerificationRepoTest {
     fun testHappyPath_sendEmailVerification() = runTest {
         // given
         val expected = PostResult.Success(Unit)
-        whenever(firebaseAuthService.emailVerification()).thenReturn(Tasks.forResult(null))
+        whenever(firebaseAuthService.emailVerification(any())).thenReturn(Tasks.forResult(null))
 
         // when
         val result = repo.sendEmailVerification()
@@ -54,7 +55,7 @@ class EmailVerificationRepoTest {
         // given
         val expected =
             PostResult.Error("EmailVerificationRepo failed to send verification email java.lang.Exception: some error")
-        whenever(firebaseAuthService.emailVerification()).thenReturn(
+        whenever(firebaseAuthService.emailVerification(any())).thenReturn(
             Tasks.forException(Exception("some error"))
         )
 

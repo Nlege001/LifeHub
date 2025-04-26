@@ -10,18 +10,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.core.analytics.FirebaseAnalyticsLogger
 import com.example.core.analytics.LocalAnalyticsLogger
 import com.example.core.analytics.NavFlows
-import com.example.core.analytics.Page
 import com.example.core.theme.LifeHubTheme
-import com.example.lifehub.features.auth.login.LogInScreen
-import com.example.lifehub.features.auth.nav.auth
-import com.example.lifehub.features.auth.signup.composables.EmailVerificationScreen
-import com.example.lifehub.features.auth.signup.composables.SignUpScreen
-import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
+import com.example.lifehub.features.nav.auth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

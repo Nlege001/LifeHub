@@ -42,6 +42,7 @@ import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.LogoAndAppTitle
 import com.example.core.composables.OutLinedTextField
 import com.example.core.composables.PrimaryButton
+import com.example.core.composables.TextButtonWithIcon
 import com.example.core.data.PostResult
 import com.example.core.theme.LifeHubTypography
 import com.example.core.utils.InputValidator
@@ -59,6 +60,7 @@ fun LogInScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     onSignInSuccessful: () -> Unit,
     navToSignUp: () -> Unit,
+    forgotPassword: (String) -> Unit
 ) {
     TrackScreenSeen(page)
     val postResult = viewModel.postResult.collectAsState().value
@@ -74,7 +76,8 @@ fun LogInScreen(
         onRequestSignIn = { email, password -> viewModel.signIn(email, password) },
         signInError = postResult == PostResult.Error(),
         isLoading = isLoading,
-        navToSignUp = navToSignUp
+        navToSignUp = navToSignUp,
+        forgotPassword = forgotPassword
     )
 }
 
@@ -84,6 +87,7 @@ private fun Content(
     onRequestSignIn: (email: String, password: String) -> Unit,
     isLoading: Boolean,
     navToSignUp: () -> Unit,
+    forgotPassword: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -181,6 +185,13 @@ private fun Content(
             errorLabel = if (isPasswordError.value) stringResource(R.string.password_error) else null
         )
 
+        TextButtonWithIcon(
+            painter = null,
+            label = stringResource(R.string.forgot_password),
+            onClick = { forgotPassword(email.value) },
+            textStyle = LifeHubTypography.bodySmall
+        )
+
         if (signInError) {
             Box(
                 modifier = Modifier
@@ -190,7 +201,7 @@ private fun Content(
                     .padding(vertical = pd12, horizontal = pd16)
             ) {
                 Text(
-                    text = "An error happened when trying to log in. Try again.",
+                    text = stringResource(R.string.login_error),
                     color = Color.Red,
                     style = LifeHubTypography.bodyLarge,
                     textAlign = TextAlign.Center,
@@ -198,7 +209,6 @@ private fun Content(
                 )
             }
         }
-
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -263,6 +273,7 @@ fun PreviewLogInScreen() {
         signInError = false,
         onRequestSignIn = { _, _ -> },
         isLoading = false,
-        navToSignUp = {}
+        navToSignUp = {},
+        forgotPassword = {}
     )
 }

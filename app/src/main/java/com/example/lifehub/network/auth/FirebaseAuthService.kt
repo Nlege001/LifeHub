@@ -1,6 +1,7 @@
 package com.example.lifehub.network.auth
 
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,8 +25,10 @@ class FirebaseAuthService @Inject constructor(
         return firebaseAuth.signInWithEmailAndPassword(email, password)
     }
 
-    override fun emailVerification(): Task<Void> {
-        return firebaseAuth.currentUser?.sendEmailVerification()
+    override fun emailVerification(
+        actionCodeSettings: ActionCodeSettings
+    ): Task<Void> {
+        return firebaseAuth.currentUser?.sendEmailVerification(actionCodeSettings)
             ?: throw IllegalStateException("No user is currently signed in.")
     }
 
@@ -43,5 +46,15 @@ class FirebaseAuthService @Inject constructor(
 
     override fun getCurrentUser(): FirebaseUser? {
         return firebaseAuth.currentUser
+    }
+
+    override fun sendPasswordResetEmail(
+        email: String,
+        actionCodeSettings: ActionCodeSettings
+    ): Task<Void> {
+        return firebaseAuth.sendPasswordResetEmail(
+            email,
+            actionCodeSettings
+        )
     }
 }
