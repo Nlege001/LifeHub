@@ -35,7 +35,10 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = NavFlows.AUTH.route,
                             builder = {
-                                auth(navController)
+                                auth(
+                                    navController = navController,
+                                    onAuthFinished = {}
+                                )
                             }
                         )
                     }

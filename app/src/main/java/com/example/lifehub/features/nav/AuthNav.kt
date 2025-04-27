@@ -14,14 +14,17 @@ import com.example.lifehub.features.auth.signup.composables.EmailVerificationScr
 import com.example.lifehub.features.auth.signup.composables.SignUpScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
 
-fun NavGraphBuilder.auth(navController: NavHostController) {
+fun NavGraphBuilder.auth(
+    navController: NavHostController,
+    onAuthFinished: () -> Unit
+) {
     navigation(
         startDestination = Page.LOGIN.route,
         route = NavFlows.AUTH.route,
     ) {
         composable(Page.LOGIN.route) {
             LogInScreen(
-                onSignInSuccessful = {},
+                onSignInSuccessful = onAuthFinished,
                 navToSignUp = {
                     navController.navigate(Page.SIGN_UP.route)
                 },
@@ -47,7 +50,7 @@ fun NavGraphBuilder.auth(navController: NavHostController) {
             )
         ) {
             SignUpSuccessScreen(
-                getStarted = {}
+                getStarted = onAuthFinished
             )
         }
         composable(
