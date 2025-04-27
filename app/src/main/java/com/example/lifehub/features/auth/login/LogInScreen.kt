@@ -74,7 +74,7 @@ fun LogInScreen(
 
     Content(
         onRequestSignIn = { email, password -> viewModel.signIn(email, password) },
-        signInError = postResult == PostResult.Error(),
+        signInError = postResult is PostResult.Error,
         isLoading = isLoading,
         navToSignUp = navToSignUp,
         forgotPassword = forgotPassword

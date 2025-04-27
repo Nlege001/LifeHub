@@ -28,8 +28,7 @@ enum class Page(
     ),
     PASSWORD_RESET(
         label = "Password Reset",
-        route = "PasswordReset/{email}",
-        arguments = mapOf(NavArgumentType.EMAIL to "email")
+        route = "PasswordReset",
     ),
     PASSWORD_RESET_SUCCESS(
         label = "Password Reset Success",

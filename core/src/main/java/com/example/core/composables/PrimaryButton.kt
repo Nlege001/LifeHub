@@ -23,6 +23,7 @@ import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd20
 import com.example.core.values.Dimens.pd24
+import com.example.core.values.Dimens.pd48
 
 @Composable
 fun PrimaryButton(
@@ -35,7 +36,7 @@ fun PrimaryButton(
 ) {
     val analytics = LocalAnalyticsLogger.current
     Button(
-        modifier = modifier,
+        modifier = modifier.height(pd48),
         enabled = enabled && !isLoading,
         onClick = {
             analytics.logCtaClicked(label, screen)

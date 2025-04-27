@@ -2,12 +2,9 @@ package com.example.lifehub.features.nav
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
-import com.example.core.analytics.NavArgumentType
 import com.example.core.analytics.NavFlows
 import com.example.core.analytics.Page
 import com.example.lifehub.features.auth.login.LogInScreen
@@ -67,12 +64,8 @@ fun NavGraphBuilder.auth(navController: NavHostController) {
         }
         composable(
             route = Page.PASSWORD_RESET.route,
-            arguments = listOf(
-                navArgument(NavArgumentType.EMAIL.label) { type = NavType.StringType }
-            )
         ) { entry ->
-            val email = Page.PASSWORD_RESET.getArgument(NavArgumentType.EMAIL, entry) ?: ""
-            ResetPasswordScreen(email = email)
+            ResetPasswordScreen()
         }
     }
 }

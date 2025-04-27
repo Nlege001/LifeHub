@@ -4,22 +4,26 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
@@ -30,6 +34,7 @@ import com.example.core.composables.TextButtonWithIcon
 import com.example.core.data.PostResult
 import com.example.core.theme.LifeHubTypography
 import com.example.core.utils.baseHorizontalMargin
+import com.example.core.utils.openEmailApp
 import com.example.core.values.Colors
 import com.example.core.values.Dimens
 import com.example.core.values.Dimens.pd12
@@ -38,7 +43,6 @@ import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
 import com.example.lifehub.features.auth.signup.viewmodel.EmailVerificationViewModel
 import com.example.wpinterviewpractice.R
-import kotlinx.coroutines.delay
 
 private val page = Page.EMAIL_VERIFICATION
 
@@ -74,7 +78,7 @@ private fun Content(
         LogoAndAppTitle()
 
         LottieWrapper(
-            modifier = Modifier.size(Dimens.pd400),
+            modifier = Modifier.size(Dimens.pd300),
             file = R.raw.anim_email_verification
         )
 
@@ -97,8 +101,6 @@ private fun Content(
             style = LifeHubTypography.bodySmall,
             textAlign = TextAlign.Center
         )
-
-        Spacer(modifier = Modifier.weight(1f))
 
         if (hasRequestFailed) {
             Box(
@@ -125,6 +127,25 @@ private fun Content(
             isLoading = isResendLoading
         )
 
+        val context = LocalContext.current
+        ClickableText(
+            modifier = Modifier.padding(
+                top = pd16,
+                bottom = pd8
+            ),
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.White,
+                        textDecoration = TextDecoration.Underline
+                    )
+                ) {
+                    append(stringResource(R.string.open_mail_app))
+                }
+            },
+            style = LifeHubTypography.bodySmall,
+            onClick = { context.openEmailApp() },
+        )
     }
 }
 

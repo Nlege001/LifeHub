@@ -4,4 +4,6 @@
     <string name="life_hub_logo">Life Hub Logo</string>
     <string name="refresh">Refresh</string>
     <string name="generic_error">Something went wrong</string>
+    <string name="choose_email_app">Choose Email App</string>
+    <string name="no_email_app">No email app found.</string>
 </resources>

@@ -27,6 +27,7 @@
     <string name="email_verification_body">Please check your email and click on the link to verify your email address</string>
     <string name="resend">Resend</string>
     <string name="email_verification_error">Failed to send email verification. Please try again.</string>
+    <string name="open_mail_app">Open mail app</string>
 
     <!-- Password Reset -->
     <string name="password_reset">Reset password</string>

@@ -2,6 +2,7 @@ package com.example.core.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
@@ -32,11 +33,11 @@ fun TextButtonWithIcon(
     modifier: Modifier = Modifier,
     label: String,
     painter: Painter? = painterResource(R.drawable.ic_chevron),
-    iconEndPadding: Dp = Dimens.pd8,
-    textStyle: TextStyle = LifeHubTypography.displayLarge,
+    iconEndPadding: Dp = Dimens.pd0,
+    textStyle: TextStyle = LifeHubTypography.bodyLarge,
     textColor: Color = Color.White,
     iconTint: Color = Color.White,
-    iconSize: Dp = Dimens.pd48,
+    iconSize: Dp = Dimens.pd32,
     iconLocation: IconLocation = IconLocation.END,
     isLoading: Boolean = false,
     onClick: () -> Unit,
@@ -46,7 +47,10 @@ fun TextButtonWithIcon(
         enabled = !isLoading,
         content = {
             if (isLoading) {
-                CircularProgressIndicator(color = textColor)
+                CircularProgressIndicator(
+                    modifier = Modifier.height(iconSize),
+                    color = textColor
+                )
             } else {
                 if (iconLocation == IconLocation.START) {
                     painter?.let {

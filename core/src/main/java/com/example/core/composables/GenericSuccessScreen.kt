@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,48 +43,37 @@ fun GenericSuccessScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TrackScreenSeen(page)
-        Column(
+        LogoAndAppTitle()
+
+        LottieWrapper(
+            modifier = Modifier.size(Dimens.pd300),
+            file = lottie
+        )
+
+        Text(
             modifier = Modifier
-                .background(Colors.Black)
-                .baseHorizontalMargin()
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            LogoAndAppTitle()
+                .padding(top = pd16, bottom = pd8)
+                .fillMaxWidth(),
+            text = stringResource(header),
+            color = Colors.White,
+            style = LifeHubTypography.headlineMedium,
+            textAlign = TextAlign.Center
+        )
 
-            LottieWrapper(
-                modifier = Modifier.size(Dimens.pd400),
-                file = lottie
-            )
+        Text(
+            modifier = Modifier
+                .padding(top = pd16, bottom = pd8)
+                .fillMaxWidth(),
+            text = stringResource(body),
+            color = Colors.White,
+            style = LifeHubTypography.bodySmall,
+            textAlign = TextAlign.Center
+        )
 
-            Text(
-                modifier = Modifier
-                    .padding(top = pd16, bottom = pd8)
-                    .fillMaxWidth(),
-                text = stringResource(header),
-                color = Colors.White,
-                style = LifeHubTypography.headlineMedium,
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                modifier = Modifier
-                    .padding(top = pd16, bottom = pd8)
-                    .fillMaxWidth(),
-                text = stringResource(body),
-                color = Colors.White,
-                style = LifeHubTypography.bodySmall,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            TextButtonWithIcon(
-                modifier = Modifier.padding(bottom = pd32),
-                label = stringResource(ctaText),
-                onClick = onCtaClick
-            )
-        }
+        TextButtonWithIcon(
+            modifier = Modifier.padding(bottom = pd32),
+            label = stringResource(ctaText),
+            onClick = onCtaClick
+        )
     }
 }
