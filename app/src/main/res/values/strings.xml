@@ -38,6 +38,13 @@
     <string name="back_to_login">Back to login</string>
     <string name="send_reset_email">Send reset email</string>
 
-
+    <!-- Questioner -->
+    <string name="first_name">First Name</string>
+    <string name="first_name_error">Please provide a first name</string>
+    <string name="name_screen_title">What should we call you?</string>
+    <string name="dob_title">What is your birthday?</string>
+    <string name="last_name">Last Name (Optional)</string>
+    <string name="next">Next</string>
+    <string name="dob">Date of birth</string>
 
 </resources>

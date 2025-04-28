@@ -40,11 +40,12 @@ fun TextButtonWithIcon(
     iconSize: Dp = Dimens.pd32,
     iconLocation: IconLocation = IconLocation.END,
     isLoading: Boolean = false,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     TextButton(
         modifier = modifier,
-        enabled = !isLoading,
+        enabled = !isLoading && enabled,
         content = {
             if (isLoading) {
                 CircularProgressIndicator(
