@@ -46,5 +46,6 @@
     <string name="last_name">Last Name (Optional)</string>
     <string name="next">Next</string>
     <string name="dob">Date of birth</string>
+    <string name="user_save_error">Something went wrong when trying to create your profile, Please try again.</string>
 
 </resources>

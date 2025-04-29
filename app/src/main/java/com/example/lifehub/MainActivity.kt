@@ -15,11 +15,16 @@ import com.example.core.analytics.FirebaseAnalyticsLogger
 import com.example.core.analytics.LocalAnalyticsLogger
 import com.example.core.analytics.NavFlows
 import com.example.core.theme.LifeHubTheme
-import com.example.lifehub.features.nav.auth
+import com.example.lifehub.features.nav.NavFlowRegistry
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var navFlowRegistry: NavFlowRegistry
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,10 +40,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = NavFlows.AUTH.route,
                             builder = {
-                                auth(
-                                    navController = navController,
-                                    onAuthFinished = {}
-                                )
+                                navFlowRegistry.registerFlows(navController, this)
                             }
                         )
                     }

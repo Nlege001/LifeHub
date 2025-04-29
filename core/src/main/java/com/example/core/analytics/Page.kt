@@ -34,9 +34,23 @@ enum class Page(
         label = "Password Reset Success",
         route = "PasswordResetSuccess",
         deeplinkRoute = "https://lifehub-c1851.firebaseapp.com/PasswordResetSuccess"
+    ),
+
+    // Questionarie
+    FIRST_NAME_LAST_NAME(
+        label = "First Last Name Screen",
+        route = "FirstLastNameScreen",
+    ),
+    DOB(
+        label = "DaTe of birth",
+        route = "DateOfBirth/{firstName}/{lastName}",
+        arguments = mapOf(
+            NavArgumentType.FIRST_NAME to NavArgumentType.FIRST_NAME.label,
+            NavArgumentType.LAST_NAME to NavArgumentType.LAST_NAME.label,
+        )
     );
 
-    fun buildRoute(vararg args: String): String {
+    fun buildRoute(vararg args: String?): String {
         var builtRoute = route
         arguments.values.forEachIndexed { index, key ->
             builtRoute = builtRoute.replace("{$key}", args.getOrNull(index) ?: "")

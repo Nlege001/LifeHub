@@ -1,4 +1,4 @@
-package com.example.lifehub.features.questionaire
+package com.example.lifehub.features.questionaire.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.core.analytics.Page
+import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.CinematicTypingText
 import com.example.core.composables.LogoAndAppTitle
 import com.example.core.composables.OutLinedTextField
@@ -30,10 +32,13 @@ import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
 import com.example.wpinterviewpractice.R
 
+private val page = Page.FIRST_NAME_LAST_NAME
+
 @Composable
 fun FirstLastNameScreen(
     onDone: (String, String?) -> Unit
 ) {
+    TrackScreenSeen(page)
     Column(
         modifier = Modifier
             .background(Colors.Black)

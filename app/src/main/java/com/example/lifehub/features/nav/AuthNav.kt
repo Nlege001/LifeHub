@@ -13,62 +13,73 @@ import com.example.lifehub.features.auth.login.ResetPasswordScreen
 import com.example.lifehub.features.auth.signup.composables.EmailVerificationScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
+import javax.inject.Inject
 
-fun NavGraphBuilder.auth(
-    navController: NavHostController,
-    onAuthFinished: () -> Unit
-) {
-    navigation(
-        startDestination = Page.LOGIN.route,
-        route = NavFlows.AUTH.route,
+class AuthNav @Inject constructor() : NavRouter {
+
+    override fun startFlow(
+        navController: NavHostController,
     ) {
-        composable(Page.LOGIN.route) {
-            LogInScreen(
-                onSignInSuccessful = onAuthFinished,
-                navToSignUp = {
-                    navController.navigate(Page.SIGN_UP.route)
-                },
-                forgotPassword = {
-                    navController.navigate(Page.PASSWORD_RESET.buildRoute(it))
-                }
-            )
-        }
-        composable(Page.SIGN_UP.route) {
-            SignUpScreen(
-                done = { navController.navigate(Page.EMAIL_VERIFICATION.route) }
-            )
-        }
-        composable(Page.EMAIL_VERIFICATION.route) {
-            EmailVerificationScreen()
-        }
-        composable(
-            route = Page.SIGN_UP_SUCCESS.route,
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = Page.SIGN_UP_SUCCESS.deeplinkRoute
-                }
-            )
+        navController.navigate(NavFlows.AUTH.route)
+    }
+
+    override fun flow(
+        navController: NavHostController,
+        onFlowComplete: () -> Unit,
+        builder: NavGraphBuilder
+    ) {
+        builder.navigation(
+            startDestination = Page.LOGIN.route,
+            route = NavFlows.AUTH.route,
         ) {
-            SignUpSuccessScreen(
-                getStarted = onAuthFinished
-            )
-        }
-        composable(
-            route = Page.PASSWORD_RESET_SUCCESS.route,
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = Page.PASSWORD_RESET_SUCCESS.deeplinkRoute
-                }
-            )
-        ) {
-            PasswordResetSuccessScreen(
-                backToLogIn = { navController.navigate(Page.LOGIN.route) }
-            )
-        }
-        composable(
-            route = Page.PASSWORD_RESET.route,
-        ) { entry ->
-            ResetPasswordScreen()
+            composable(Page.LOGIN.route) {
+                LogInScreen(
+                    onSignInSuccessful = onFlowComplete,
+                    navToSignUp = {
+                        navController.navigate(Page.SIGN_UP.route)
+                    },
+                    forgotPassword = {
+                        navController.navigate(Page.PASSWORD_RESET.buildRoute(it))
+                    }
+                )
+            }
+            composable(Page.SIGN_UP.route) {
+                SignUpScreen(
+                    done = { navController.navigate(Page.EMAIL_VERIFICATION.route) }
+                )
+            }
+            composable(Page.EMAIL_VERIFICATION.route) {
+                EmailVerificationScreen()
+            }
+            composable(
+                route = Page.SIGN_UP_SUCCESS.route,
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = Page.SIGN_UP_SUCCESS.deeplinkRoute
+                    }
+                )
+            ) {
+                SignUpSuccessScreen(
+                    getStarted = onFlowComplete
+                )
+            }
+            composable(
+                route = Page.PASSWORD_RESET_SUCCESS.route,
+                deepLinks = listOf(
+                    navDeepLink {
+                        uriPattern = Page.PASSWORD_RESET_SUCCESS.deeplinkRoute
+                    }
+                )
+            ) {
+                PasswordResetSuccessScreen(
+                    backToLogIn = { navController.navigate(Page.LOGIN.route) }
+                )
+            }
+            composable(
+                route = Page.PASSWORD_RESET.route,
+            ) { entry ->
+                ResetPasswordScreen()
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ fun CinematicTypingText(
     textAlign: TextAlign = TextAlign.Left,
     color: Color = Colors.White,
     style: TextStyle = LifeHubTypography.titleLarge,
-    typingSpeedMillis: Long = 50L // Speed per letter
+    typingSpeedMillis: Long = 100L // Speed per letter
 ) {
     val visibleText = remember { mutableStateOf("") }
 
