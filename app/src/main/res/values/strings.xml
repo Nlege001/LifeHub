@@ -47,5 +47,8 @@
     <string name="next">Next</string>
     <string name="dob">Date of birth</string>
     <string name="user_save_error">Something went wrong when trying to create your profile, Please try again.</string>
+    <string name="welcome">Welcome to Lifehub!</string>
+    <string name="welcome_body">Your are now a member of the best community ever</string>
+    <string name="lets_go">Let\'s go!</string>
 
 </resources>

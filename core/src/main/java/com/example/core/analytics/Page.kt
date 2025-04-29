@@ -48,6 +48,10 @@ enum class Page(
             NavArgumentType.FIRST_NAME to NavArgumentType.FIRST_NAME.label,
             NavArgumentType.LAST_NAME to NavArgumentType.LAST_NAME.label,
         )
+    ),
+    ACCOUNT_CREATION_SUCCESS(
+        label = "Account Creation Success",
+        route = "AccountCreationSuccess",
     );
 
     fun buildRoute(vararg args: String?): String {

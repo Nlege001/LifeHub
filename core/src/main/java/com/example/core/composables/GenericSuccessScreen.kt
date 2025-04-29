@@ -50,7 +50,7 @@ fun GenericSuccessScreen(
             file = lottie
         )
 
-        Text(
+        CinematicTypingText(
             modifier = Modifier
                 .padding(top = pd16, bottom = pd8)
                 .fillMaxWidth(),
