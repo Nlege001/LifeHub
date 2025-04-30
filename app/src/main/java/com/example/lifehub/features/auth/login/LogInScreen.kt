@@ -51,6 +51,7 @@ import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd8
+import com.example.lifehub.user.UserViewModel
 import com.example.wpinterviewpractice.R
 
 private val page = Page.LOGIN
@@ -58,17 +59,20 @@ private val page = Page.LOGIN
 @Composable
 fun LogInScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    onSignInSuccessful: () -> Unit,
+    onSignInSuccessful: (Boolean) -> Unit,
     navToSignUp: () -> Unit,
     forgotPassword: (String) -> Unit
 ) {
     TrackScreenSeen(page)
     val postResult = viewModel.postResult.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
+    val userViewModel: UserViewModel = hiltViewModel()
+    val isQuestionaireComplete =
+        userViewModel.user.collectAsState().value?.hasCompletedQuestionaire == true
 
     LaunchedEffect(postResult) {
         if (postResult is PostResult.Success) {
-            onSignInSuccessful()
+            onSignInSuccessful(isQuestionaireComplete)
         }
     }
 

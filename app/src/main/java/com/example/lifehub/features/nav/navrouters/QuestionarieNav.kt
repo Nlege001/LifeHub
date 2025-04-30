@@ -14,7 +14,9 @@ import com.example.lifehub.features.questionaire.composables.DobScreen
 import com.example.lifehub.features.questionaire.composables.FirstLastNameScreen
 import javax.inject.Inject
 
-class QuestionarieNav @Inject constructor() : NavRouter {
+class QuestionarieNav @Inject constructor(
+    private val mainNav: MainNav
+) : NavRouter {
 
     override fun startFlow(
         navController: NavHostController,
@@ -24,7 +26,6 @@ class QuestionarieNav @Inject constructor() : NavRouter {
 
     override fun flow(
         navController: NavHostController,
-        onFlowComplete: () -> Unit,
         builder: NavGraphBuilder
     ) {
         builder.navigation(
@@ -57,7 +58,7 @@ class QuestionarieNav @Inject constructor() : NavRouter {
             composable(
                 route = Page.ACCOUNT_CREATION_SUCCESS.route
             ) {
-                AccountCreationSuccessScreen { onFlowComplete }
+                AccountCreationSuccessScreen { mainNav.startFlow(navController) }
             }
         }
     }

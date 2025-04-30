@@ -10,7 +10,6 @@ interface NavRouter {
 
     abstract fun flow(
         navController: NavHostController,
-        onFlowComplete: () -> Unit = {},
         builder: NavGraphBuilder
     )
 }

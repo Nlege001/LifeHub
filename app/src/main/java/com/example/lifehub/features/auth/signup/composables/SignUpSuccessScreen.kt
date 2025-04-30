@@ -1,9 +1,12 @@
 package com.example.lifehub.features.auth.signup.composables
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.composables.GenericSuccessScreen
+import com.example.lifehub.user.UserViewModel
 import com.example.wpinterviewpractice.R
 
 private val page = Page.SIGN_UP_SUCCESS
@@ -12,6 +15,10 @@ private val page = Page.SIGN_UP_SUCCESS
 fun SignUpSuccessScreen(
     getStarted: () -> Unit
 ) {
+    val viewModel: UserViewModel = hiltViewModel()
+    LaunchedEffect(Unit) {
+        viewModel.saveUser(completed = false)
+    }
     GenericSuccessScreen(
         page = page,
         lottie = R.raw.anim_done,

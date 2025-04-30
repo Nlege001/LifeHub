@@ -26,7 +26,6 @@ class MainNav @Inject constructor() : NavRouter {
 
     override fun flow(
         navController: NavHostController,
-        onFlowComplete: () -> Unit,
         builder: NavGraphBuilder
     ) {
         builder.composable(NavFlows.MAIN.route) {

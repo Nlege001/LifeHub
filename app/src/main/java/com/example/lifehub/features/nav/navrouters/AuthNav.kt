@@ -19,7 +19,10 @@ import javax.inject.Inject
 /**
  * Nav router for the authentication flow of the app
  **/
-class AuthNav @Inject constructor() : NavRouter {
+class AuthNav @Inject constructor(
+    private val questionarieNav: QuestionarieNav,
+    private val mainNav: MainNav
+) : NavRouter {
 
     override fun startFlow(
         navController: NavHostController,
@@ -29,7 +32,6 @@ class AuthNav @Inject constructor() : NavRouter {
 
     override fun flow(
         navController: NavHostController,
-        onFlowComplete: () -> Unit,
         builder: NavGraphBuilder
     ) {
         builder.navigation(
@@ -38,7 +40,13 @@ class AuthNav @Inject constructor() : NavRouter {
         ) {
             composable(Page.LOGIN.route) {
                 LogInScreen(
-                    onSignInSuccessful = onFlowComplete,
+                    onSignInSuccessful = { isQuestionaireComplete ->
+                        if (isQuestionaireComplete) {
+                            mainNav.startFlow(navController)
+                        } else {
+                            questionarieNav.startFlow(navController)
+                        }
+                    },
                     navToSignUp = {
                         navController.navigate(Page.SIGN_UP.route)
                     },
@@ -64,7 +72,9 @@ class AuthNav @Inject constructor() : NavRouter {
                 )
             ) {
                 SignUpSuccessScreen(
-                    getStarted = onFlowComplete
+                    getStarted = {
+                        questionarieNav.startFlow(navController)
+                    }
                 )
             }
             composable(

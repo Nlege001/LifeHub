@@ -18,12 +18,10 @@ class NavFlowRegistry @Inject constructor(
     ) {
         authNav.flow(
             navController = navController,
-            onFlowComplete = { questionarieNav.startFlow(navController) },
             builder = builder
         )
         questionarieNav.flow(
             navController = navController,
-            onFlowComplete = { mainNav.startFlow(navController) },
             builder = builder
         )
         mainNav.flow(
