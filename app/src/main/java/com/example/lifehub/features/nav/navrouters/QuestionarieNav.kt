@@ -1,4 +1,4 @@
-package com.example.lifehub.features.nav
+package com.example.lifehub.features.nav.navrouters
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.core.analytics.NavFlows
 import com.example.core.analytics.Page
+import com.example.lifehub.features.nav.NavRouter
 import com.example.lifehub.features.questionaire.composables.AccountCreationSuccessScreen
 import com.example.lifehub.features.questionaire.composables.DobScreen
 import com.example.lifehub.features.questionaire.composables.FirstLastNameScreen

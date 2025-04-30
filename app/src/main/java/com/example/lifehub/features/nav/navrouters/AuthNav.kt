@@ -1,4 +1,4 @@
-package com.example.lifehub.features.nav
+package com.example.lifehub.features.nav.navrouters
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -13,8 +13,12 @@ import com.example.lifehub.features.auth.login.ResetPasswordScreen
 import com.example.lifehub.features.auth.signup.composables.EmailVerificationScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
+import com.example.lifehub.features.nav.NavRouter
 import javax.inject.Inject
 
+/**
+ * Nav router for the authentication flow of the app
+ **/
 class AuthNav @Inject constructor() : NavRouter {
 
     override fun startFlow(

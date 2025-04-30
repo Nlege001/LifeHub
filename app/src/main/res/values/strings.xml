@@ -51,4 +51,21 @@
     <string name="welcome_body">Your are now a member of the best community ever</string>
     <string name="lets_go">Let\'s go!</string>
 
+    <!-- Bottom nav -->
+    <string name="home">Home</string>
+    <string name="posts">Posts</string>
+    <string name="progress">Progress</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
+
+    <!-- Side menu nav -->
+    <string name="journal">Journal</string>
+    <string name="reflections">Reflections</string>
+    <string name="insights">Insights</string>
+    <string name="calendar">Calendar</string>
+    <string name="invite_a_friend">Invite a friend</string>
+    <string name="settings">Settings</string>
+    <string name="sign_out">Sign out</string>
+    <string name="menu">Menu</string>
+
 </resources>

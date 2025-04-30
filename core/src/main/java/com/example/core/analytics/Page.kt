@@ -6,7 +6,8 @@ enum class Page(
     val label: String,
     val route: String,
     val arguments: Map<NavArgumentType, String> = emptyMap(),
-    val deeplinkRoute: String = ""
+    val deeplinkRoute: String = "",
+    val hasBottomNav: Boolean = false
 ) {
     // AUTH
     LOGIN(
@@ -52,6 +53,63 @@ enum class Page(
     ACCOUNT_CREATION_SUCCESS(
         label = "Account Creation Success",
         route = "AccountCreationSuccess",
+    ),
+
+    // BOTTOM_NAV
+    DASHBOARD_HOME(
+        label = "Dashboard",
+        route = "Dashboard",
+        hasBottomNav = true
+    ),
+    POSTS(
+        label = "Posts",
+        route = "Posts",
+        hasBottomNav = true
+    ),
+    PROGRESS(
+        label = "Progress",
+        route = "Progress",
+        hasBottomNav = true
+    ),
+    MESSAGES(
+        label = "Messages",
+        route = "Messages",
+        hasBottomNav = true
+    ),
+    PROFILE(
+        label = "Profile",
+        route = "Profile",
+        hasBottomNav = true
+    ),
+
+    // SIDE MENU
+    JOURNAL(
+        label = "Journal",
+        route = "Journal",
+    ),
+    REFLECTIONS(
+        label = "Reflections",
+        route = "Reflections",
+    ),
+    INSIGHTS(
+        label = "Insights",
+        route = "Insights",
+    ),
+    CALENDAR(
+        label = "Calendar",
+        route = "Calendar",
+    ),
+    INVITE_A_FRIEND(
+        label = "Invite A Friend",
+        route = "Invite A Friend",
+    ),
+    SETTINGS(
+        label = "SETTINGS",
+        route = "SETTINGS",
+    ),
+    SIGN_OUT(
+        label = "Sign Out",
+        route = "Sign Out",
     );
 
     fun buildRoute(vararg args: String?): String {
@@ -65,5 +123,11 @@ enum class Page(
     fun getArgument(type: NavArgumentType, entry: NavBackStackEntry): String? {
         val key = arguments[type]
         return key?.let { entry.arguments?.getString(it) }
+    }
+
+    companion object {
+        fun getCurrentPage(route: String?): Page? {
+            return Page.entries.find { it.route == route }
+        }
     }
 }
