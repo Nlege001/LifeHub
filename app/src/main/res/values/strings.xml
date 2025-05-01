@@ -68,4 +68,10 @@
     <string name="sign_out">Sign out</string>
     <string name="menu">Menu</string>
 
+    <!-- Dashboard home -->
+    <string name="qod">Quote of the Day</string>
+    <string name="quote">“%s”</string>
+    <string name="quote_author">- %s</string>
+    <string name="welcome_back">Welcome back,</string>
+
 </resources>

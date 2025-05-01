@@ -1,0 +1,66 @@
+package com.example.lifehub.features.dashboard.home.composables
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.core.analytics.Page
+import com.example.core.composables.ViewStateCoordinator
+import com.example.lifehub.features.dashboard.home.DashboardFeedData
+import com.example.lifehub.features.dashboard.home.DashboardFeedViewModel
+import com.example.lifehub.network.quoteoftheday.data.QuoteOfTheDay
+
+private val page = Page.DASHBOARD_HOME
+
+@Composable
+fun DashboardFeed(
+    viewModel: DashboardFeedViewModel = hiltViewModel()
+) {
+    ViewStateCoordinator(
+        state = viewModel.feedData,
+        refresh = { viewModel.getData() },
+        page = page
+    ) {
+        Content(it)
+    }
+
+}
+
+@Composable
+private fun Content(data: DashboardFeedData) {
+    LazyColumn(
+        modifier = Modifier
+            .background(Color.DarkGray)
+            .fillMaxSize()
+    ) {
+        item {
+            data.firstName?.let {
+                WelcomeUserCard(it)
+            }
+        }
+        item {
+            data.quoteOfTheDay?.let {
+                QuoteOfTheDayCard(it)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewDashboardFeed() {
+    Content(
+        data = DashboardFeedData(
+            firstName = "Naol",
+            quoteOfTheDay = QuoteOfTheDay(
+                q = "The mind is everything. What you think you become.",
+                a = "Buddha",
+                h = ""
+            )
+        )
+    )
+}
