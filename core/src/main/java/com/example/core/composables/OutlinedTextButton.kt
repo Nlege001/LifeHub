@@ -19,10 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.core.analytics.LocalAnalyticsLogger
 import com.example.core.analytics.Page
+import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Dimens.pd12
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd20
 import com.example.core.values.Dimens.pd24
+import com.example.core.values.Dimens.pd48
 
 @Composable
 fun OutlinedTextButton(
@@ -35,7 +37,7 @@ fun OutlinedTextButton(
 ) {
     val analytics = LocalAnalyticsLogger.current
     OutlinedButton(
-        modifier = modifier,
+        modifier = modifier.height(pd48),
         enabled = enabled && !isLoading,
         onClick = {
             analytics.logCtaClicked(label, screen)
@@ -56,7 +58,7 @@ fun OutlinedTextButton(
                 Text(
                     text = label,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h6
+                    style = LifeHubTypography.titleMedium
                 )
             }
         }

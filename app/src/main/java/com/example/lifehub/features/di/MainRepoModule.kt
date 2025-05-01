@@ -1,7 +1,9 @@
 package com.example.lifehub.features.di
 
 import com.example.lifehub.features.dashboard.home.DashboardFeedRepo
+import com.example.lifehub.features.profile.ProfileRepo
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
+import com.example.lifehub.network.user.UserService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -27,4 +29,15 @@ class MainRepoModule {
             firebaseFirestore = firebaseFirestore,
             firebaseAuth = firebaseAuth
         )
+
+    @Provides
+    fun provideProfileRepo(
+        firebaseAuth: FirebaseAuth,
+        firebaseFirestore: FirebaseFirestore,
+        userService: UserService
+    ): ProfileRepo = ProfileRepo(
+        firebaseAuth,
+        firebaseFirestore,
+        userService
+    )
 }

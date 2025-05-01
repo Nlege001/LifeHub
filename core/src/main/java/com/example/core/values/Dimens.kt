@@ -14,6 +14,7 @@ object Dimens {
     val pd32 = 32.dp
     val pd48 = 48.dp
     val pd100 = 100.dp
+    val pd200 = 200.dp
     val pd300 = 300.dp
     val pd400 = 400.dp
     val pd500 = 500.dp
