@@ -86,7 +86,7 @@ fun FirstLastNameScreen(
 
         val lastName = rememberSaveable { mutableStateOf("") }
         OutLinedTextField(
-            label = stringResource(R.string.last_name),
+            label = stringResource(R.string.last_name_optional),
             value = lastName.value,
             onValueChange = {
                 lastName.value = it
@@ -94,7 +94,7 @@ fun FirstLastNameScreen(
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_last_name),
-                    contentDescription = stringResource(R.string.last_name),
+                    contentDescription = stringResource(R.string.last_name_optional),
                     tint = Colors.White
                 )
             },

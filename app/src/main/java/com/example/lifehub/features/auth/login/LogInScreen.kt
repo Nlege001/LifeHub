@@ -119,7 +119,7 @@ private fun Content(
         val shouldValidateInput = rememberSaveable { mutableStateOf(false) }
         val isEmailError = remember {
             derivedStateOf {
-                !InputValidator.isValidEmail(email.value) && shouldValidateInput.value
+                !InputValidator.isValidEmail(email.value.trim()) && shouldValidateInput.value
             }
         }
         OutLinedTextField(
@@ -260,7 +260,7 @@ private fun Content(
             onClick = {
                 shouldValidateInput.value = true
                 if (!isEmailError.value && !isPasswordError.value) {
-                    onRequestSignIn(email.value, password.value)
+                    onRequestSignIn(email.value.trim(), password.value)
                 }
             },
             isLoading = isLoading,

@@ -27,7 +27,7 @@ fun OutLinedTextField(
     errorLabel: String? = null,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    singleLine: Boolean = false,
+    singleLine: Boolean = true,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors? = null,

@@ -43,7 +43,8 @@
     <string name="first_name_error">Please provide a first name</string>
     <string name="name_screen_title">What should we call you?</string>
     <string name="dob_title">What is your birthday?</string>
-    <string name="last_name">Last Name (Optional)</string>
+    <string name="last_name_optional">Last Name (Optional)</string>
+    <string name="last_name">Last Name</string>
     <string name="next">Next</string>
     <string name="dob">Date of birth</string>
     <string name="user_save_error">Something went wrong when trying to create your profile, Please try again.</string>
