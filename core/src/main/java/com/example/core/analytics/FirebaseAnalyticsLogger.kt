@@ -1,6 +1,7 @@
 package com.example.core.analytics
 
 import android.os.Bundle
+import android.util.Log
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 
@@ -9,6 +10,7 @@ class FirebaseAnalyticsLogger : AnalyticsLogger {
     private val analytics = Firebase.analytics
 
     override fun logScreenSeen(screen: String) {
+        Log.d("Analytics", "Screen: $screen")
         analytics.logEvent("screen_seen", bundleOf("screen" to screen))
     }
 

@@ -3,6 +3,7 @@ package com.example.core.composables
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.example.core.analytics.Page
+import com.example.core.analytics.TrackScreenSeen
 import com.example.core.data.ViewState
 import kotlinx.coroutines.flow.StateFlow
 
@@ -18,6 +19,7 @@ fun <T> ViewStateCoordinator(
     errorComposable: @Composable () -> Unit = { ErrorView(refresh = refresh, page = page) },
     content: @Composable (T) -> Unit
 ) {
+    TrackScreenSeen(page)
     when (val value = state.collectAsState().value) {
         is ViewState.Content -> content(value.data)
         is ViewState.Error -> errorComposable()
