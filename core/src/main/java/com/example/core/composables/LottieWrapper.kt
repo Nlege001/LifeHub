@@ -13,12 +13,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun LottieWrapper(
     modifier: Modifier = Modifier,
     file: Int,
+    iterations: Int = 1,
     onAnimationFinished: (() -> Unit)? = null
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(file))
     val progress by animateLottieCompositionAsState(
         composition = composition,
-        iterations = 1,
+        iterations = iterations,
         isPlaying = true
     )
 

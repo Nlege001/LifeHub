@@ -87,4 +87,16 @@
     <string name="close">Close</string>
     <string name="account_options">Account Options</string>
 
+    <!-- Progress -->
+    <string name="progress_title">Build Your Routine</string>
+    <string name="progress_subTitle">Small actions today, lasting change tomorrow.</string>
+    <string name="goal_title">Create a Specific Goal</string>
+    <string name="goal_subTitle">Define what matters and stay focused</string>
+    <string name="todo_title"> Plan Your Tasks</string>
+    <string name="todo_subTitle">Break down your day into actionable steps</string>
+    <string name="mood_title">Track Mood &amp; Habits</string>
+    <string name="mood_subTitle">Build routines and understand emotional trends</string>
+    <string name="reflection_title">Reflect Daily</string>
+    <string name="reflection_subTitle">Pause and explore your thoughts in a guided way</string>
+
 </resources>

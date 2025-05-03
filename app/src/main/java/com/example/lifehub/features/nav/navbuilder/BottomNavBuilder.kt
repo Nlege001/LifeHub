@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import com.example.core.analytics.Page
 import com.example.lifehub.features.dashboard.home.composables.DashboardFeed
 import com.example.lifehub.features.profile.ProfileScreen
+import com.example.lifehub.features.progress.ProgressScreen
 
 /**
  * Nav builder for the bottom nav
@@ -17,7 +18,11 @@ fun NavGraphBuilder.bottomNavBuilder(
         DashboardFeed()
     }
     composable(Page.POSTS.route) { }
-    composable(Page.PROGRESS.route) { }
+    composable(Page.PROGRESS.route) {
+        ProgressScreen(
+            navigate = {}
+        )
+    }
     composable(Page.MESSAGES.route) { }
     composable(Page.PROFILE.route) {
         ProfileScreen()
