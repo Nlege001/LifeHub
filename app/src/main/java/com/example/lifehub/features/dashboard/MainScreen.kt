@@ -112,7 +112,6 @@ private fun Content(
                         modifier = Modifier.padding(padding),
                         navController = navController,
                         startDestination = startDestination,
-                        route = NavFlows.BOTTOM_NAV.route,
                         builder = {
                             bottomNavBuilder(navController)
                             sideMenuNavBuilder(navController)
@@ -164,7 +163,7 @@ private fun DrawerSheet(
                         onEditProfilePicture = onChangeProfilePicture
                     )
 
-                    SideMenuItem.getSideMenuItems().forEach { item ->
+                    data.items.forEach { item ->
                         NavigationDrawerItem(
                             modifier = Modifier.padding(horizontal = pd16),
                             label = {
