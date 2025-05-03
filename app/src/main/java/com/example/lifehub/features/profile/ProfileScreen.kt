@@ -144,6 +144,16 @@ private fun Content(
         }
     )
 
+    val pickGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        val image = uri
+        val intent = pictureIntent.value
+        if (image != null && intent != null) {
+            uploadProfilePicture(data.userId, image, intent)
+        }
+    }
+
     Column(
         modifier = Modifier
             .background(Colors.Black)
@@ -218,7 +228,9 @@ private fun Content(
             onTakePhoto = {
                 cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
             },
-            onPickFromGallery = {},
+            onPickFromGallery = {
+                pickGalleryLauncher.launch("image/*")
+            },
             onDismiss = { showSheet.value = false }
         )
     }
