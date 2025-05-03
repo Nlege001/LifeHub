@@ -1,5 +1,9 @@
 package com.example.lifehub.features.dashboard.bottomnav
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -17,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.values.Colors
+import com.example.core.values.Dimens.pd0
 import com.example.core.values.Dimens.pd24
 import com.example.lifehub.features.dashboard.bottomnav.BottomNavItem.Companion.getIcon
 
@@ -28,7 +33,9 @@ fun BottomNavigationBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     NavigationBar(
-        containerColor = Color.Black
+        containerColor = Color.Black,
+        tonalElevation = pd0,
+        windowInsets = WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal)
     ) {
         BottomNavItem.getNavItems().forEach { item ->
             val selected = currentRoute == item.page.route

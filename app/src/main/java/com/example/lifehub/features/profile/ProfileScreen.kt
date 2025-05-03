@@ -1,5 +1,8 @@
 package com.example.lifehub.features.profile
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,16 +29,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.composables.OutlinedTextButton
 import com.example.core.composables.PrimaryButton
 import com.example.core.composables.TextButtonWithIcon
 import com.example.core.composables.ViewStateCoordinator
+import com.example.core.data.ProfilePictureChangeDirection
 import com.example.core.theme.LifeHubTypography
+import com.example.core.utils.ImageUtils
 import com.example.core.utils.toReadableDate
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
@@ -43,7 +50,10 @@ import com.example.core.values.Dimens.pd2
 import com.example.core.values.Dimens.pd24
 import com.example.core.values.Dimens.pd4
 import com.example.core.values.Dimens.pd8
+import com.example.lifehub.features.profile.data.ProfileData
+import com.example.lifehub.features.profile.data.ProfilePictureOptions
 import com.example.wpinterviewpractice.R
+import java.io.File
 
 private val page = Page.PROFILE
 
@@ -51,6 +61,7 @@ private val page = Page.PROFILE
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     ViewStateCoordinator(
         state = viewModel.profile,
         refresh = { viewModel.getProfile() },
@@ -60,7 +71,21 @@ fun ProfileScreen(
             data = it,
             onChangePassword = {},
             onSignOut = {},
-            onDeleteAccount = {}
+            onDeleteAccount = {},
+            uploadProfilePicture = { userId, url, intent ->
+                val bytes = ImageUtils.uriToByteArray(context, url)
+                if (bytes != null) {
+                    when (intent) {
+                        ProfilePictureChangeDirection.CHANGE_PROFILE_PICTURE -> {
+                            viewModel.uploadBackgroundPicture(userId, bytes)
+                        }
+
+                        ProfilePictureChangeDirection.CHANGE_BACKGROUND_PICTURE -> {
+                            viewModel.uploadProfilePicture(userId, bytes)
+                        }
+                    }
+                }
+            },
         )
     }
 }
@@ -72,11 +97,52 @@ private fun Content(
     onChangePassword: () -> Unit,
     onSignOut: () -> Unit,
     onDeleteAccount: () -> Unit,
+    uploadProfilePicture: (
+        userId: String,
+        url: Uri,
+        intent: ProfilePictureChangeDirection,
+    ) -> Unit,
     startWithEditSheetOpen: Boolean = false
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     val showSheet = remember { mutableStateOf(startWithEditSheetOpen) }
+
+    val context = LocalContext.current
+    val photoFile = remember {
+        File(context.cacheDir, "${data.userId}_profilePic.jpg")
+    }
+    val photoUri = FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.fileprovider",
+        photoFile
+    )
+
+    val capturedImageUri = remember { mutableStateOf<Uri?>(null) }
+    val pictureIntent = remember { mutableStateOf<ProfilePictureChangeDirection?>(null) }
+    val takePhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            capturedImageUri.value = photoUri
+            val image = capturedImageUri.value
+            val intent = pictureIntent.value
+            if (image != null && intent != null) {
+                uploadProfilePicture(data.userId, image, intent)
+            }
+        }
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            if (granted) {
+                takePhotoLauncher.launch(photoUri)
+            } else {
+                // Optional: show a snackbar or toast for denied permission
+            }
+        }
+    )
 
     Column(
         modifier = Modifier
@@ -87,8 +153,14 @@ private fun Content(
         ProfilePicture(
             profilePictureUrl = data.profilePictureUrl,
             profileBackGroundPictureUrl = data.profileBackGroundPictureUrl,
-            onEditBackgroundPicture = { showSheet.value = true },
-            onEditProfilePicture = { showSheet.value = true }
+            onEditBackgroundPicture = {
+                pictureIntent.value = ProfilePictureChangeDirection.CHANGE_BACKGROUND_PICTURE
+                showSheet.value = true
+            },
+            onEditProfilePicture = {
+                pictureIntent.value = ProfilePictureChangeDirection.CHANGE_PROFILE_PICTURE
+                showSheet.value = true
+            }
         )
 
         // Member since badge
@@ -143,7 +215,9 @@ private fun Content(
     if (showSheet.value) {
         ChangeProfilePictureBottomSheet(
             sheetState = sheetState,
-            onTakePhoto = {},
+            onTakePhoto = {
+                cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+            },
             onPickFromGallery = {},
             onDismiss = { showSheet.value = false }
         )
@@ -261,13 +335,15 @@ fun PreviewProfileScreen() {
         lastName = "Legesse",
         email = "naol@example.com",
         dob = 892252800000,
-        memberSince = "May 1, 2023"
+        memberSince = "May 1, 2023",
+        userId = ""
     )
 
     Content(
         data = mockProfile,
         onChangePassword = {},
         onSignOut = {},
-        onDeleteAccount = {}
+        onDeleteAccount = {},
+        uploadProfilePicture = { _, _, _ -> }
     )
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.core.composables.CinematicTypingText
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
@@ -38,7 +39,7 @@ fun WelcomeUserCard(
                 .padding(pd24),
             verticalArrangement = Arrangement.spacedBy(pd4)
         ) {
-            Text(
+            CinematicTypingText(
                 text = stringResource(R.string.welcome_back),
                 style = LifeHubTypography.bodyMedium,
                 color = Color.Gray

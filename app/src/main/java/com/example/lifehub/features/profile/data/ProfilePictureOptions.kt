@@ -1,4 +1,4 @@
-package com.example.lifehub.features.profile
+package com.example.lifehub.features.profile.data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

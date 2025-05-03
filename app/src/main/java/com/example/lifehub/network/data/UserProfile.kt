@@ -7,5 +7,5 @@ data class UserProfile(
     val firstName: String = "",
     val lastName: String? = null,
     val dob: Long = 0L,
-    val joinedAt: Timestamp = Timestamp.now()
+    val joinedAt: Timestamp = Timestamp.now(),
 )

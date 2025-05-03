@@ -1,5 +1,6 @@
 package com.example.core.composables
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -13,6 +14,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.example.core.R
 import com.example.core.theme.LifeHubTypography
+import com.example.core.utils.ImageUtils
 import com.example.core.values.Colors
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -23,8 +25,16 @@ fun GlideWrapper(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
 ) {
+    val model = when (imageUrl) {
+        is ByteArray -> ImageUtils.fixRotation(imageUrl)
+        else -> imageUrl
+    }
+
+    if (imageUrl is ByteArray) {
+        Log.d("GlideWrapper", "Image byte array size: ${imageUrl.size}")
+    }
     GlideImage(
-        model = imageUrl,
+        model = model,
         contentDescription = contentDescription,
         modifier = modifier,
         contentScale = contentScale,

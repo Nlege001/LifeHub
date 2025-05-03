@@ -37,8 +37,8 @@ fun ProfilePicture(
     modifier: Modifier = Modifier,
     ppSize: Dp = pd100,
     pbSizeHeight: Dp = pd200,
-    profilePictureUrl: String?,
-    profileBackGroundPictureUrl: String?,
+    profilePictureUrl: ByteArray?,
+    profileBackGroundPictureUrl: ByteArray?,
     onEditBackgroundPicture: () -> Unit,
     onEditProfilePicture: () -> Unit,
 ) {
@@ -82,10 +82,12 @@ fun ProfilePicture(
                     .clip(CircleShape)
             ) {
                 GlideWrapper(
-                    modifier = Modifier.matchParentSize(),
+                    modifier = Modifier
+                        .matchParentSize()
+                        .clip(CircleShape),
                     contentDescription = stringResource(R.string.profile_picture),
                     imageUrl = profilePictureUrl ?: R.drawable.ic_add_photo,
-                    contentScale = ContentScale.Inside
+                    contentScale = ContentScale.Crop
                 )
             }
 

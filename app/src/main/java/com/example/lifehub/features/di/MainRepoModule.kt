@@ -1,5 +1,6 @@
 package com.example.lifehub.features.di
 
+import com.example.core.room.user.UserDao
 import com.example.lifehub.features.dashboard.home.DashboardFeedRepo
 import com.example.lifehub.features.profile.ProfileRepo
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
@@ -33,11 +34,11 @@ class MainRepoModule {
     @Provides
     fun provideProfileRepo(
         firebaseAuth: FirebaseAuth,
-        firebaseFirestore: FirebaseFirestore,
-        userService: UserService
+        userService: UserService,
+        userDao: UserDao
     ): ProfileRepo = ProfileRepo(
         firebaseAuth,
-        firebaseFirestore,
-        userService
+        userService,
+        userDao
     )
 }
