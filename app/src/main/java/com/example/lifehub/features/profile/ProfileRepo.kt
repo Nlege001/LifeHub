@@ -33,7 +33,7 @@ class ProfileRepo @Inject constructor(
                 email = currentUser.email ?: return ViewState.Error(),
                 dob = profile.dob,
                 memberSince = profile.joinedAt.formatFirebaseTimestamp(),
-                userId = userId
+                userId = userId,
             )
         )
     }

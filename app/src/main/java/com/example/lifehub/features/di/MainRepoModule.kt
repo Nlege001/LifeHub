@@ -2,6 +2,7 @@ package com.example.lifehub.features.di
 
 import com.example.core.room.user.UserDao
 import com.example.lifehub.features.dashboard.home.DashboardFeedRepo
+import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
 import com.example.lifehub.features.profile.ProfileRepo
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
 import com.example.lifehub.network.user.UserService
@@ -41,4 +42,10 @@ class MainRepoModule {
         userService,
         userDao
     )
+
+    @Provides
+    fun provideSideMenuRepo(
+        firebaseAuth: FirebaseAuth,
+        userDao: UserDao
+    ) = SideMenuRepo(firebaseAuth, userDao)
 }

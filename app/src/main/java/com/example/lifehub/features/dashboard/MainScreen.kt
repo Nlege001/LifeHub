@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerState
@@ -21,27 +20,31 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.core.analytics.NavFlows
 import com.example.core.analytics.Page
-import com.example.core.composables.AppLogo
+import com.example.core.composables.ViewStateCoordinator
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
-import com.example.core.values.Dimens.pd100
 import com.example.core.values.Dimens.pd16
 import com.example.lifehub.features.dashboard.bottomnav.BottomNavigationBar
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuItem
+import com.example.lifehub.features.dashboard.sidemenu.SideMenuViewModel
 import com.example.lifehub.features.nav.navbuilder.bottomNavBuilder
 import com.example.lifehub.features.nav.navbuilder.sideMenuNavBuilder
+import com.example.lifehub.features.profile.ProfilePicture
 import com.example.wpinterviewpractice.R
 import kotlinx.coroutines.launch
 import com.example.core.R as CoreR
@@ -77,6 +80,16 @@ private fun Content(
                         popUpTo(NavFlows.BOTTOM_NAV.route) {
                             saveState = true
                         }
+                    }
+                },
+                onChangeProfilePicture = {
+                    scope.launch { drawerState.close() }
+                    navController.navigate(Page.PROFILE.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 }
             )
@@ -115,52 +128,73 @@ private fun Content(
 private fun DrawerSheet(
     drawerState: DrawerState,
     currentRoute: String?,
-    onSideMenuItemSelected: (SideMenuItem) -> Unit
+    onSideMenuItemSelected: (SideMenuItem) -> Unit,
+    onChangeProfilePicture: () -> Unit
 ) {
+    val viewModel: SideMenuViewModel = hiltViewModel()
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { drawerState.isOpen }
+            .collect { isOpen ->
+                if (isOpen) {
+                    viewModel.getData()
+                }
+            }
+    }
+    
     ModalDrawerSheet(
         drawerContainerColor = Colors.Black,
         drawerState = drawerState,
         content = {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = pd16)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                AppLogo(
-                    modifier = Modifier.size(pd100)
-                )
-
-                SideMenuItem.getSideMenuItems().forEach { item ->
-                    NavigationDrawerItem(
-                        label = {
-                            Text(
-                                text = stringResource(item.label),
-                                color = Colors.White,
-                                style = LifeHubTypography.labelLarge
-                            )
-                        },
-                        selected = item.route == currentRoute,
-                        icon = {
-                            Icon(
-                                painter = painterResource(item.icon),
-                                contentDescription = stringResource(item.label),
-                                tint = Colors.Lavender
-                            )
-                        },
-                        onClick = { onSideMenuItemSelected(item) },
-                        badge = {
-                            Icon(
-                                painter = painterResource(CoreR.drawable.ic_chevron),
-                                contentDescription = stringResource(item.label),
-                                tint = Colors.White
-                            )
-                        },
-                        colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = Color.DarkGray
-                        )
+            ViewStateCoordinator(
+                state = viewModel.data,
+                refresh = { viewModel.getData() },
+                page = Page.SIDE_MENU
+            ) { data ->
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    ProfilePicture(
+                        profilePictureUrl = data.profilePicture,
+                        profileBackGroundPictureUrl = data.backGroundPicture,
+                        onEditBackgroundPicture = onChangeProfilePicture,
+                        onEditProfilePicture = onChangeProfilePicture
                     )
+
+                    SideMenuItem.getSideMenuItems().forEach { item ->
+                        NavigationDrawerItem(
+                            modifier = Modifier.padding(horizontal = pd16),
+                            label = {
+                                Text(
+                                    text = stringResource(item.label),
+                                    color = Colors.White,
+                                    style = LifeHubTypography.labelLarge
+                                )
+                            },
+                            selected = item.route == currentRoute,
+                            icon = {
+                                Icon(
+                                    painter = painterResource(item.icon),
+                                    contentDescription = stringResource(item.label),
+                                    tint = Colors.Lavender
+                                )
+                            },
+                            onClick = { onSideMenuItemSelected(item) },
+                            badge = {
+                                Icon(
+                                    painter = painterResource(CoreR.drawable.ic_chevron),
+                                    contentDescription = stringResource(item.label),
+                                    tint = Colors.White
+                                )
+                            },
+                            colors = NavigationDrawerItemDefaults.colors(
+                                selectedContainerColor = Color.DarkGray
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -203,7 +237,8 @@ private fun PreviewDrawerSheet() {
     DrawerSheet(
         drawerState = rememberDrawerState(DrawerValue.Closed),
         currentRoute = Page.JOURNAL.route,
-        onSideMenuItemSelected = {}
+        onSideMenuItemSelected = {},
+        onChangeProfilePicture = {}
     )
 }
 

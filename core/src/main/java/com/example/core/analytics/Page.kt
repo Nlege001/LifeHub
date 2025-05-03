@@ -79,10 +79,14 @@ enum class Page(
     PROFILE(
         label = "Profile",
         route = "Profile",
-        hasBottomNav = true
+        hasBottomNav = true,
     ),
 
     // SIDE MENU
+    SIDE_MENU(
+        label = "Side Menu",
+        route = "Side Menu",
+    ),
     JOURNAL(
         label = "Journal",
         route = "Journal",

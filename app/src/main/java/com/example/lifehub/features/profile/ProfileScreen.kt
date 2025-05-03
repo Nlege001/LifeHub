@@ -102,11 +102,10 @@ private fun Content(
         url: Uri,
         intent: ProfilePictureChangeDirection,
     ) -> Unit,
-    startWithEditSheetOpen: Boolean = false
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-    val showSheet = remember { mutableStateOf(startWithEditSheetOpen) }
+    val showSheet = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val photoFile = remember {
