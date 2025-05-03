@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -20,7 +21,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -40,6 +43,8 @@ import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
 import com.example.lifehub.features.dashboard.bottomnav.BottomNavigationBar
+import com.example.lifehub.features.dashboard.home.appbar.AppBarController
+import com.example.lifehub.features.dashboard.home.appbar.LocalAppBarController
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuItem
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuViewModel
 import com.example.lifehub.features.nav.navbuilder.bottomNavBuilder
@@ -51,12 +56,19 @@ import com.example.core.R as CoreR
 
 @Composable
 fun MainScreen(startDestination: String = Page.DASHBOARD_HOME.route) {
-    Content(startDestination = startDestination)
+    val appBarController = remember { AppBarController() }
+    CompositionLocalProvider(LocalAppBarController provides appBarController) {
+        Content(
+            startDestination = startDestination,
+            appBarController = appBarController
+        )
+    }
 }
 
 @Composable
 private fun Content(
-    startDestination: String
+    startDestination: String,
+    appBarController: AppBarController
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -99,7 +111,18 @@ private fun Content(
                 topBar = {
                     AppBar(
                         label = currentPageLabel,
-                        openSideMenu = { scope.launch { drawerState.open() } }
+                        openSideMenu = { scope.launch { drawerState.open() } },
+                        endContent = {
+                            appBarController.actions.forEach { action ->
+                                IconButton(onClick = action.onClick) {
+                                    Icon(
+                                        painter = painterResource(action.iconResId),
+                                        contentDescription = action.contentDescription,
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+                        }
                     )
                 },
                 bottomBar = {
@@ -140,7 +163,7 @@ private fun DrawerSheet(
                 }
             }
     }
-    
+
     ModalDrawerSheet(
         drawerContainerColor = Colors.Black,
         drawerState = drawerState,
@@ -203,7 +226,8 @@ private fun DrawerSheet(
 @Composable
 private fun AppBar(
     label: String,
-    openSideMenu: () -> Unit
+    openSideMenu: () -> Unit,
+    endContent: @Composable RowScope. () -> Unit
 ) {
     Row(
         modifier = Modifier.background(Colors.Black),
@@ -227,6 +251,8 @@ private fun AppBar(
             style = LifeHubTypography.labelLarge,
             color = Colors.White
         )
+
+        endContent.invoke(this)
     }
 }
 
@@ -244,5 +270,8 @@ private fun PreviewDrawerSheet() {
 @Preview
 @Composable
 private fun PreviewContent() {
-    Content(startDestination = Page.DASHBOARD_HOME.route)
+    Content(
+        startDestination = Page.DASHBOARD_HOME.route,
+        appBarController = AppBarController()
+    )
 }
