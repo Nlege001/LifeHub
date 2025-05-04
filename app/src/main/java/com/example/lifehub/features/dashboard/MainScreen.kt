@@ -55,12 +55,16 @@ import kotlinx.coroutines.launch
 import com.example.core.R as CoreR
 
 @Composable
-fun MainScreen(startDestination: String = Page.DASHBOARD_HOME.route) {
+fun MainScreen(
+    startDestination: String = Page.DASHBOARD_HOME.route,
+    onSignOut: () -> Unit
+) {
     val appBarController = remember { AppBarController() }
     CompositionLocalProvider(LocalAppBarController provides appBarController) {
         Content(
             startDestination = startDestination,
-            appBarController = appBarController
+            appBarController = appBarController,
+            onSignOut = onSignOut
         )
     }
 }
@@ -68,7 +72,8 @@ fun MainScreen(startDestination: String = Page.DASHBOARD_HOME.route) {
 @Composable
 private fun Content(
     startDestination: String,
-    appBarController: AppBarController
+    appBarController: AppBarController,
+    onSignOut: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -81,16 +86,21 @@ private fun Content(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
+            val viewModel: SideMenuViewModel = hiltViewModel()
             DrawerSheet(
+                viewModel = viewModel,
                 drawerState = drawerState,
                 currentRoute = currentRoute,
                 onSideMenuItemSelected = { item ->
                     scope.launch { drawerState.close() }
-                    navController.navigate(item.route) {
-                        launchSingleTop = true
-                        restoreState = true
-                        popUpTo(NavFlows.BOTTOM_NAV.route) {
-                            saveState = true
+
+                    if (item.route == Page.SIGN_OUT.route) {
+                        onSignOut()
+                    } else {
+                        navController.navigate(item.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo(NavFlows.BOTTOM_NAV.route) { saveState = true }
                         }
                     }
                 },
@@ -148,13 +158,12 @@ private fun Content(
 
 @Composable
 private fun DrawerSheet(
+    viewModel: SideMenuViewModel,
     drawerState: DrawerState,
     currentRoute: String?,
     onSideMenuItemSelected: (SideMenuItem) -> Unit,
     onChangeProfilePicture: () -> Unit
 ) {
-    val viewModel: SideMenuViewModel = hiltViewModel()
-
     LaunchedEffect(Unit) {
         snapshotFlow { drawerState.isOpen }
             .collect { isOpen ->
@@ -258,20 +267,10 @@ private fun AppBar(
 
 @Preview
 @Composable
-private fun PreviewDrawerSheet() {
-    DrawerSheet(
-        drawerState = rememberDrawerState(DrawerValue.Closed),
-        currentRoute = Page.JOURNAL.route,
-        onSideMenuItemSelected = {},
-        onChangeProfilePicture = {}
-    )
-}
-
-@Preview
-@Composable
 private fun PreviewContent() {
     Content(
         startDestination = Page.DASHBOARD_HOME.route,
-        appBarController = AppBarController()
+        appBarController = AppBarController(),
+        onSignOut = {}
     )
 }

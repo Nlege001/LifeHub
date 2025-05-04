@@ -30,7 +30,12 @@ class MainNav @Inject constructor() : NavRouter {
     ) {
         builder.composable(NavFlows.MAIN.route) {
             MainScreen(
-                startDestination = Page.DASHBOARD_HOME.route
+                startDestination = Page.DASHBOARD_HOME.route,
+                onSignOut = {
+                    navController.navigate(NavFlows.AUTH.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
     }

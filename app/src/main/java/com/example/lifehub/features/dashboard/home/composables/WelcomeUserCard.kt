@@ -57,7 +57,7 @@ fun WelcomeUserCard(
 
                     Text(
                         modifier = Modifier.align(Alignment.End),
-                        text = stringResource(R.string.life_hub),
+                        text = stringResource(R.string.life_hub_message),
                         style = LifeHubTypography.labelSmall,
                         color = Color.DarkGray
                     )
