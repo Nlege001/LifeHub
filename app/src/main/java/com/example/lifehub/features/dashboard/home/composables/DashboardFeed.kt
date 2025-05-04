@@ -38,7 +38,7 @@ private fun Content(data: DashboardFeedData) {
             .fillMaxSize()
     ) {
         item {
-            data.firstName?.let {
+            data.greeting?.let {
                 WelcomeUserCard(it)
             }
         }
@@ -55,7 +55,7 @@ private fun Content(data: DashboardFeedData) {
 private fun PreviewDashboardFeed() {
     Content(
         data = DashboardFeedData(
-            firstName = "Naol",
+            greeting = "Have a good day Naol!",
             quoteOfTheDay = QuoteOfTheDay(
                 q = "The mind is everything. What you think you become.",
                 a = "Buddha",
