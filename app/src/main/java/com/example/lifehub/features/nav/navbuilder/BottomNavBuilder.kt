@@ -12,7 +12,8 @@ import com.example.lifehub.features.progress.ProgressScreen
  * Nav builder for the bottom nav
  **/
 fun NavGraphBuilder.bottomNavBuilder(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    onSignOut: () -> Unit
 ) {
     composable(Page.DASHBOARD_HOME.route) {
         DashboardFeed()
@@ -25,6 +26,8 @@ fun NavGraphBuilder.bottomNavBuilder(
     }
     composable(Page.MESSAGES.route) { }
     composable(Page.PROFILE.route) {
-        ProfileScreen()
+        ProfileScreen(
+            onSignOut = onSignOut
+        )
     }
 }

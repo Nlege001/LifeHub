@@ -60,7 +60,8 @@ private val page = Page.PROFILE
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    onSignOut: () -> Unit
 ) {
     val context = LocalContext.current
     ViewStateCoordinator(
@@ -71,7 +72,7 @@ fun ProfileScreen(
         Content(
             data = it,
             onChangePassword = {},
-            onSignOut = {},
+            onSignOut = onSignOut,
             onDeleteAccount = {},
             uploadProfilePicture = { userId, url, intent ->
                 val bytes = ImageUtils.uriToByteArray(context, url)

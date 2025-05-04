@@ -146,7 +146,7 @@ private fun Content(
                         navController = navController,
                         startDestination = startDestination,
                         builder = {
-                            bottomNavBuilder(navController)
+                            bottomNavBuilder(navController, onSignOut)
                             sideMenuNavBuilder(navController)
                         }
                     )
