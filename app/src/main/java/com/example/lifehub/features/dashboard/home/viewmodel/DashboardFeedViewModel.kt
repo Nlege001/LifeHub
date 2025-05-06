@@ -1,8 +1,10 @@
-package com.example.lifehub.features.dashboard.home
+package com.example.lifehub.features.dashboard.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.ViewState
+import com.example.lifehub.features.dashboard.home.DashboardFeedData
+import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

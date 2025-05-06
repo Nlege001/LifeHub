@@ -2,6 +2,7 @@ package com.example.lifehub.network.di
 
 import com.example.lifehub.network.auth.AuthService
 import com.example.lifehub.network.auth.FirebaseAuthService
+import com.example.lifehub.network.user.MoodService
 import com.example.lifehub.network.user.UserService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,4 +30,10 @@ class ServiceModule {
     fun provideUserService(
         firebaseFireStore: FirebaseFirestore
     ): UserService = UserService(firebaseFireStore)
+
+    @Provides
+    fun provideMoodService(
+        firebaseFirestore: FirebaseFirestore,
+        firebaseAuth: FirebaseAuth
+    ): MoodService = MoodService(firebaseFirestore, firebaseAuth)
 }

@@ -23,6 +23,7 @@ fun OutLinedTextField(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = LifeHubTypography.bodyMedium,
     label: String?,
+    labelColor: Color = Color.White,
     value: String,
     errorLabel: String? = null,
     onValueChange: (String) -> Unit,
@@ -42,7 +43,7 @@ fun OutLinedTextField(
                     Text(
                         text = label,
                         style = MaterialTheme.typography.body1,
-                        color = Color.White
+                        color = labelColor
                     )
                 }
             },

@@ -4,6 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -11,8 +14,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.composables.ViewStateCoordinator
 import com.example.lifehub.features.dashboard.home.DashboardFeedData
-import com.example.lifehub.features.dashboard.home.DashboardFeedViewModel
+import com.example.lifehub.features.dashboard.home.viewmodel.DashboardFeedViewModel
 import com.example.lifehub.network.quoteoftheday.data.QuoteOfTheDay
+import kotlinx.coroutines.delay
 
 private val page = Page.DASHBOARD_HOME
 
@@ -20,32 +24,47 @@ private val page = Page.DASHBOARD_HOME
 fun DashboardFeed(
     viewModel: DashboardFeedViewModel = hiltViewModel()
 ) {
+    val greetingShown = remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!greetingShown.value) {
+            delay(200)
+            greetingShown.value = true
+        }
+    }
+
     ViewStateCoordinator(
         state = viewModel.feedData,
         refresh = { viewModel.getData() },
         page = page
     ) {
-        Content(it)
+        Content(it, greetingShown.value)
     }
 
 }
 
 @Composable
-private fun Content(data: DashboardFeedData) {
+private fun Content(
+    data: DashboardFeedData,
+    showGreeting: Boolean
+) {
     LazyColumn(
         modifier = Modifier
             .background(Color.DarkGray)
             .fillMaxSize()
     ) {
-        item {
-            data.greeting?.let {
-                WelcomeUserCard(it)
-            }
+        data.greeting?.let {
+            item { WelcomeUserCard(it, showGreeting) }
         }
-        item {
-            data.quoteOfTheDay?.let {
+
+        data.quoteOfTheDay?.let {
+            item {
                 QuoteOfTheDayCard(it)
             }
+        }
+
+        if (data.showMoodTracker) {
+            item { MoodTracker() }
         }
     }
 }
@@ -60,7 +79,9 @@ private fun PreviewDashboardFeed() {
                 q = "The mind is everything. What you think you become.",
                 a = "Buddha",
                 h = ""
-            )
-        )
+            ),
+            showMoodTracker = true,
+        ),
+        showGreeting = true
     )
 }

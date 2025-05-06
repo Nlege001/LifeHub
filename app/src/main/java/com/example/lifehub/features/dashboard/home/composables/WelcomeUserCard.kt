@@ -16,11 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,20 +30,13 @@ import com.example.core.values.Dimens.pd24
 import com.example.core.values.Dimens.pd4
 import com.example.core.values.Dimens.pd8
 import com.example.wpinterviewpractice.R
-import kotlinx.coroutines.delay
 
 @Composable
 fun WelcomeUserCard(
     greeting: String,
+    isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
-    var isVisible by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        delay(200)
-        isVisible = true
-    }
-
     AnimatedVisibility(
         visible = isVisible,
         enter = slideInHorizontally(
@@ -111,5 +99,5 @@ fun WelcomeUserCard(
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun PreviewWelcomeUserCard() {
-    WelcomeUserCard(greeting = "Have a wonderful day Naol!")
+    WelcomeUserCard(greeting = "Have a wonderful day Naol!", isVisible = true)
 }

@@ -4,5 +4,6 @@ import com.example.lifehub.network.quoteoftheday.data.QuoteOfTheDay
 
 data class DashboardFeedData(
     val greeting: String?,
-    val quoteOfTheDay: QuoteOfTheDay?
+    val quoteOfTheDay: QuoteOfTheDay?,
+    val showMoodTracker: Boolean,
 )

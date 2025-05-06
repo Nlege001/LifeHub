@@ -1,8 +1,8 @@
-package com.example.lifehub.features.dashboard.home
+package com.example.lifehub.features.dashboard.home.repo
 
-import android.util.Log
 import com.example.core.data.ViewState
 import com.example.core.utils.fetch
+import com.example.lifehub.features.dashboard.home.DashboardFeedData
 import com.example.lifehub.features.dashboard.home.data.Greeting
 import com.example.lifehub.features.dashboard.home.data.TimeOfDay
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
@@ -32,11 +32,15 @@ class DashboardFeedRepo @Inject constructor(
         val greeting = firstName?.let {
             getRandomGreeting()?.message?.replace("{userName}", it)
         } ?: run {
-            Greeting.getFallBackGreeting(firstName).message
+            Greeting.Companion.getFallBackGreeting(firstName).message
         }
 
         return ViewState.Content(
-            DashboardFeedData(greeting = greeting, quoteOfTheDay = qod)
+            DashboardFeedData(
+                greeting = greeting,
+                quoteOfTheDay = qod,
+                showMoodTracker = true
+            )
         )
     }
 
@@ -69,9 +73,7 @@ class DashboardFeedRepo @Inject constructor(
         val documents = querySnapshot.documents
         if (documents.isNotEmpty()) {
             val randomDoc = documents.random()
-            val x = randomDoc.toObject(Greeting::class.java)
-            Log.d("Naol", "return is $x")
-            return x
+            return randomDoc.toObject(Greeting::class.java)
         }
         return null
     }

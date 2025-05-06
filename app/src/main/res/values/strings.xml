@@ -75,6 +75,17 @@
     <string name="quote_author">- %s</string>
     <string name="welcome_back">Welcome back,</string>
     <string name="life_hub_message">– LifeHub</string>
+    <string name="happy">Happy</string>
+    <string name="neutral">Okay/Neutral</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry/Frustrated</string>
+    <string name="anxious">Anxious</string>
+    <string name="tired">Tired/Burned Out</string>
+    <string name="mood_tracker">Mood Tracker</string>
+    <string name="your_mood_today">Your mood today</string>
+    <string name="want_to_reflect_more">📝 Want to reflect more?</string>
+    <string name="few_words">few words about your day…</string>
+    <string name="submit_mood">Submit mood</string>
 
     <!-- Profile -->
     <string name="profile_background_picture">Profile background picture</string>

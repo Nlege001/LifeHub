@@ -11,4 +11,5 @@ object Colors {
     val SageGreen = Color(0xFF6EE7B7)
     val White = Color(0xFFFFFFFF)
     val Black = Color(0xFF000000)
+    val DarkPurple = Color(0xFF1A002B)
 }

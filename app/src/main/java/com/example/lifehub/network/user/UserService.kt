@@ -26,18 +26,4 @@ class UserService @Inject constructor(
 
         return snapshot.toObject(UserProfile::class.java)
     }
-
-    suspend fun updateProfilePictureUrl(userId: String, url: String) {
-        usersCollection
-            .document(userId)
-            .update("profilePictureUrl", url)
-            .await()
-    }
-
-    suspend fun updateBackgroundPictureUrl(userId: String, url: String) {
-        usersCollection
-            .document(userId)
-            .update("BackgroundPictureUrl", url)
-            .await()
-    }
 }
