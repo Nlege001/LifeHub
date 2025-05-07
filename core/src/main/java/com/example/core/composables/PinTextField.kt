@@ -24,12 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
+import com.example.core.values.Dimens.pd1
 import com.example.core.values.Dimens.pd2
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd4
+import com.example.core.values.Dimens.pd48
 import kotlin.math.roundToInt
 
-private val MAX_PIN = 6
+val MAX_PIN = 6
 
 @Composable
 fun PinTextField(
@@ -68,8 +70,8 @@ fun PinTextField(
                     repeat(MAX_PIN) { index ->
                         Box(
                             modifier = Modifier
-                                .border(pd2, borderColor, RoundedCornerShape(pd2))
-                                .size(pd32),
+                                .border(pd1, borderColor, RoundedCornerShape(pd2))
+                                .size(pd48),
                             contentAlignment = Alignment.Center
                         ) {
                             val char = value.getOrNull(index)?.toString() ?: ""
@@ -87,7 +89,7 @@ fun PinTextField(
                                 Text(
                                     text = if (shouldHidePassword && char.isNotEmpty()) "." else char,
                                     color = Color.White,
-                                    style = LifeHubTypography.bodyLarge
+                                    style = LifeHubTypography.displayLarge
                                 )
                             }
                         }
