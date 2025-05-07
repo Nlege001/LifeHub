@@ -86,6 +86,9 @@
     <string name="want_to_reflect_more">📝 Want to reflect more?</string>
     <string name="few_words">few words about your day…</string>
     <string name="submit_mood">Submit mood</string>
+    <string name="mood_modal_title">"This Week's Moods"</string>
+    <string name="no_entries">"No entries yet."</string>
+    <string name="entry_saved">"Mood saved successfully. Swipe right to see the last 7 entries."</string>
 
     <!-- Profile -->
     <string name="profile_background_picture">Profile background picture</string>

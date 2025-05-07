@@ -268,7 +268,7 @@ private fun Mood(
 
         if (moodSavedMessageVisible) {
             CinematicTypingText(
-                text = "Mood saved successfully. Swipe right to see the last 7 entries.",
+                text = stringResource(R.string.entry_saved),
                 style = LifeHubTypography.bodyMedium,
                 color = Colors.Lavender,
                 textAlign = TextAlign.Center,
@@ -295,14 +295,14 @@ private fun MoodEntries(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "This Week's Moods",
+            text = stringResource(R.string.mood_modal_title),
             style = LifeHubTypography.titleMedium,
             color = Color.White
         )
 
         if (items.isEmpty()) {
             Text(
-                text = "No entries yet.",
+                text = stringResource(R.string.no_entries),
                 style = LifeHubTypography.bodyLarge,
                 color = Color.LightGray
             )
