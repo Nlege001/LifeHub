@@ -1,6 +1,7 @@
 package com.example.lifehub.features.di
 
 import com.example.core.room.user.UserDao
+import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
 import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
@@ -38,11 +39,13 @@ class MainRepoModule {
     fun provideProfileRepo(
         firebaseAuth: FirebaseAuth,
         userService: UserService,
-        userDao: UserDao
+        userDao: UserDao,
+        securePreferences: SecurePreferences
     ): ProfileRepo = ProfileRepo(
         firebaseAuth,
         userService,
-        userDao
+        userDao,
+        securePreferences
     )
 
     @Provides

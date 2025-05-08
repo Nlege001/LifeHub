@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.core.analytics.NavFlows
 import com.example.core.analytics.Page
+import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
 import com.example.lifehub.features.dashboard.MainScreen
 import com.example.lifehub.features.nav.NavRouter
 import javax.inject.Inject
@@ -12,7 +13,9 @@ import javax.inject.Inject
 /**
  * Nav router for screens that comes after the user signs in successfully
  **/
-class MainNav @Inject constructor() : NavRouter {
+class MainNav @Inject constructor(
+    private val securePreferences: SecurePreferences
+) : NavRouter {
     override fun startFlow(navController: NavHostController) {
         navController.navigate(NavFlows.MAIN.route) {
             launchSingleTop = true
@@ -26,12 +29,14 @@ class MainNav @Inject constructor() : NavRouter {
 
     override fun flow(
         navController: NavHostController,
-        builder: NavGraphBuilder
+        builder: NavGraphBuilder,
+        startDestination: Page
     ) {
         builder.composable(NavFlows.MAIN.route) {
             MainScreen(
-                startDestination = Page.DASHBOARD_HOME.route,
-                onSignOut = {
+                startDestination = startDestination.route,
+                onSignOut = { userId ->
+                    userId?.let { securePreferences.clearUserPin(it) }
                     navController.navigate(NavFlows.AUTH.route) {
                         popUpTo(0) { inclusive = true }
                     }

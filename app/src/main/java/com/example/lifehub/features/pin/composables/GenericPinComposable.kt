@@ -1,4 +1,4 @@
-package com.example.lifehub.features.auth.pin
+package com.example.lifehub.features.pin.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -41,9 +41,9 @@ fun GenericPinComposable(
     enabled: Boolean = true,
     isError: Boolean = false,
     title: String,
-    pinText: String?
+    pinText: String? = null
 ) {
-    val showPassword = rememberSaveable { mutableStateOf(false) }
+    val showPassword = rememberSaveable { mutableStateOf(true) }
 
     Column(
         modifier = modifier
@@ -84,9 +84,9 @@ fun GenericPinComposable(
                 Icon(
                     painter = painterResource(
                         if (showPassword.value) {
-                            R.drawable.ic_hide_password
-                        } else {
                             R.drawable.ic_show_password
+                        } else {
+                            R.drawable.ic_hide_password
                         }
                     ),
                     contentDescription = "",

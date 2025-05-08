@@ -136,4 +136,7 @@ dependencies {
 
     // lottie
     implementation(libs.lottie)
+
+    // EncryptedSharedPreferences
+    implementation(libs.security.crypto)
 }

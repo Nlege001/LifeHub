@@ -9,6 +9,7 @@ data class ProfileData(
     val dob: Long,
     val memberSince: String,
     val userId: String,
+    val hasPin: Boolean
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

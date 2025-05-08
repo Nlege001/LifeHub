@@ -14,6 +14,23 @@ enum class Page(
         label = "Log In",
         route = "Login"
     ),
+    SET_PIN(
+        label = "Set Pin",
+        route = "SetPin"
+    ),
+    CONFIRM_PIN(
+        label = "Confirm Pin",
+        route = "ConfirmPin/{pin}",
+        arguments = mapOf(NavArgumentType.PIN to NavArgumentType.PIN.label)
+    ),
+    VERIFY_PIN(
+        label = "Verify Pin",
+        route = "VerifyPin"
+    ),
+    DISABLE_PIN(
+        label = "Disable Pin",
+        route = "DisablePin"
+    ),
     SIGN_UP(
         label = "Sign Up",
         route = "SignUp"

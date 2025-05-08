@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
@@ -16,8 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.core.analytics.Page
@@ -43,6 +49,7 @@ fun FirstLastNameScreen(
         modifier = Modifier
             .background(Colors.Black)
             .baseHorizontalMargin()
+            .imePadding()
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -62,6 +69,7 @@ fun FirstLastNameScreen(
             style = LifeHubTypography.titleLarge
         )
 
+        val keyboardController = LocalSoftwareKeyboardController.current
         val firstName = rememberSaveable { mutableStateOf("") }
         val shouldValidateInput = rememberSaveable { mutableStateOf(false) }
         val isFirstNameError =
@@ -81,7 +89,11 @@ fun FirstLastNameScreen(
                 )
             },
             errorLabel = if (isFirstNameError.value) stringResource(R.string.first_name_error) else null,
-            isError = isFirstNameError.value
+            isError = isFirstNameError.value,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            )
         )
 
         val lastName = rememberSaveable { mutableStateOf("") }
@@ -98,6 +110,19 @@ fun FirstLastNameScreen(
                     tint = Colors.White
                 )
             },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+            ),
+            keyboardActions = KeyboardActions {
+                keyboardController?.hide()
+                shouldValidateInput.value = true
+                if (firstName.value.isNotEmpty()) {
+                    onDone(
+                        firstName.value,
+                        if (lastName.value.isEmpty()) null else lastName.value
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.weight(1f))

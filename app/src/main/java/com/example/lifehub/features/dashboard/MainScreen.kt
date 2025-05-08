@@ -57,7 +57,7 @@ import com.example.core.R as CoreR
 @Composable
 fun MainScreen(
     startDestination: String = Page.DASHBOARD_HOME.route,
-    onSignOut: () -> Unit
+    onSignOut: (String?) -> Unit,
 ) {
     val appBarController = remember { AppBarController() }
     CompositionLocalProvider(LocalAppBarController provides appBarController) {
@@ -71,9 +71,10 @@ fun MainScreen(
 
 @Composable
 private fun Content(
+    mainViewModel: MainViewModel = hiltViewModel(),
     startDestination: String,
     appBarController: AppBarController,
-    onSignOut: () -> Unit
+    onSignOut: (String?) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -95,7 +96,7 @@ private fun Content(
                     scope.launch { drawerState.close() }
 
                     if (item.route == Page.SIGN_OUT.route) {
-                        onSignOut()
+                        onSignOut(mainViewModel.getUserId())
                     } else {
                         navController.navigate(item.route) {
                             launchSingleTop = true
@@ -146,7 +147,10 @@ private fun Content(
                         navController = navController,
                         startDestination = startDestination,
                         builder = {
-                            bottomNavBuilder(navController, onSignOut)
+                            bottomNavBuilder(
+                                navHostController = navController,
+                                onSignOut = onSignOut
+                            )
                             sideMenuNavBuilder(navController)
                         }
                     )

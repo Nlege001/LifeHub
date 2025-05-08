@@ -3,6 +3,7 @@ package com.example.lifehub.features.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -30,6 +32,7 @@ import com.example.core.values.Dimens.pd2
 import com.example.core.values.Dimens.pd200
 import com.example.core.values.Dimens.pd24
 import com.example.core.values.Dimens.pd4
+import com.example.core.values.Dimens.pd48
 import com.example.wpinterviewpractice.R
 
 @Composable
@@ -81,14 +84,28 @@ fun ProfilePicture(
                     .border(width = pd2, color = Colors.Lavender, shape = CircleShape)
                     .clip(CircleShape)
             ) {
-                GlideWrapper(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clip(CircleShape),
-                    contentDescription = stringResource(R.string.profile_picture),
-                    imageUrl = profilePictureUrl ?: R.drawable.ic_add_photo,
-                    contentScale = ContentScale.Crop
-                )
+                profilePictureUrl?.let {
+                    GlideWrapper(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .clip(CircleShape),
+                        contentDescription = stringResource(R.string.profile_picture),
+                        imageUrl = it,
+                        contentScale = ContentScale.Crop
+                    )
+                } ?: run {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_add_photo),
+                            contentDescription = stringResource(R.string.profile_picture),
+                            tint = Colors.Lavender,
+                            modifier = Modifier.size(pd48)
+                        )
+                    }
+                }
             }
 
             IconButton(

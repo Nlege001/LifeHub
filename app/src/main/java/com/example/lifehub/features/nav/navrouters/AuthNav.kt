@@ -14,6 +14,7 @@ import com.example.lifehub.features.auth.signup.composables.EmailVerificationScr
 import com.example.lifehub.features.auth.signup.composables.SignUpScreen
 import com.example.lifehub.features.auth.signup.composables.SignUpSuccessScreen
 import com.example.lifehub.features.nav.NavRouter
+import com.example.lifehub.features.pin.composables.VerifyPinScreen
 import javax.inject.Inject
 
 /**
@@ -32,10 +33,11 @@ class AuthNav @Inject constructor(
 
     override fun flow(
         navController: NavHostController,
-        builder: NavGraphBuilder
+        builder: NavGraphBuilder,
+        startDestination: Page
     ) {
         builder.navigation(
-            startDestination = Page.LOGIN.route,
+            startDestination = startDestination.route,
             route = NavFlows.AUTH.route,
         ) {
             composable(Page.LOGIN.route) {
@@ -93,6 +95,13 @@ class AuthNav @Inject constructor(
                 route = Page.PASSWORD_RESET.route,
             ) { entry ->
                 ResetPasswordScreen()
+            }
+            composable(Page.VERIFY_PIN.route) {
+                VerifyPinScreen(
+                    onSuccess = {
+                        mainNav.startFlow(navController)
+                    }
+                )
             }
         }
     }

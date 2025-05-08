@@ -25,7 +25,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,9 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
-import com.example.core.composables.TextButtonWithIcon
 import com.example.core.composables.ViewStateCoordinator
-import com.example.lifehub.features.profile.data.ProfilePictureChangeDirection
 import com.example.core.theme.LifeHubTypography
 import com.example.core.utils.ImageUtils
 import com.example.core.utils.toReadableDate
@@ -53,6 +50,7 @@ import com.example.lifehub.features.dashboard.home.appbar.LocalAppBarController
 import com.example.lifehub.features.profile.data.ProfileActionItems
 import com.example.lifehub.features.profile.data.ProfileBottomSheetItem
 import com.example.lifehub.features.profile.data.ProfileData
+import com.example.lifehub.features.profile.data.ProfilePictureChangeDirection
 import com.example.wpinterviewpractice.R
 import java.io.File
 
@@ -61,8 +59,15 @@ private val page = Page.PROFILE
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
-    onSignOut: () -> Unit
+    onSignOut: (String?) -> Unit,
+    onSetPin: () -> Unit,
+    onChangePin: () -> Unit,
+    onDisablePin: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getProfile()
+    }
+    
     val context = LocalContext.current
     ViewStateCoordinator(
         state = viewModel.profile,
@@ -88,6 +93,9 @@ fun ProfileScreen(
                     }
                 }
             },
+            onSetPin = onSetPin,
+            onChangePin = onChangePin,
+            onDisablePin = onDisablePin
         )
     }
 }
@@ -97,8 +105,11 @@ fun ProfileScreen(
 private fun Content(
     data: ProfileData,
     onChangePassword: () -> Unit,
-    onSignOut: () -> Unit,
+    onSignOut: (String?) -> Unit,
     onDeleteAccount: () -> Unit,
+    onSetPin: () -> Unit,
+    onChangePin: () -> Unit,
+    onDisablePin: () -> Unit,
     uploadProfilePicture: (
         userId: String,
         url: Uri,
@@ -106,7 +117,6 @@ private fun Content(
     ) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
     val showSheet = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -225,9 +235,13 @@ private fun Content(
             },
             onDismiss = { showSheet.value = false },
             onChangePassword = onChangePassword,
-            onSignOut = onSignOut,
+            onSignOut = { onSignOut(data.userId) },
             onDeleteAccount = onDeleteAccount,
-            data = sheetItem
+            data = sheetItem,
+            onSetPin = onSetPin,
+            hasPin = data.hasPin,
+            onChangePin = onChangePin,
+            onDisablePin = onDisablePin
         )
     }
 }
@@ -237,12 +251,16 @@ private fun Content(
 private fun ChangeProfilePictureBottomSheet(
     sheetState: SheetState,
     data: ProfileBottomSheetItem,
+    hasPin: Boolean,
     onTakePhoto: () -> Unit,
     onPickFromGallery: () -> Unit,
     onDismiss: () -> Unit,
     onChangePassword: () -> Unit,
     onSignOut: () -> Unit,
     onDeleteAccount: () -> Unit,
+    onSetPin: () -> Unit,
+    onChangePin: () -> Unit,
+    onDisablePin: () -> Unit
 ) {
     ModalBottomSheet(
         sheetState = sheetState,
@@ -264,7 +282,8 @@ private fun ChangeProfilePictureBottomSheet(
             )
 
             // Options
-            data.items.forEachIndexed { index, item ->
+            val options = data.getItems(hasPin)
+            options.forEachIndexed { index, item ->
                 Row(
                     modifier = Modifier
                         .clickable {
@@ -274,6 +293,9 @@ private fun ChangeProfilePictureBottomSheet(
                                 ProfileActionItems.SIGN_OUT -> onSignOut()
                                 ProfileActionItems.CHANGE_EMAIL -> onChangePassword()
                                 ProfileActionItems.DELETE_ACCOUNT -> onDeleteAccount()
+                                ProfileActionItems.SET_PIN -> onSetPin()
+                                ProfileActionItems.CHANGE_PIN -> onChangePin()
+                                ProfileActionItems.DISABLE_PIN -> onDisablePin()
                             }
                         }
                         .fillMaxWidth()
@@ -296,7 +318,7 @@ private fun ChangeProfilePictureBottomSheet(
                     )
                 }
 
-                if (index != data.items.lastIndex) {
+                if (index != options.lastIndex) {
                     HorizontalDivider(
                         thickness = pd2,
                         color = Color.Gray.copy(alpha = 0.3f)
@@ -321,24 +343,6 @@ fun InfoRow(label: Int, value: String?) {
     }
 }
 
-@Composable
-fun ProfileActionButton(
-    text: String,
-    onClick: () -> Unit,
-    textColor: Color = Colors.Lavender
-) {
-    TextButtonWithIcon(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = pd4),
-        label = text,
-        textColor = textColor,
-        painter = null,
-        textStyle = LifeHubTypography.bodySmall
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewProfileScreen() {
@@ -350,7 +354,8 @@ fun PreviewProfileScreen() {
         email = "naol@example.com",
         dob = 892252800000,
         memberSince = "May 1, 2023",
-        userId = ""
+        userId = "",
+        hasPin = true
     )
 
     Content(
@@ -358,6 +363,9 @@ fun PreviewProfileScreen() {
         onChangePassword = {},
         onSignOut = {},
         onDeleteAccount = {},
-        uploadProfilePicture = { _, _, _ -> }
+        uploadProfilePicture = { _, _, _ -> },
+        onSetPin = {},
+        onDisablePin = {},
+        onChangePin = {}
     )
 }

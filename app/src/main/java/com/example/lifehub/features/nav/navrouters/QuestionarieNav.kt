@@ -26,10 +26,11 @@ class QuestionarieNav @Inject constructor(
 
     override fun flow(
         navController: NavHostController,
-        builder: NavGraphBuilder
+        builder: NavGraphBuilder,
+        startDestination: Page
     ) {
         builder.navigation(
-            startDestination = Page.FIRST_NAME_LAST_NAME.route,
+            startDestination = startDestination.route,
             route = NavFlows.QUESTIONAIRE.route,
         ) {
             composable(

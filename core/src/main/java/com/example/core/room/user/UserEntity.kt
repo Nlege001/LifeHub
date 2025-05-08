@@ -7,4 +7,5 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey val userId: String,
     val hasCompletedQuestionaire: Boolean = false,
+    val hasUserSetPin: Boolean = false
 )

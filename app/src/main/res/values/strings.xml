@@ -101,6 +101,18 @@
     <string name="take_a_photo">Take a picture</string>
     <string name="close">Close</string>
     <string name="account_options">Account Options</string>
+    <string name="set_pin">Set pin for login</string>
+
+    <!-- Pin -->
+    <string name="set_pin_title">Provide a six digit pin to log in next time</string>
+    <string name="confirm_pin">Confirm pin</string>
+    <string name="please_provide_old_code">Please provide old pin code</string>
+    <string name="pins_dont_match">Pins don\'t match</string>
+    <string name="incorrect_pin">Incorrect pin</string>
+    <string name="provide_pin_code">Provide pin code</string>
+    <string name="change_pin">Change pin</string>
+    <string name="disable_pin">Disable pin</string>
+    <string name="please_provide_old_code_disable">Please provide old pin code to disable pin code</string>
 
     <!-- Progress -->
     <string name="progress_title">Build Your Routine</string>

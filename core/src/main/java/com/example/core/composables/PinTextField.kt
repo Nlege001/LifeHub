@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,13 +21,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd1
 import com.example.core.values.Dimens.pd2
-import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd4
 import com.example.core.values.Dimens.pd48
 import kotlin.math.roundToInt
@@ -39,7 +40,7 @@ fun PinTextField(
     onTextChange: (String) -> Unit,
     enabled: Boolean = true,
     isError: Boolean = false,
-    shouldHidePassword: Boolean = false
+    shouldHidePassword: Boolean = true
 ) {
     val borderColor = if (isError) Color.Red else Colors.Lavender
 
@@ -95,7 +96,10 @@ fun PinTextField(
                         }
                     }
                 }
-            }
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.NumberPassword
+            )
         )
     }
 }

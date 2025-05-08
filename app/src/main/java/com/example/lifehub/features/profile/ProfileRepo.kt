@@ -4,6 +4,7 @@ import com.example.core.data.ViewState
 import com.example.core.room.images.ProfileImageEntity
 import com.example.core.room.user.UserDao
 import com.example.core.utils.formatFirebaseTimestamp
+import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
 import com.example.lifehub.features.profile.data.ProfileData
 import com.example.lifehub.network.user.UserService
 import com.google.firebase.auth.FirebaseAuth
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class ProfileRepo @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val userService: UserService,
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val securePreferences: SecurePreferences
 ) {
     suspend fun getProfileData(): ViewState<ProfileData> {
         val currentUser = firebaseAuth.currentUser ?: return ViewState.Error()
@@ -34,6 +36,7 @@ class ProfileRepo @Inject constructor(
                 dob = profile.dob,
                 memberSince = profile.joinedAt.formatFirebaseTimestamp(),
                 userId = userId,
+                hasPin = securePreferences.hasPin(userId)
             )
         )
     }

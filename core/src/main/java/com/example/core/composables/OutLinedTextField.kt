@@ -2,6 +2,9 @@ package com.example.core.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -33,10 +36,13 @@ fun OutLinedTextField(
     trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     Column(modifier = modifier) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             textStyle = textStyle,
             label = {
                 if (!label.isNullOrEmpty()) {
@@ -58,7 +64,9 @@ fun OutLinedTextField(
                 focusedBorderColor = Colors.Indigo,
                 unfocusedBorderColor = Colors.White,
             ),
-            visualTransformation = visualTransformation
+            visualTransformation = visualTransformation,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions
         )
 
         errorLabel?.let {
