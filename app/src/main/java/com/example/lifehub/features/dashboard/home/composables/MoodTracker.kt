@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,6 +54,7 @@ import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd100
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd20
+import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd4
 import com.example.core.values.Dimens.pd8
 import com.example.lifehub.features.dashboard.home.data.Mood
@@ -114,71 +116,89 @@ fun MoodTracker() {
 
                 val pagerState = rememberPagerState(pageCount = { 2 })
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(pd16),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    HorizontalPager(
-                        state = pagerState,
-                        modifier = Modifier.weight(1f)
-                    ) { page ->
-                        when (page) {
-                            0 -> Mood(
-                                modifier = Modifier.fillMaxSize(),
-                                selectedItem = selectedItem.value,
-                                updateSelectedItem = { selectedItem.value = it },
-                                intensity = intensity,
-                                updateIntensity = { intensity = it },
-                                reflection = reflection.value,
-                                updateReflection = { reflection.value = it },
-                                isLoading = isLoading,
-                                saveMood = viewModel::saveMood,
-                                moodSavedMessageVisible = moodSavedMessageVisible,
-                                removeSavedMessage = {
-                                    scope.launch {
-                                        delay(2000)
-                                        moodSavedMessageVisible = false
+                Box {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(pd16),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        HorizontalPager(
+                            state = pagerState,
+                            modifier = Modifier.weight(1f)
+                        ) { page ->
+                            when (page) {
+                                0 -> Mood(
+                                    modifier = Modifier.fillMaxSize(),
+                                    selectedItem = selectedItem.value,
+                                    updateSelectedItem = { selectedItem.value = it },
+                                    intensity = intensity,
+                                    updateIntensity = { intensity = it },
+                                    reflection = reflection.value,
+                                    updateReflection = { reflection.value = it },
+                                    isLoading = isLoading,
+                                    saveMood = viewModel::saveMood,
+                                    moodSavedMessageVisible = moodSavedMessageVisible,
+                                    removeSavedMessage = {
+                                        scope.launch {
+                                            delay(2000)
+                                            moodSavedMessageVisible = false
+                                        }
                                     }
-                                }
-                            )
+                                )
 
-                            1 -> MoodEntries(
-                                modifier = Modifier.fillMaxSize(),
-                                items = data
+                                1 -> MoodEntries(
+                                    modifier = Modifier.fillMaxSize(),
+                                    items = data.entries
+                                )
+                            }
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = pd8),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            repeat(2) { index ->
+                                val isSelected = pagerState.currentPage == index
+                                Box(
+                                    modifier = Modifier
+                                        .padding(horizontal = 4.dp)
+                                        .height(8.dp)
+                                        .width(if (isSelected) 24.dp else 8.dp)
+                                        .background(
+                                            color = if (isSelected) Colors.Lavender else Color.Gray.copy(
+                                                alpha = 0.5f
+                                            ),
+                                            shape = RoundedCornerShape(50)
+                                        )
+                                )
+                            }
+                        }
+                    }
+
+                    data.streak?.let {
+                        if (it.shouldShowModal) {
+                            MoodStreakBlur(
+                                count = it.currentStreak,
+                                onDone = { viewModel.markStreakModalShown() }
                             )
                         }
                     }
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = pd8),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        repeat(2) { index ->
-                            val isSelected = pagerState.currentPage == index
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .height(8.dp)
-                                    .width(if (isSelected) 24.dp else 8.dp)
-                                    .background(
-                                        color = if (isSelected) Colors.Lavender else Color.Gray.copy(
-                                            alpha = 0.5f
-                                        ),
-                                        shape = RoundedCornerShape(50)
-                                    )
-                            )
-                        }
+                    data.streak?.let {
+                        MoodStreak(
+                            modifier = Modifier.align(Alignment.BottomEnd),
+                            count = it.currentStreak,
+                            subtitle = null
+                        )
                     }
                 }
             }
         }
-
     }
 }
 
@@ -351,6 +371,10 @@ private fun MoodEntries(
 
                     if (index != items.lastIndex) {
                         Divider(color = Color.Gray.copy(alpha = 0.2f))
+                    }
+
+                    if (index == items.lastIndex) {
+                        Spacer(modifier = Modifier.height(pd32))
                     }
                 }
             }

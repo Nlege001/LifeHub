@@ -1,7 +1,7 @@
 package com.example.lifehub.user
 
 import com.example.core.room.user.UserDao
-import com.google.firebase.auth.FirebaseAuth
+import com.example.lifehub.network.auth.FirebaseAuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +14,6 @@ class UserModule {
     @Provides
     fun provideUserRepo(
         userDao: UserDao,
-        firebaseAuth: FirebaseAuth
-    ): UserRepo = UserRepo(userDao, firebaseAuth)
+        firebaseAuthService: FirebaseAuthService
+    ): UserRepo = UserRepo(userDao, firebaseAuthService)
 }

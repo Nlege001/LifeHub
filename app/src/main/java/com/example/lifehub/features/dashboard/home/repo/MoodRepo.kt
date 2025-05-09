@@ -3,10 +3,11 @@ package com.example.lifehub.features.dashboard.home.repo
 import com.example.core.data.PostResult
 import com.example.core.data.ViewState
 import com.example.lifehub.features.dashboard.home.data.Mood
-import com.example.lifehub.network.data.MoodEntry
+import com.example.lifehub.features.dashboard.home.data.MoodData
 import com.example.lifehub.network.user.MoodService
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -29,12 +30,27 @@ class MoodRepo @Inject constructor(
         return PostResult.Success(Unit)
     }
 
-    suspend fun getMoodEntries(): ViewState<List<MoodEntry>> {
+    suspend fun getMoodEntries(): ViewState<MoodData> {
         return withContext(ioDispatcher) {
-            service.getMoodEntries()?.let {
-                ViewState.Content(it.sortedByDescending { it.timestamp }.takeLast(7))
+            val entries = async { service.getMoodEntries() }
+            val streak = async { service.getMoodStreak() }
+
+            val entriesDeferred = entries.await()
+            val streakDeferred = streak.await()
+
+            entriesDeferred?.let {
+                val data = it.sortedByDescending { it.timestamp }.takeLast(7)
+                ViewState.Content(
+                    MoodData(
+                        entries = data,
+                        streak = streakDeferred
+                    )
+                )
             } ?: ViewState.Error()
         }
+    }
 
+    suspend fun markStreakModalShown() {
+        service.markStreakModalShown()
     }
 }

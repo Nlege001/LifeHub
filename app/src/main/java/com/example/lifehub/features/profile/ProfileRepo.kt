@@ -6,6 +6,7 @@ import com.example.core.room.user.UserDao
 import com.example.core.utils.formatFirebaseTimestamp
 import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
 import com.example.lifehub.features.profile.data.ProfileData
+import com.example.lifehub.network.user.MoodService
 import com.example.lifehub.network.user.UserService
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -16,7 +17,8 @@ class ProfileRepo @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val userService: UserService,
     private val userDao: UserDao,
-    private val securePreferences: SecurePreferences
+    private val securePreferences: SecurePreferences,
+    private val moodService: MoodService
 ) {
     suspend fun getProfileData(): ViewState<ProfileData> {
         val currentUser = firebaseAuth.currentUser ?: return ViewState.Error()
@@ -36,7 +38,8 @@ class ProfileRepo @Inject constructor(
                 dob = profile.dob,
                 memberSince = profile.joinedAt.formatFirebaseTimestamp(),
                 userId = userId,
-                hasPin = securePreferences.hasPin(userId)
+                hasPin = securePreferences.hasPin(userId),
+                streak = moodService.getMoodStreak()
             )
         )
     }

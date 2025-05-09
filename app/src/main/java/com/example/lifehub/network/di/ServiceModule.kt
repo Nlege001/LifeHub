@@ -34,6 +34,6 @@ class ServiceModule {
     @Provides
     fun provideMoodService(
         firebaseFirestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
-    ): MoodService = MoodService(firebaseFirestore, firebaseAuth)
+        firebaseAuthService: FirebaseAuthService
+    ): MoodService = MoodService(firebaseFirestore, firebaseAuthService)
 }

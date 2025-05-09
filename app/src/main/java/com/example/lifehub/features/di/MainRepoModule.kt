@@ -40,12 +40,14 @@ class MainRepoModule {
         firebaseAuth: FirebaseAuth,
         userService: UserService,
         userDao: UserDao,
-        securePreferences: SecurePreferences
+        securePreferences: SecurePreferences,
+        moodService: MoodService
     ): ProfileRepo = ProfileRepo(
         firebaseAuth,
         userService,
         userDao,
-        securePreferences
+        securePreferences,
+        moodService
     )
 
     @Provides

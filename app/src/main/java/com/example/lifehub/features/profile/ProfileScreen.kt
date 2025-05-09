@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,6 +48,7 @@ import com.example.core.values.Dimens.pd24
 import com.example.core.values.Dimens.pd4
 import com.example.lifehub.features.dashboard.home.appbar.AppBarIcon
 import com.example.lifehub.features.dashboard.home.appbar.LocalAppBarController
+import com.example.lifehub.features.dashboard.home.composables.MoodStreak
 import com.example.lifehub.features.profile.data.ProfileActionItems
 import com.example.lifehub.features.profile.data.ProfileBottomSheetItem
 import com.example.lifehub.features.profile.data.ProfileData
@@ -67,7 +69,7 @@ fun ProfileScreen(
     LaunchedEffect(Unit) {
         viewModel.getProfile()
     }
-    
+
     val context = LocalContext.current
     ViewStateCoordinator(
         state = viewModel.profile,
@@ -220,6 +222,17 @@ private fun Content(
             InfoRow(R.string.last_name, data.lastName)
             InfoRow(R.string.email, data.email)
             InfoRow(R.string.dob, data.dob.toReadableDate())
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            data.streak?.let {
+                MoodStreak(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally),
+                    count = it.currentStreak
+                )
+            }
         }
     }
 
@@ -355,7 +368,8 @@ fun PreviewProfileScreen() {
         dob = 892252800000,
         memberSince = "May 1, 2023",
         userId = "",
-        hasPin = true
+        hasPin = true,
+        streak = null
     )
 
     Content(

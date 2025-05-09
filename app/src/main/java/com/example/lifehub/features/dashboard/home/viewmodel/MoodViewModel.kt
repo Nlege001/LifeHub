@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.data.PostResult
 import com.example.core.data.ViewState
 import com.example.lifehub.features.dashboard.home.data.Mood
+import com.example.lifehub.features.dashboard.home.data.MoodData
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
-import com.example.lifehub.network.data.MoodEntry
-import com.google.firebase.firestore.core.View
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +18,8 @@ class MoodViewModel @Inject constructor(
     private val repo: MoodRepo
 ) : ViewModel() {
 
-    private val _moods = MutableStateFlow<ViewState<List<MoodEntry>>>(ViewState.Loading)
-    val moods: StateFlow<ViewState<List<MoodEntry>>> = _moods
+    private val _moods = MutableStateFlow<ViewState<MoodData>>(ViewState.Loading)
+    val moods: StateFlow<ViewState<MoodData>> = _moods
 
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -48,6 +47,13 @@ class MoodViewModel @Inject constructor(
             _isLoading.value = true
             _postResult.value = repo.saveMood(mood, reflection, intensity)
             _isLoading.value = false
+            getMoods()
+        }
+    }
+
+    fun markStreakModalShown() {
+        viewModelScope.launch {
+            repo.markStreakModalShown()
             getMoods()
         }
     }
