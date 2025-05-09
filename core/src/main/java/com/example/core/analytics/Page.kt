@@ -1,6 +1,7 @@
 package com.example.core.analytics
 
 import androidx.navigation.NavBackStackEntry
+import com.example.core.analytics.NavArgumentType.Companion.asPlaceholder
 
 enum class Page(
     val label: String,
@@ -21,7 +22,7 @@ enum class Page(
     ),
     CONFIRM_PIN(
         label = "Confirm Pin",
-        route = "ConfirmPin/{pin}",
+        route = "ConfirmPin/${NavArgumentType.PIN.label}",
         arguments = mapOf(NavArgumentType.PIN to NavArgumentType.PIN.label)
     ),
     VERIFY_PIN(
@@ -62,7 +63,7 @@ enum class Page(
     ),
     DOB(
         label = "DaTe of birth",
-        route = "DateOfBirth/{firstName}/{lastName}",
+        route = "DateOfBirth/${NavArgumentType.FIRST_NAME.label}/${NavArgumentType.LAST_NAME.label}",
         arguments = mapOf(
             NavArgumentType.FIRST_NAME to NavArgumentType.FIRST_NAME.label,
             NavArgumentType.LAST_NAME to NavArgumentType.LAST_NAME.label,
@@ -137,6 +138,11 @@ enum class Page(
     SIGN_OUT(
         label = "Sign Out",
         route = "Sign Out",
+    ),
+    ARTICLE(
+        label = "Article",
+        route = "Article/${NavArgumentType.URL.asPlaceholder()}",
+        arguments = mapOf(NavArgumentType.URL to NavArgumentType.URL.label)
     );
 
     fun buildRoute(vararg args: String?): String {

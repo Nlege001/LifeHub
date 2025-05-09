@@ -158,7 +158,8 @@ private fun Content(
                     )
                 }
             )
-        }
+        },
+        gesturesEnabled = currentPage?.hasNavDrawer == true
     )
 }
 

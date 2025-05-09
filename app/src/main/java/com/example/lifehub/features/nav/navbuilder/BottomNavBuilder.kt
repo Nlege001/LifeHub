@@ -1,5 +1,6 @@
 package com.example.lifehub.features.nav.navbuilder
 
+import android.net.Uri
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -25,7 +26,12 @@ fun NavGraphBuilder.bottomNavBuilder(
     onSignOut: (String?) -> Unit
 ) {
     composable(Page.DASHBOARD_HOME.route) {
-        DashboardFeed()
+        DashboardFeed(
+            onArticleClick = {
+                val encodedUrl = Uri.encode(it)
+                navHostController.navigate(Page.ARTICLE.buildRoute(encodedUrl))
+            }
+        )
     }
     composable(Page.POSTS.route) { }
     composable(Page.PROGRESS.route) {
@@ -86,4 +92,6 @@ fun NavGraphBuilder.bottomNavBuilder(
             navHostController.popBackStack(Page.PROFILE.route, false)
         }
     }
+
+    featureNavBuilder(navHostController)
 }

@@ -2,10 +2,12 @@ package com.example.lifehub.features.di
 
 import com.example.core.room.user.UserDao
 import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
+import com.example.lifehub.features.dashboard.home.repo.ArticleRepo
 import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
 import com.example.lifehub.features.profile.ProfileRepo
+import com.example.lifehub.network.articles.network.NewsService
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
 import com.example.lifehub.network.user.MoodService
 import com.example.lifehub.network.user.UserService
@@ -61,5 +63,11 @@ class MainRepoModule {
         service: MoodService,
         ioDispatcher: CoroutineDispatcher,
     ): MoodRepo = MoodRepo(service, ioDispatcher)
+
+    @Provides
+    fun provideArticleRepo(
+        newsService: NewsService,
+        ioDispatcher: CoroutineDispatcher
+    ): ArticleRepo = ArticleRepo(newsService, ioDispatcher)
 
 }

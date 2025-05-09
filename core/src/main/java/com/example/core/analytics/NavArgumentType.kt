@@ -4,5 +4,10 @@ enum class NavArgumentType(val label: String) {
     EMAIL(label = "email"),
     FIRST_NAME(label = "firstName"),
     LAST_NAME(label = "lastName"),
-    PIN(label = "pin")
+    PIN(label = "pin"),
+    URL(label = "url");
+
+    companion object {
+        fun NavArgumentType.asPlaceholder(): String = "{${this.label}}"
+    }
 }

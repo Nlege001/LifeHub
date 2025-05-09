@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -22,6 +24,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val newsApiKey: String = project.rootProject.file("local.properties")
+        .inputStream()
+        .use { Properties().apply { load(it) } }
+        .getProperty("NEWS_API_KEY") ?: error("API key not found")
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -29,6 +36,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "NEWS_API_KEY", newsApiKey)
+        }
+        debug {
+            buildConfigField("String", "NEWS_API_KEY", newsApiKey)
         }
     }
     compileOptions {

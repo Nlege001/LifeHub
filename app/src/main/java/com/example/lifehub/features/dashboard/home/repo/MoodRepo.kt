@@ -9,6 +9,8 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import java.time.Instant
+import java.time.ZoneId
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -39,7 +41,13 @@ class MoodRepo @Inject constructor(
             val streakDeferred = streak.await()
 
             entriesDeferred?.let {
-                val data = it.sortedByDescending { it.timestamp }.takeLast(7)
+                val data = it
+                    .sortedByDescending { entry ->
+                        Instant.ofEpochMilli(entry.timestamp)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                    }
+                    .take(7)
                 ViewState.Content(
                     MoodData(
                         entries = data,
