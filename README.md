@@ -126,7 +126,7 @@ git clone https://github.com/yourusername/lifehub.git
 
 ⸻
 
-📰 Enable News Section (Optional)
+#### 📰 Enable News Section (Optional)
 
 To enable the News section on the Dashboard Feed:
 
