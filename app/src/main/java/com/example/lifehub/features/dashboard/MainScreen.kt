@@ -133,7 +133,9 @@ private fun Content(
                                     )
                                 }
                             }
-                        }
+                        },
+                        navBack = { navController.popBackStack() },
+                        hasNavDrawer = currentPage?.hasNavDrawer == true
                     )
                 },
                 bottomBar = {
@@ -240,17 +242,25 @@ private fun DrawerSheet(
 private fun AppBar(
     label: String,
     openSideMenu: () -> Unit,
-    endContent: @Composable RowScope. () -> Unit
+    navBack: () -> Unit,
+    endContent: @Composable RowScope. () -> Unit,
+    hasNavDrawer: Boolean
 ) {
     Row(
         modifier = Modifier.background(Colors.Black),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            onClick = openSideMenu
+            onClick = { if (hasNavDrawer) openSideMenu() else navBack() }
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_menu),
+                painter = painterResource(
+                    if (hasNavDrawer) {
+                        R.drawable.ic_menu
+                    } else {
+                        R.drawable.ic_left_chevron
+                    }
+                ),
                 contentDescription = stringResource(R.string.menu),
                 tint = Colors.White
             )

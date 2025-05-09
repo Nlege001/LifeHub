@@ -7,7 +7,8 @@ enum class Page(
     val route: String,
     val arguments: Map<NavArgumentType, String> = emptyMap(),
     val deeplinkRoute: String = "",
-    val hasBottomNav: Boolean = false
+    val hasBottomNav: Boolean = false,
+    val hasNavDrawer: Boolean = false
 ) {
     // AUTH
     LOGIN(
@@ -76,27 +77,32 @@ enum class Page(
     DASHBOARD_HOME(
         label = "Dashboard",
         route = "Dashboard",
-        hasBottomNav = true
+        hasBottomNav = true,
+        hasNavDrawer = true,
     ),
     POSTS(
         label = "Posts",
         route = "Posts",
-        hasBottomNav = true
+        hasBottomNav = true,
+        hasNavDrawer = true,
     ),
     PROGRESS(
         label = "Progress",
         route = "Progress",
-        hasBottomNav = true
+        hasBottomNav = true,
+        hasNavDrawer = true,
     ),
     MESSAGES(
         label = "Messages",
         route = "Messages",
-        hasBottomNav = true
+        hasBottomNav = true,
+        hasNavDrawer = true,
     ),
     PROFILE(
         label = "Profile",
         route = "Profile",
         hasBottomNav = true,
+        hasNavDrawer = true,
     ),
 
     // SIDE MENU
@@ -126,7 +132,7 @@ enum class Page(
     ),
     SETTINGS(
         label = "SETTINGS",
-        route = "SETTINGS",
+        route = "Settings",
     ),
     SIGN_OUT(
         label = "Sign Out",
