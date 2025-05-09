@@ -126,6 +126,23 @@ git clone https://github.com/yourusername/lifehub.git
 
 ⸻
 
+📰 Enable News Section (Optional)
+
+To enable the News section on the Dashboard Feed:
+
+1. Sign up at [https://newsdata.io/](https://newsdata.io/) to get a free API key.
+2. Open your project's `local.properties` file.
+3. Add the following line:
+
+```
+NEWS_API_KEY=YOUR_API_KEY
+```
+4. Rebuild the project.
+
+This will activate the news modal that displays self-care, mindfulness, and personal development articles.
+
+⸻
+
 👨‍💻 Author
 
 Built with passion by Naol.
