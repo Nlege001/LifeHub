@@ -1,129 +1,143 @@
 # 📱 LifeHub — Android App
 
-LifeHub is my **most recent side project**, a modern Android application built to deliver a clean, high-quality user experience with **Firebase integration** and **real authentication flows**.
+LifeHub is a modern Android application focused on personal well-being and productivity. Built with Jetpack Compose, Firebase, and a clean architecture, it offers a high-quality, animated, and secure user experience with modular navigation and real-time features.
 
-This project showcases a **production-ready architecture** while still being **actively developed** (🔨 *work in progress*). The foundations are laid with attention to scalability, testability, and modularity.
+This project reflects a real-world, production-ready mobile app that integrates authentication, analytics, and emotional tracking — while still actively evolving. 🔨
 
 ---
 
 ## 🌟 Project Intent
 
-LifeHub is intended to become a **hub for user experiences** — from **authentication**, **profile management**, and **data storage**, to **personalized experiences** through future features.
+LifeHub aims to become a **hub for holistic user experience** — blending secure authentication, personalized onboarding, daily mental wellness tracking, and real-time emotional feedback.
 
-Immediate goals:
-- Provide a **full sign-up** and **login** flow with **real email verification**.
-- Store **user profile data** (first name, last name, DOB) securely in **Firebase Firestore**.
-- Track **implicit analytics** throughout the user journey (screen views, actions).
+### ✅ Immediate Goals:
+- Full sign-up/login flow with **real email verification**
+- Secure, **PIN-based logins**
+- Store **user profile info** (first name, last name, DOB) in Firestore
+- Provide a personalized experience via messages, quotes, and analytics
+- Track **user mood and progress** over time
 
 ---
 
 ## ⚙️ Features
 
-- ✅ **Email/password authentication** (using Firebase Auth)
-- ✅ **Real email verification** (deep linking back into the app)
-- ✅ **User profile creation** in **Firestore** after registration
-- ✅ **Secure login** with validation and error handling
-- ✅ **Modern animated UI** using Jetpack Compose (including cinematic typing effects)
-- ✅ **Compose Navigation** (declarative and modular nav flow)
-- ✅ **Implicit Analytics Tracking** (screens and actions automatically log events)
-- ✅ **Deep linking** with **Firebase Dynamic Links** and **assetlink.json**
+| Feature | Status |
+|--------|--------|
+| 🔐 Email/password authentication (Firebase Auth) | ✅ |
+| ✅ Email verification with deep links | ✅ |
+| 📄 User profile creation in Firestore | ✅ |
+| 🔒 PIN-based secure login | ✅ |
+| 🧠 Mood tracker modal (1-question tracker) | ✅ |
+| 🧭 Progress tracker screen | ✅ |
+| ✉️ Personalized message after login | ✅ |
+| 💬 Quote of the day (auto-refreshing) | ✅ |
+| 🎬 Cinematic typing effects & modern UI | ✅ |
+| 🧭 Declarative, modular Compose Navigation | ✅ |
+| 📊 Implicit Firebase Analytics (screens, actions) | ✅ |
+| 🔗 Deep linking with Firebase Dynamic Links | ✅ |
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer            | Technology                       | Purpose                         |
-|------------------|-----------------------------------|---------------------------------|
-| UI               | Jetpack Compose                   | Declarative, fast Android UI    |
-| State Management | MVVM (Model-View-ViewModel)        | Clean separation of concerns    |
-| Navigation       | Compose Navigation                | Multi-screen flow management    |
-| Backend          | Firebase Auth                     | Authentication and user management |
-| Database         | Firebase Firestore                | NoSQL cloud database            |
-| Analytics        | Firebase Analytics                | Automatic screen and event tracking |
-| DI               | Hilt                              | Dependency injection            |
-| Async            | Kotlin Coroutines                 | Background operations           |
+| Layer | Tech | Purpose |
+|-------|------|---------|
+| **UI** | Jetpack Compose | Declarative modern UI |
+| **State** | MVVM | Separation of concerns |
+| **Navigation** | Compose Navigation | Multi-screen flows |
+| **Backend** | Firebase Auth | Secure login |
+| **Database** | Firebase Firestore | Profile & mood data |
+| **Analytics** | Firebase Analytics | Auto event tracking |
+| **DI** | Hilt | Dependency injection |
+| **Async** | Kotlin Coroutines | Background work |
 
 ---
 
 ## 📈 Architecture
 
-- **Clean Architecture Principles**:
-  - `Presentation Layer`: Jetpack Compose UI + ViewModels
-  - `Domain Layer`: Repositories for business logic
-  - `Data Layer`: Services interacting with Firebase
+Built using **Clean Architecture**:
 
-- **Repository pattern** between ViewModels and Firebase
-- **Service layer abstraction** over Firestore collections
-- **Sealed classes** (`PostResult`) for clear API states: `Success`, `Error`, etc.
-- **Composable modular navigation flows**
+- **Presentation Layer**: Compose UI + ViewModels
+- **Domain Layer**: Repositories for logic and data coordination
+- **Data Layer**: Firebase services (Auth, Firestore, Analytics)
 
----
-
-## 🧪 Completed Features
-
-- [x] Sign-up with email/password
-- [x] Real-time email verification
-- [x] Password reset flow
-- [x] Saving user profile (first name, last name, DOB) in Firestore
-- [x] Secure login with validation
-- [x] Implicit Firebase Analytics integration
+### Design Patterns:
+- ✅ Repository pattern
+- ✅ Service layer abstraction over Firebase
+- ✅ Sealed classes for API state management (`PostResult`)
+- ✅ Modular navigation flows
 
 ---
 
-## 🔥 Why This Project Is Special
+## 🧪 Completed Core Features
 
-- 🔵 *Real-world email verification*: users must verify before logging in.
-- 🔵 *Firebase Firestore-backed user profiles*.
-- 🔵 *Cinematic animated UI*: immersive user experience.
-- 🔵 *Professional architecture*: DI, Clean layers, Repository pattern.
-- 🔵 *Automatic Analytics*: no extra boilerplate.
+- ✅ Sign-up with email/password
+- ✅ Real-time email verification
+- ✅ Secure PIN setup and login
+- ✅ Password reset flow
+- ✅ User profile saved to Firestore
+- ✅ Personalized login greeting based on time of day
+- ✅ Mood tracker modal (with emoji slider)
+- ✅ Quote of the day from Firestore (dynamic + randomized)
+- ✅ Progress tracker screen to visualize user data
+- ✅ Implicit Firebase Analytics integration
+
+---
+
+## 🔥 Why LifeHub Stands Out
+
+- 🔵 **Real-world auth**: Verified emails before login
+- 🔐 **PIN login**: Quick secure access post-login
+- 💬 **Quote of the Day**: New inspiration every login
+- 🧠 **Mood Tracker**: Lightweight emotional check-ins
+- 📈 **Progress Tracker**: Visualize your emotional trends
+- 💡 **Professional Architecture**: Clean, testable, modular
+- 🔄 **Zero-boilerplate Analytics**: Automatically tracked actions
 
 ---
 
 ## 📋 Setup Instructions
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/lifehub.git
-    ```
+### 🔧 Clone the repo:
+```bash
+git clone https://github.com/yourusername/lifehub.git
 
-2. Set up Firebase:
-   - Enable **Authentication** (Email/Password)
-   - Enable **Firestore Database**
-   - Enable **Analytics**
-   - Set up **Dynamic Links** (for deep linking)
+```
 
-3. Download `google-services.json` from Firebase Console and place it under `/app/`.
+🔥 Set up Firebase:
+	1.	Enable:
+	•	Authentication (Email/Password)
+	•	Firestore Database
+	•	Firebase Analytics
+	•	Firebase Dynamic Links
+	2.	Add your dynamic link domain in Firebase console
+	3.	Download google-services.json and place it under /app/
+	4.	Sync Gradle and run!
 
-4. Sync Gradle and run the app!
+⸻
 
----
+🚧 Future Roadmap
+	•	🧠 Full onboarding questionnaire
+	•	📱 Personalized dashboard
+	•	🔔 Push notifications
+	•	🗂 Profile editing + settings
+	•	🌓 Dark mode and accessibility features
+	•	📊 Graphical analytics of mood and behavior over time
 
-## 🚧 Future Roadmap (Work in Progress)
+⸻
 
-- [ ] Full onboarding questionnaire
-- [ ] User home dashboard after login
-- [ ] Personalized content delivery based on user profile
-- [ ] Notifications and real-time updates
-- [ ] Settings and profile editing
-- [ ] Dark mode and accessibility improvements
+👨‍💻 Author
 
----
+Built with passion by Naol.
+This project reflects my focus on building clean, scalable, and production-grade Android apps with real-world features and intuitive design.
 
-## 👨‍💻 Author
+⸻
 
-Built with passion by **Naol**.  
-This project reflects my focus on building clean, scalable, and production-ready Android applications.
+📢 Final Notes
 
----
+LifeHub is actively evolving.
+If you’re reviewing this today, you’re seeing a functional but expanding version with secure login, profile management, and emotional intelligence features already in place.
 
-## 📢 Final Notes
-
-This project is **actively evolving**.  
-Some features are still under construction, but **core authentication and user flows work perfectly**!
-
-If you're reviewing it today, you're seeing the **early but functional version**.  
-✅ Full signup with real email verification and Firestore integration is ready!
-
----
-
+✅ Core auth flow works
+✅ Mood + progress tracking are live
+✅ Clean architecture is enforced throughout
