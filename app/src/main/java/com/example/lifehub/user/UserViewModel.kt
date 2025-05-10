@@ -20,8 +20,12 @@ class UserViewModel @Inject constructor(
     private val _user = MutableStateFlow<UserEntity?>(null)
     val user: StateFlow<UserEntity?> = _user
 
+    private val _hasCompletedQuestionnaire = MutableStateFlow<Boolean?>(null)
+    val hasCompletedQuestionnaire: StateFlow<Boolean?> = _hasCompletedQuestionnaire
+
     init {
         getUser()
+        hasCompletedQuestionnaire()
     }
 
     private fun getUser() {
@@ -42,6 +46,12 @@ class UserViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             repo.updateQuestionnaireStatus(completed)
+        }
+    }
+
+    private fun hasCompletedQuestionnaire() {
+        viewModelScope.launch {
+            _hasCompletedQuestionnaire.value = repo.hasCompletedQuestionnaire()
         }
     }
 }

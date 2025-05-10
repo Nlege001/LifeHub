@@ -5,6 +5,7 @@
     <string name="refresh">Refresh</string>
     <string name="generic_error">Something went wrong</string>
     <string name="choose_email_app">Choose Email App</string>
+    <string name="share_via">Share via</string>
     <string name="no_email_app">No email app found.</string>
     <string name="date_format_place_holder">MM/DD/YYYY</string>
     <string name="selected_date">Select date</string>

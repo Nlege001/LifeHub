@@ -20,3 +20,14 @@ fun Context.openEmailApp() {
         ).show()
     }
 }
+
+fun Context.shareLink(url: String, title: String? = null) {
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, if (title.isNullOrBlank()) url else "$title\n$url")
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share_via))
+    startActivity(shareIntent)
+}

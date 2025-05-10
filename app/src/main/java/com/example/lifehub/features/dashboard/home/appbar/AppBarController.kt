@@ -1,5 +1,8 @@
 package com.example.lifehub.features.dashboard.home.appbar
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,4 +18,17 @@ class AppBarController {
 
 val LocalAppBarController = compositionLocalOf<AppBarController> {
     error("AppBarController not provided")
+}
+
+@Composable
+fun AppBarController.SetButtons(
+    list: List<AppBarIcon>
+) {
+    LaunchedEffect(Unit) {
+        actions = list
+    }
+
+    DisposableEffect(Unit) {
+        onDispose { clear() }
+    }
 }

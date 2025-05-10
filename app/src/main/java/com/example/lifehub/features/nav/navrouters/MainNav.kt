@@ -36,7 +36,7 @@ class MainNav @Inject constructor(
             MainScreen(
                 startDestination = startDestination.route,
                 onSignOut = { userId ->
-                    userId?.let { securePreferences.clearUserPin(it) }
+                    securePreferences.clearAll()
                     navController.navigate(NavFlows.AUTH.route) {
                         popUpTo(0) { inclusive = true }
                     }

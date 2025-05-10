@@ -22,7 +22,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +47,7 @@ import com.example.core.values.Dimens.pd24
 import com.example.core.values.Dimens.pd4
 import com.example.lifehub.features.dashboard.home.appbar.AppBarIcon
 import com.example.lifehub.features.dashboard.home.appbar.LocalAppBarController
+import com.example.lifehub.features.dashboard.home.appbar.SetButtons
 import com.example.lifehub.features.dashboard.home.composables.MoodStreak
 import com.example.lifehub.features.profile.data.ProfileActionItems
 import com.example.lifehub.features.profile.data.ProfileBottomSheetItem
@@ -136,8 +136,8 @@ private fun Content(
     val bottomSheetItem = rememberSaveable { mutableStateOf<ProfileBottomSheetItem?>(null) }
 
     val appBar = LocalAppBarController.current
-    LaunchedEffect(Unit) {
-        appBar.actions = listOf(
+    appBar.SetButtons(
+        listOf(
             AppBarIcon(
                 iconResId = R.drawable.ic_settings,
                 contentDescription = "Open settings"
@@ -146,10 +146,7 @@ private fun Content(
                 showSheet.value = true
             }
         )
-    }
-    DisposableEffect(Unit) {
-        onDispose { appBar.clear() }
-    }
+    )
 
     val takePhotoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()

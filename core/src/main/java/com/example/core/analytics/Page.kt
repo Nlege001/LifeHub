@@ -22,7 +22,7 @@ enum class Page(
     ),
     CONFIRM_PIN(
         label = "Confirm Pin",
-        route = "ConfirmPin/${NavArgumentType.PIN.label}",
+        route = "ConfirmPin/{${NavArgumentType.PIN.label}}",
         arguments = mapOf(NavArgumentType.PIN to NavArgumentType.PIN.label)
     ),
     VERIFY_PIN(
@@ -63,7 +63,7 @@ enum class Page(
     ),
     DOB(
         label = "DaTe of birth",
-        route = "DateOfBirth/${NavArgumentType.FIRST_NAME.label}/${NavArgumentType.LAST_NAME.label}",
+        route = "DateOfBirth/{${NavArgumentType.FIRST_NAME.label}}/{${NavArgumentType.LAST_NAME.label}}",
         arguments = mapOf(
             NavArgumentType.FIRST_NAME to NavArgumentType.FIRST_NAME.label,
             NavArgumentType.LAST_NAME to NavArgumentType.LAST_NAME.label,

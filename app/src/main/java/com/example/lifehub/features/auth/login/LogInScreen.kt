@@ -74,7 +74,7 @@ fun LogInScreen(
     val isLoading = viewModel.isLoading.collectAsState().value
     val userViewModel: UserViewModel = hiltViewModel()
     val isQuestionaireComplete =
-        userViewModel.user.collectAsState().value?.hasCompletedQuestionaire == true
+        userViewModel.hasCompletedQuestionnaire.collectAsState().value == true
 
     LaunchedEffect(postResult) {
         if (postResult is PostResult.Success) {

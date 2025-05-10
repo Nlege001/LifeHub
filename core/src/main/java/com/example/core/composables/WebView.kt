@@ -52,8 +52,10 @@ fun WebView(
                                 request: WebResourceRequest?,
                                 error: WebResourceError?
                             ) {
-                                hasError = true
-                                isLoading = false
+                                if (request?.isForMainFrame == true) {
+                                    hasError = true
+                                    isLoading = false
+                                }
                             }
                         }
                         loadUrl(url)
