@@ -8,9 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.analytics.NavArgumentType
 import com.example.core.analytics.Page
+import com.example.lifehub.features.article.ArticleListScreen
 import com.example.lifehub.features.article.ArticleScreen
 
-fun NavGraphBuilder.featureNavBuilder(
+fun NavGraphBuilder.articleNavBuilder(
     navHostController: NavHostController,
 ) {
     composable(
@@ -25,6 +26,14 @@ fun NavGraphBuilder.featureNavBuilder(
         val decodedUrl = rawUrl?.let { Uri.decode(it) }
         decodedUrl?.let {
             ArticleScreen(it)
+        }
+    }
+    composable(
+        route = Page.ARTICLE_LIST.route
+    ) {
+        ArticleListScreen {
+            val encodedUrl = Uri.encode(it)
+            navHostController.navigate(Page.ARTICLE.buildRoute(encodedUrl))
         }
     }
 }

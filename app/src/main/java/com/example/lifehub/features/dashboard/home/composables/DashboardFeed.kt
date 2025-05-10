@@ -23,7 +23,8 @@ private val page = Page.DASHBOARD_HOME
 @Composable
 fun DashboardFeed(
     viewModel: DashboardFeedViewModel = hiltViewModel(),
-    onArticleClick: (String) -> Unit
+    onArticleClick: (String) -> Unit,
+    onViewAll: () -> Unit
 ) {
     val greetingShown = remember { mutableStateOf(false) }
 
@@ -39,7 +40,12 @@ fun DashboardFeed(
         refresh = { viewModel.getData() },
         page = page
     ) {
-        Content(it, greetingShown.value, onArticleClick)
+        Content(
+            data = it,
+            showGreeting = greetingShown.value,
+            onArticleClick = onArticleClick,
+            onViewAll = onViewAll
+        )
     }
 
 }
@@ -48,7 +54,8 @@ fun DashboardFeed(
 private fun Content(
     data: DashboardFeedData,
     showGreeting: Boolean,
-    onArticleClick: (String) -> Unit
+    onArticleClick: (String) -> Unit,
+    onViewAll: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -71,7 +78,8 @@ private fun Content(
 
         item {
             ArticleSection(
-                onArticleClick = onArticleClick
+                onArticleClick = onArticleClick,
+                onViewAll = onViewAll
             )
         }
     }
@@ -91,6 +99,7 @@ private fun PreviewDashboardFeed() {
             showMoodTracker = true,
         ),
         showGreeting = true,
-        onArticleClick = {}
+        onArticleClick = {},
+        onViewAll = {}
     )
 }

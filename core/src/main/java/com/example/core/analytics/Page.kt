@@ -143,6 +143,10 @@ enum class Page(
         label = "Article",
         route = "Article/${NavArgumentType.URL.asPlaceholder()}",
         arguments = mapOf(NavArgumentType.URL to NavArgumentType.URL.label)
+    ),
+    ARTICLE_LIST(
+        label = "Article List",
+        route = "Article List",
     );
 
     fun buildRoute(vararg args: String?): String {

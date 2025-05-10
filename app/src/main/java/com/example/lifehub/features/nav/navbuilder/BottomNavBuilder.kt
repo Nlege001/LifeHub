@@ -30,6 +30,9 @@ fun NavGraphBuilder.bottomNavBuilder(
             onArticleClick = {
                 val encodedUrl = Uri.encode(it)
                 navHostController.navigate(Page.ARTICLE.buildRoute(encodedUrl))
+            },
+            onViewAll = {
+                navHostController.navigate(Page.ARTICLE_LIST.route)
             }
         )
     }
@@ -93,5 +96,5 @@ fun NavGraphBuilder.bottomNavBuilder(
         }
     }
 
-    featureNavBuilder(navHostController)
+    articleNavBuilder(navHostController)
 }

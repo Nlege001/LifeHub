@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ArticleViewModel @Inject constructor(
+class ArticlesViewModel @Inject constructor(
     private val repo: ArticleRepo
 ) : ViewModel() {
 
@@ -26,7 +26,7 @@ class ArticleViewModel @Inject constructor(
     fun getArticles() {
         viewModelScope.launch {
             _articles.value = ViewState.Loading
-            _articles.value = repo.getNews()
+            _articles.value = repo.getNews(Int.MAX_VALUE)
         }
     }
 }

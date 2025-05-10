@@ -19,6 +19,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.composables.GlideWrapper
+import com.example.core.composables.TextButtonWithIcon
 import com.example.core.composables.ViewStateCoordinator
 import com.example.core.utils.baseHorizontalMargin
 import com.example.core.values.Colors
@@ -37,7 +39,7 @@ import com.example.core.values.Dimens.pd20
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd4
 import com.example.core.values.Dimens.pd8
-import com.example.lifehub.features.dashboard.home.viewmodel.ArticleViewModel
+import com.example.lifehub.features.dashboard.home.viewmodel.ArticleListViewModel
 import com.example.lifehub.network.articles.data.Article
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -46,8 +48,9 @@ private val page = Page.DASHBOARD_HOME
 
 @Composable
 fun ArticleSection(
-    viewModel: ArticleViewModel = hiltViewModel(),
-    onArticleClick: (String) -> Unit
+    viewModel: ArticleListViewModel = hiltViewModel(),
+    onArticleClick: (String) -> Unit,
+    onViewAll: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -75,7 +78,8 @@ fun ArticleSection(
             NewsCardSection(
                 title = "Current News",
                 articles = it,
-                onArticleClick = onArticleClick
+                onArticleClick = onArticleClick,
+                onViewAll = onViewAll
             )
         }
     }
@@ -86,15 +90,27 @@ fun NewsCardSection(
     title: String,
     articles: List<Article>,
     modifier: Modifier = Modifier,
-    onArticleClick: (String) -> Unit
+    onArticleClick: (String) -> Unit,
+    onViewAll: () -> Unit
 ) {
     Column(modifier = modifier.baseHorizontalMargin(pd32)) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(bottom = pd8),
-            color = Colors.White
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier
+                    .padding(bottom = pd8)
+                    .weight(1f),
+                color = Colors.White
+            )
+
+            TextButtonWithIcon(
+                label = "View all"
+            ) { onViewAll() }
+        }
 
         LazyColumn(verticalArrangement = Arrangement.spacedBy(pd12)) {
             items(articles) { article ->
