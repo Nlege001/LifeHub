@@ -147,6 +147,10 @@ enum class Page(
     ARTICLE_LIST(
         label = "Article List",
         route = "Article List",
+    ),
+    TODO(
+        label = "Todo",
+        route = "Todo",
     );
 
     fun buildRoute(vararg args: String?): String {
