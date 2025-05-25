@@ -128,4 +128,9 @@
     <string name="reflection_title">Reflect Daily</string>
     <string name="reflection_subTitle">Pause and explore your thoughts in a guided way</string>
 
+    <!-- TODO_list -->
+    <string name="todo_screen_title">Provide a date(optional)</string>
+    <string name="todo_screen_subtitle">Create a to do list for the day</string>
+
+
 </resources>

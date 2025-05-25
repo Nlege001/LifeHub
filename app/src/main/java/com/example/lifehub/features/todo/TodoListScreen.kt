@@ -3,13 +3,18 @@ package com.example.lifehub.features.todo
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -19,20 +24,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.SwipeToDeleteItem
 import com.example.core.composables.dragdrop.DragDropList
+import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
+import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd64
+import com.example.core.values.Dimens.pd8
 import com.example.wpinterviewpractice.R
 
 private val page = Page.TODO
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TodoList(
+fun TodoListScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
     val items = viewModel.items.collectAsState().value
@@ -74,7 +83,30 @@ fun TodoList(
                     )
 
                 },
-                listState = listState
+                listState = listState,
+                topContent = {
+                    Column(
+                        modifier = Modifier.padding(pd16),
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(bottom = pd8),
+                            text = stringResource(R.string.todo_screen_subtitle),
+                            style = LifeHubTypography.titleLarge,
+                            color = Color.LightGray
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                modifier = Modifier,
+                                text = stringResource(R.string.todo_screen_title),
+                                style = LifeHubTypography.titleSmall,
+                                color = Color.LightGray
+                            )
+                        }
+                    }
+                }
             )
         },
         floatingActionButton = {
