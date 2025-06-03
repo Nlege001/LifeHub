@@ -1,6 +1,7 @@
 package com.example.lifehub.features.todo
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,29 +45,38 @@ import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
 import com.example.wpinterviewpractice.R
+import com.example.core.R as CoreR
 
 private val page = Page.TODO
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TodoListScreen(
-    viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel(),
+    navBack: () -> Unit
 ) {
     TrackScreenSeen(page)
     val items = viewModel.items.collectAsState().value
     val postResult = viewModel.postResult.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
+    val errorMessage = remember {
+        mutableStateOf<String?>(null)
+    }
     val listState = rememberLazyListState()
 
     val isScrolling by remember {
         derivedStateOf { listState.isScrollInProgress }
     }
 
+    val message = stringResource(CoreR.string.generic_error)
     LaunchedEffect(postResult) {
+        Log.d("Naol", "$postResult")
         postResult?.let {
             when (it) {
-                is PostResult.Success -> {}
-                is PostResult.Error -> {}
+                is PostResult.Success -> navBack()
+                is PostResult.Error -> {
+                    errorMessage.value = message
+                }
             }
         }
     }
@@ -130,6 +143,23 @@ fun TodoListScreen(
                     }
                 }
             )
+
+            if (errorMessage.value != null) {
+                AlertDialog(
+                    onDismissRequest = { errorMessage.value = null },
+                    confirmButton = {
+                        Button(onClick = { errorMessage.value = null }) {
+                            Text("OK")
+                        }
+                    },
+                    text = {
+                        Text(errorMessage.value ?: "")
+                    },
+                    containerColor = Color.White,
+                    titleContentColor = Color.Red,
+                    textContentColor = Color.Black
+                )
+            }
         },
         floatingActionButton = {
             Column {
@@ -160,7 +190,7 @@ fun TodoListScreen(
                             .clip(CircleShape)
                             .background(Colors.Lavender),
                     ) {
-                        if(isLoading) {
+                        if (isLoading) {
                             CircularProgressIndicator()
                         } else {
                             Icon(

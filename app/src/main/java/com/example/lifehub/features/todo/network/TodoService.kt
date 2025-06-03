@@ -1,5 +1,6 @@
 package com.example.lifehub.features.todo.network
 
+import android.util.Log
 import com.example.core.data.ViewState
 import com.example.lifehub.features.todo.data.TodoData
 import com.example.lifehub.features.todo.data.TodoItem
@@ -35,14 +36,17 @@ class TodoService @Inject constructor(
 
         val todoId = UUID.randomUUID().toString()
 
-        todoCollection
-            .document(userId)
-            .collection("entries")
-            .document(todoId)
-            .set(todoData)
-            .await()
-
-        return Unit
+        return try {
+            todoCollection
+                .document(userId)
+                .collection("entries")
+                .document(todoId)
+                .set(todoData)
+                .await()
+            Unit
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun getTodos(): ViewState<List<TodoData>> {

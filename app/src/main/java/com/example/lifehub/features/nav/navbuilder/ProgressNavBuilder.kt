@@ -13,10 +13,14 @@ fun NavGraphBuilder.progressNavBuilder(
     composable(Page.TODO_LIST.route) {
         TodosScreen(
             onTodoClick = {},
-            addTodo = {}
+            addTodo = {
+                navHostController.navigate(Page.TODO.route)
+            }
         )
     }
     composable(Page.TODO.route) {
-        TodoListScreen()
+        TodoListScreen(
+            navBack = { navHostController.popBackStack() }
+        )
     }
 }
