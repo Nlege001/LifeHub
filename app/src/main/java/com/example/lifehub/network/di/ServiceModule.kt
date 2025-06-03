@@ -1,5 +1,6 @@
 package com.example.lifehub.network.di
 
+import com.example.lifehub.features.todo.network.TodoService
 import com.example.lifehub.network.auth.AuthService
 import com.example.lifehub.network.auth.FirebaseAuthService
 import com.example.lifehub.network.user.MoodService
@@ -36,4 +37,10 @@ class ServiceModule {
         firebaseFirestore: FirebaseFirestore,
         firebaseAuthService: FirebaseAuthService
     ): MoodService = MoodService(firebaseFirestore, firebaseAuthService)
+
+    @Provides
+    fun provideTodoService(
+        service: FirebaseAuthService,
+        firebaseFirestore: FirebaseFirestore
+    ): TodoService = TodoService(service, firebaseFirestore)
 }

@@ -5,17 +5,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -28,12 +31,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
 import com.example.core.analytics.TrackScreenSeen
+import com.example.core.composables.DatePicker
 import com.example.core.composables.SwipeToDeleteItem
 import com.example.core.composables.dragdrop.DragDropList
+import com.example.core.data.PostResult
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
-import com.example.core.values.Dimens.pd64
+import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
 import com.example.wpinterviewpractice.R
 
@@ -44,14 +49,24 @@ private val page = Page.TODO
 fun TodoListScreen(
     viewModel: TodoViewModel = hiltViewModel()
 ) {
+    TrackScreenSeen(page)
     val items = viewModel.items.collectAsState().value
+    val postResult = viewModel.postResult.collectAsState().value
+    val isLoading = viewModel.isLoading.collectAsState().value
     val listState = rememberLazyListState()
 
     val isScrolling by remember {
         derivedStateOf { listState.isScrollInProgress }
     }
 
-    TrackScreenSeen(page)
+    LaunchedEffect(postResult) {
+        postResult?.let {
+            when (it) {
+                is PostResult.Success -> {}
+                is PostResult.Error -> {}
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -105,24 +120,56 @@ fun TodoListScreen(
                                 color = Color.LightGray
                             )
                         }
+
+                        DatePicker(
+                            modifier = Modifier.fillMaxWidth(),
+                            selectedDate = viewModel.date.collectAsState().value,
+                            onDateSelected = { viewModel.updateDate(it) },
+                            label = stringResource(R.string.todo_date)
+                        )
                     }
                 }
             )
         },
         floatingActionButton = {
-            AnimatedVisibility(!isScrolling) {
-                IconButton(
-                    onClick = { viewModel.addItem() },
-                    modifier = Modifier
-                        .size(pd64)
-                        .clip(CircleShape)
-                        .background(Colors.Lavender),
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_add_task),
-                        contentDescription = "",
-                        tint = Colors.White
-                    )
+            Column {
+                AnimatedVisibility(!isScrolling) {
+                    IconButton(
+                        onClick = { viewModel.addItem() },
+                        modifier = Modifier
+                            .size(pd32)
+                            .clip(CircleShape)
+                            .background(Colors.Lavender),
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_add_task),
+                            contentDescription = "",
+                            tint = Colors.White
+                        )
+                    }
+                }
+
+                Spacer(Modifier.padding(pd16))
+
+                AnimatedVisibility(viewModel.validateSave()) {
+                    IconButton(
+                        enabled = !isLoading,
+                        onClick = { viewModel.save() },
+                        modifier = Modifier
+                            .size(pd32)
+                            .clip(CircleShape)
+                            .background(Colors.Lavender),
+                    ) {
+                        if(isLoading) {
+                            CircularProgressIndicator()
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_save),
+                                contentDescription = "",
+                                tint = Colors.White
+                            )
+                        }
+                    }
                 }
             }
         }

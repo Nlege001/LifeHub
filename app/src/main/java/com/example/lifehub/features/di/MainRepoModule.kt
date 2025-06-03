@@ -7,6 +7,8 @@ import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
 import com.example.lifehub.features.profile.ProfileRepo
+import com.example.lifehub.features.todo.network.TodoRepo
+import com.example.lifehub.features.todo.network.TodoService
 import com.example.lifehub.network.articles.network.NewsService
 import com.example.lifehub.network.quoteoftheday.QuoteOfTheDayService
 import com.example.lifehub.network.user.MoodService
@@ -69,5 +71,10 @@ class MainRepoModule {
         newsService: NewsService,
         ioDispatcher: CoroutineDispatcher
     ): ArticleRepo = ArticleRepo(newsService, ioDispatcher)
+
+    @Provides
+    fun provideTodoRepo(
+        service: TodoService,
+    ): TodoRepo = TodoRepo(service)
 
 }

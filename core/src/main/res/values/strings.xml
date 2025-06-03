@@ -14,4 +14,6 @@
     <string name="dob_future_error">Birthday cannot be in the future.</string>
     <string name="dob_under_18">You must be at least 18 years old.</string>
     <string name="drag">Drag</string>
+    <string name="dob">Date of Birth</string>
+    <string name="add_items">Add some items to proceed</string>
 </resources>

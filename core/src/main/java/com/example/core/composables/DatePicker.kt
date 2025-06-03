@@ -48,7 +48,8 @@ fun DatePicker(
     selectedDate: Long?,
     onDateSelected: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "Date of Birth"
+    label: String = stringResource(R.string.dob),
+    type: DatePickerErrorType = DatePickerErrorType.NONE,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var textValue by remember {
@@ -65,7 +66,7 @@ fun DatePicker(
             onValueChange = {
                 textValue = it
                 parseDateString(it.text)?.let { millis ->
-                    val error = validateDate(millis, context)
+                    val error = validateDate(millis, context, type.hasErrorMessage)
                     validationError = error
                     if (error == null) {
                         onDateSelected(millis)
@@ -119,7 +120,7 @@ fun DatePicker(
                     initialDateMillis = selectedDate,
                     onDateSelected = {
                         textValue = TextFieldValue(convertMillisToDate(it))
-                        val error = validateDate(it, context)
+                        val error = validateDate(it, context, type.hasErrorMessage)
                         validationError = error
                         if (error == null) {
                             onDateSelected(it)
@@ -151,8 +152,10 @@ private fun parseDateString(dateString: String): Long? {
 
 private fun validateDate(
     millis: Long,
-    context: Context
+    context: Context,
+    hasError: Boolean
 ): String? {
+    if (!hasError) return null
     val now = System.currentTimeMillis()
 
     if (millis > now) {
@@ -208,6 +211,13 @@ private fun DatePickerDropdown(
             }
         }
     }
+}
+
+enum class DatePickerErrorType(
+    val hasErrorMessage: Boolean
+) {
+    NONE(false),
+    AGE(true)
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFF000000)

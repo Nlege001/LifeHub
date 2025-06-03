@@ -28,10 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.example.core.R
 import com.example.core.theme.LifeHubTypography
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd32
@@ -88,7 +90,7 @@ fun <T> DragDropList(
                                 .align(Alignment.Center)
                                 .fillMaxSize()
                                 .padding(pd16),
-                            text = "Add some items to proceed",
+                            text = stringResource(R.string.add_items),
                             textAlign = TextAlign.Center,
                             color = Color.LightGray,
                             style = LifeHubTypography.labelLarge

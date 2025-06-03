@@ -39,7 +39,9 @@ fun NavGraphBuilder.bottomNavBuilder(
     composable(Page.POSTS.route) { }
     composable(Page.PROGRESS.route) {
         ProgressScreen(
-            navigate = {}
+            navigate = {
+                navHostController.navigate(it.route)
+            }
         )
     }
     composable(Page.MESSAGES.route) { }
@@ -97,4 +99,5 @@ fun NavGraphBuilder.bottomNavBuilder(
     }
 
     articleNavBuilder(navHostController)
+    progressNavBuilder(navHostController)
 }

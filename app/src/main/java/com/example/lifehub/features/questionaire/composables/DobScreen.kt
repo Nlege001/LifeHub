@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +29,7 @@ import com.example.core.analytics.Page
 import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.CinematicTypingText
 import com.example.core.composables.DatePicker
+import com.example.core.composables.DatePickerErrorType
 import com.example.core.composables.LogoAndAppTitle
 import com.example.core.composables.TextButtonWithIcon
 import com.example.core.data.PostResult
@@ -99,7 +99,8 @@ private fun Content(
             modifier = Modifier.fillMaxWidth(),
             selectedDate = dob.value,
             onDateSelected = { dob.value = it },
-            label = stringResource(R.string.dob)
+            label = stringResource(R.string.dob),
+            type = DatePickerErrorType.AGE
         )
 
         Spacer(modifier = Modifier.weight(1f))

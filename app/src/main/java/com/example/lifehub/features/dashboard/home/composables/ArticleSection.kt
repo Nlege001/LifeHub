@@ -135,7 +135,11 @@ fun NewsListItem(
             .height(100.dp)
             .clickable(onClick = { onArticleClick(article.link) })
     ) {
-        Row(modifier = Modifier.padding(pd8)) {
+        Row(
+            modifier = Modifier
+                .background(Colors.Lavender)
+                .padding(pd8)
+        ) {
             GlideWrapper(
                 imageUrl = article.image_url ?: "",
                 contentDescription = article.title,
