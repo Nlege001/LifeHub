@@ -1,9 +1,12 @@
 package com.example.lifehub.features.todo
 
-import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.analytics.NavArgumentType
 import com.example.core.data.PostResult
+import com.example.core.data.ViewState
+import com.example.lifehub.features.todo.data.TodoData
 import com.example.lifehub.features.todo.data.TodoItem
 import com.example.lifehub.features.todo.network.TodoRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,14 +18,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoViewModel @Inject constructor(
-    private val todoRepo: TodoRepo
+    private val todoRepo: TodoRepo,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+    val id: String? = savedStateHandle[NavArgumentType.ID.label]
 
-    private val _items = MutableStateFlow(listOf(TodoItem()))
-    val items: StateFlow<List<TodoItem>> = _items
-
-    private val _date = MutableStateFlow<Long?>(null)
-    val date: StateFlow<Long?> = _date
+    private val _items = MutableStateFlow<ViewState<TodoData>>(ViewState.Loading)
+    val items: StateFlow<ViewState<TodoData>> = _items
 
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -30,51 +32,132 @@ class TodoViewModel @Inject constructor(
     private val _postResult = MutableStateFlow<PostResult<Unit>?>(null)
     val postResult: StateFlow<PostResult<Unit>?> = _postResult
 
+    init {
+        getData()
+    }
+
+    fun getData() {
+        viewModelScope.launch {
+            _items.value = ViewState.Loading
+            _items.value = todoRepo.getTodoById(id)
+        }
+    }
+
     fun updateText(id: String, newText: String) {
-        _items.update { list ->
-            list.map { if (it.id == id) it.copy(text = newText) else it }
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    val updatedItems = state.data.items.map { item ->
+                        if (item.id == id) item.copy(text = newText) else item
+                    }
+                    ViewState.Content(
+                        state.data.copy(items = updatedItems)
+                    )
+                }
+
+                else -> state
+            }
         }
     }
 
     fun updateChecked(id: String, isChecked: Boolean) {
-        _items.update { list ->
-            list.map { if (it.id == id) it.copy(isComplete = isChecked) else it }
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    val updatedItems = state.data.items.map { item ->
+                        if (item.id == id) item.copy(isComplete = isChecked) else item
+                    }
+                    ViewState.Content(
+                        state.data.copy(items = updatedItems)
+                    )
+                }
+
+                else -> state
+            }
         }
     }
 
     fun move(from: Int, to: Int) {
-        val list = _items.value.toMutableList()
-        val item = list.removeAt(from)
-        list.add(to, item)
-        _items.value = list
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    val currentItems = state.data.items.toMutableList()
+                    val item = currentItems.removeAt(from)
+                    currentItems.add(to, item)
+
+                    ViewState.Content(
+                        state.data.copy(items = currentItems)
+                    )
+                }
+
+                else -> state
+            }
+        }
     }
 
     fun addItem() {
-        _items.update { it + TodoItem() }
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    val updatedItems = state.data.items + TodoItem()
+                    ViewState.Content(
+                        state.data.copy(items = updatedItems)
+                    )
+                }
+
+                else -> state
+            }
+        }
     }
 
     fun deleteItem(id: String) {
-        _items.update { list ->
-            list.filterNot { it.id == id }
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    val updatedItems = state.data.items.filterNot { it.id == id }
+                    ViewState.Content(
+                        state.data.copy(items = updatedItems)
+                    )
+                }
+
+                else -> state
+            }
         }
     }
 
     fun updateDate(date: Long) {
-        _date.update { date }
+        _items.update { state ->
+            when (state) {
+                is ViewState.Content -> {
+                    ViewState.Content(
+                        state.data.copy(date = date)
+                    )
+                }
+
+                else -> state
+            }
+        }
     }
 
     fun validateSave(): Boolean {
-        return _items.value.all { it.text.isNotEmpty() } && date.value != null
+        val state = _items.value
+        return when (state) {
+            is ViewState.Content -> {
+                state.data.items.isNotEmpty() && state.data.items.all { it.text.isNotEmpty() }
+            }
+
+            else -> false
+        }
     }
 
     fun save() {
         viewModelScope.launch {
-            Log.d("Naol", "trying to save")
             _isLoading.value = true
-            _date.value?.let {
-                _postResult.value = todoRepo.saveTodos(_items.value, it)
+            val state = _items.value
+            if (state is ViewState.Content) {
+                _postResult.value = todoRepo.saveTodos(state.data)
             }
-            _isLoading.value = false
         }
+        _isLoading.value = false
     }
 }

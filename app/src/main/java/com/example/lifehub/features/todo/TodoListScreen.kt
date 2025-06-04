@@ -1,7 +1,6 @@
 package com.example.lifehub.features.todo
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -34,9 +33,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
-import com.example.core.analytics.TrackScreenSeen
 import com.example.core.composables.DatePicker
 import com.example.core.composables.SwipeToDeleteItem
+import com.example.core.composables.ViewStateCoordinator
 import com.example.core.composables.dragdrop.DragDropList
 import com.example.core.data.PostResult
 import com.example.core.theme.LifeHubTypography
@@ -44,6 +43,7 @@ import com.example.core.values.Colors
 import com.example.core.values.Dimens.pd16
 import com.example.core.values.Dimens.pd32
 import com.example.core.values.Dimens.pd8
+import com.example.lifehub.features.todo.data.TodoData
 import com.example.wpinterviewpractice.R
 import com.example.core.R as CoreR
 
@@ -55,22 +55,14 @@ fun TodoListScreen(
     viewModel: TodoViewModel = hiltViewModel(),
     navBack: () -> Unit
 ) {
-    TrackScreenSeen(page)
-    val items = viewModel.items.collectAsState().value
     val postResult = viewModel.postResult.collectAsState().value
     val isLoading = viewModel.isLoading.collectAsState().value
     val errorMessage = remember {
         mutableStateOf<String?>(null)
     }
-    val listState = rememberLazyListState()
-
-    val isScrolling by remember {
-        derivedStateOf { listState.isScrollInProgress }
-    }
 
     val message = stringResource(CoreR.string.generic_error)
     LaunchedEffect(postResult) {
-        Log.d("Naol", "$postResult")
         postResult?.let {
             when (it) {
                 is PostResult.Success -> navBack()
@@ -81,6 +73,48 @@ fun TodoListScreen(
         }
     }
 
+    ViewStateCoordinator(
+        state = viewModel.items,
+        refresh = { viewModel.getData() },
+        page = page
+    ) {
+        Content(
+            data = it,
+            move = viewModel::move,
+            updateText = viewModel::updateText,
+            updateChecked = viewModel::updateChecked,
+            deleteItem = viewModel::deleteItem,
+            errorMessage = errorMessage.value,
+            resetErrorMessage = { errorMessage.value = null },
+            updateDate = viewModel::updateDate,
+            save = viewModel::save,
+            isLoading = isLoading,
+            validateSave = viewModel::validateSave,
+            addItem = viewModel::addItem
+        )
+    }
+}
+
+@Composable
+private fun Content(
+    data: TodoData,
+    move: (Int, Int) -> Unit,
+    updateText: (id: String, newText: String) -> Unit,
+    updateChecked: (id: String, isChecked: Boolean) -> Unit,
+    deleteItem: (String) -> Unit,
+    errorMessage: String?,
+    updateDate: (Long) -> Unit,
+    save: () -> Unit,
+    isLoading: Boolean,
+    validateSave: () -> Boolean,
+    addItem: () -> Unit,
+    resetErrorMessage: () -> Unit
+) {
+    val listState = rememberLazyListState()
+
+    val isScrolling by remember {
+        derivedStateOf { listState.isScrollInProgress }
+    }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = { padding ->
@@ -88,16 +122,16 @@ fun TodoListScreen(
                 modifier = Modifier
                     .background(Color.Black)
                     .fillMaxSize(),
-                items = items,
-                onMove = { from, to -> viewModel.move(from, to) },
+                items = data.items,
+                onMove = { from, to -> move(from, to) },
                 itemContent = { item, _, index ->
                     SwipeToDeleteItem(
                         content = {
                             Todo(
                                 item = item,
-                                onTextChange = { text -> viewModel.updateText(item.id, text) },
+                                onTextChange = { text -> updateText(item.id, text) },
                                 onCheckedChange = { checked ->
-                                    viewModel.updateChecked(
+                                    updateChecked(
                                         item.id,
                                         checked
                                     )
@@ -105,7 +139,7 @@ fun TodoListScreen(
                             )
                         },
                         onDelete = {
-                            viewModel.deleteItem(item.id)
+                            deleteItem(item.id)
                         },
                         itemKey = item.id
                     )
@@ -136,24 +170,24 @@ fun TodoListScreen(
 
                         DatePicker(
                             modifier = Modifier.fillMaxWidth(),
-                            selectedDate = viewModel.date.collectAsState().value,
-                            onDateSelected = { viewModel.updateDate(it) },
+                            selectedDate = data.date,
+                            onDateSelected = { updateDate(it) },
                             label = stringResource(R.string.todo_date)
                         )
                     }
                 }
             )
 
-            if (errorMessage.value != null) {
+            if (errorMessage != null) {
                 AlertDialog(
-                    onDismissRequest = { errorMessage.value = null },
+                    onDismissRequest = { resetErrorMessage() },
                     confirmButton = {
-                        Button(onClick = { errorMessage.value = null }) {
+                        Button(onClick = { resetErrorMessage() }) {
                             Text("OK")
                         }
                     },
                     text = {
-                        Text(errorMessage.value ?: "")
+                        Text(errorMessage ?: "")
                     },
                     containerColor = Color.White,
                     titleContentColor = Color.Red,
@@ -165,7 +199,7 @@ fun TodoListScreen(
             Column {
                 AnimatedVisibility(!isScrolling) {
                     IconButton(
-                        onClick = { viewModel.addItem() },
+                        onClick = { addItem() },
                         modifier = Modifier
                             .size(pd32)
                             .clip(CircleShape)
@@ -181,10 +215,10 @@ fun TodoListScreen(
 
                 Spacer(Modifier.padding(pd16))
 
-                AnimatedVisibility(viewModel.validateSave()) {
+                AnimatedVisibility(validateSave()) {
                     IconButton(
                         enabled = !isLoading,
-                        onClick = { viewModel.save() },
+                        onClick = { save() },
                         modifier = Modifier
                             .size(pd32)
                             .clip(CircleShape)

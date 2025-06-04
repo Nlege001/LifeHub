@@ -150,7 +150,8 @@ enum class Page(
     ),
     TODO(
         label = "Todo",
-        route = "Todo",
+        route = "Todo?${NavArgumentType.ID.label}={${NavArgumentType.ID.label}}",
+        arguments = mapOf(NavArgumentType.ID to NavArgumentType.ID.label)
     ),
     TODO_LIST(
         label = "Todo list",
@@ -159,8 +160,25 @@ enum class Page(
 
     fun buildRoute(vararg args: String?): String {
         var builtRoute = route
+
         arguments.values.forEachIndexed { index, key ->
-            builtRoute = builtRoute.replace("{$key}", args.getOrNull(index) ?: "")
+            val arg = args.getOrNull(index)
+
+            when {
+                // Handle route in path format: "ConfirmPin/{pin}"
+                builtRoute.contains("{$key}") -> {
+                    builtRoute = builtRoute.replace("{$key}", arg ?: "")
+                }
+
+                // Handle query format: "Todo?ID={ID}"
+                builtRoute.contains("?$key={$key}") -> {
+                    if (arg.isNullOrEmpty()) {
+                        builtRoute = builtRoute.substringBefore("?$key={$key}")
+                    } else {
+                        builtRoute = builtRoute.replace("?$key={$key}", "?$key=$arg")
+                    }
+                }
+            }
         }
         return builtRoute
     }

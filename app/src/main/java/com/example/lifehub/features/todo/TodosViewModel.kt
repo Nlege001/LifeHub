@@ -19,10 +19,6 @@ class TodosViewModel @Inject constructor(
     private val _data = MutableStateFlow<ViewState<List<TodoData>>>(ViewState.Loading)
     val data: StateFlow<ViewState<List<TodoData>>> = _data
 
-    init {
-        getData()
-    }
-
     fun getData() {
         viewModelScope.launch {
             _data.value = ViewState.Loading

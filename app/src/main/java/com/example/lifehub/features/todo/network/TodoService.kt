@@ -1,6 +1,5 @@
 package com.example.lifehub.features.todo.network
 
-import android.util.Log
 import com.example.core.data.ViewState
 import com.example.lifehub.features.todo.data.TodoData
 import com.example.lifehub.features.todo.data.TodoItem
@@ -18,29 +17,26 @@ class TodoService @Inject constructor(
     private val todoCollection = firebaseFirestore.collection("todos")
 
     suspend fun saveTodos(
-        items: List<TodoItem>,
-        date: Long
+        data: TodoData
     ): Unit? {
         val userId = service.currentUserId() ?: return null
 
         val todoData = hashMapOf(
-            "items" to items.map { item ->
+            "items" to data.items.map { item ->
                 hashMapOf(
                     "id" to item.id,
                     "text" to item.text,
                     "isComplete" to item.isComplete
                 )
             },
-            "date" to date
+            "date" to data.date
         )
-
-        val todoId = UUID.randomUUID().toString()
 
         return try {
             todoCollection
                 .document(userId)
                 .collection("entries")
-                .document(todoId)
+                .document(data.id)
                 .set(todoData)
                 .await()
             Unit
@@ -74,6 +70,35 @@ class TodoService @Inject constructor(
             }
 
             ViewState.Content(todos)
+        } catch (e: Exception) {
+            ViewState.Error()
+        }
+    }
+
+    suspend fun getTodoById(todoId: String): ViewState<TodoData> {
+        val userId = service.currentUserId() ?: return ViewState.Error()
+
+        return try {
+            val doc = todoCollection
+                .document(userId)
+                .collection("entries")
+                .document(todoId)
+                .get()
+                .await()
+
+            if (!doc.exists()) return ViewState.Error()
+
+            val items = (doc["items"] as? List<Map<String, Any?>>)?.map { map ->
+                TodoItem(
+                    id = map["id"] as? String ?: "",
+                    text = map["text"] as? String ?: "",
+                    isComplete = map["isComplete"] as? Boolean ?: false
+                )
+            } ?: emptyList()
+
+            val date = doc["date"] as? Long ?: return ViewState.Error()
+
+            ViewState.Content(TodoData(id = todoId, items = items, date = date))
         } catch (e: Exception) {
             ViewState.Error()
         }

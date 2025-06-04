@@ -21,12 +21,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.core.analytics.Page
@@ -61,6 +63,11 @@ fun TodosScreen(
             }
         )
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.getData()
+    }
+
     ViewStateCoordinator(
         state = viewModel.data,
         refresh = { viewModel.getData() },
@@ -86,87 +93,107 @@ private fun Content(
             .background(Color.DarkGray)
             .fillMaxSize()
     ) {
-        dateToItemsMap.forEach { (date, pair) ->
-            val (todoId, items) = pair
-
-            stickyHeader {
-                Card(
+        if (data.isEmpty()) {
+            item {
+                Box(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
-                    colors = CardDefaults.cardColors(containerColor = Colors.Lavender),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                        .fillMaxSize()
+                        .padding(pd16),
                 ) {
-                    Column(
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "Click the add button on the app bar to create a todo list",
+                        style = LifeHubTypography.titleLarge,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        } else {
+            dateToItemsMap.forEach { (date, pair) ->
+                val (todoId, items) = pair
+
+                stickyHeader {
+                    Card(
                         modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = Colors.Lavender),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp, vertical = 12.dp)
                         ) {
-                            Text(
-                                text = date.toReadableDate(),
-                                style = LifeHubTypography.titleLarge,
-                                color = Colors.White,
-                                modifier = Modifier.weight(1f)
-                            )
-                            IconButton(onClick = { onTodoClick(todoId) }) {
-                                Icon(
-                                    painter = painterResource(R.drawable.ic_edit),
-                                    contentDescription = "Edit",
-                                    tint = Color.White
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                date?.toReadableDate()?.let {
+                                    Text(
+                                        text = it,
+                                        style = LifeHubTypography.titleLarge,
+                                        color = Colors.White,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
+
+                                IconButton(onClick = { onTodoClick(todoId) }) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_edit),
+                                        contentDescription = "Edit",
+                                        tint = Color.White
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            val completedItems = items.count { it.isComplete }
+                            val totalItems = items.size
+                            val progress =
+                                if (totalItems > 0) completedItems.toFloat() / totalItems else 0f
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Completed $completedItems",
+                                    style = LifeHubTypography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.85f)
+                                )
+                                Text(
+                                    text = "Out of $totalItems",
+                                    style = LifeHubTypography.bodySmall,
+                                    color = Color.White.copy(alpha = 0.85f)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(8.dp)
+                                    .clip(RoundedCornerShape(50))
+                                    .background(Color.White.copy(alpha = 0.2f))
+                            ) {
+                                LinearProgressIndicator(
+                                    progress = progress,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(8.dp),
+                                    color = Colors.DarkPurple,
+                                    backgroundColor = Color.Transparent
                                 )
                             }
                         }
-
-                        Spacer(modifier = Modifier.height(6.dp))
-
-                        val completedItems = items.count { it.isComplete }
-                        val totalItems = items.size
-                        val progress =
-                            if (totalItems > 0) completedItems.toFloat() / totalItems else 0f
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = "Completed $completedItems",
-                                style = LifeHubTypography.bodySmall,
-                                color = Color.White.copy(alpha = 0.85f)
-                            )
-                            Text(
-                                text = "Out of $totalItems",
-                                style = LifeHubTypography.bodySmall,
-                                color = Color.White.copy(alpha = 0.85f)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(8.dp)
-                                .clip(RoundedCornerShape(50))
-                                .background(Color.White.copy(alpha = 0.2f))
-                        ) {
-                            LinearProgressIndicator(
-                                progress = progress,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(8.dp),
-                                color = Colors.DarkPurple,
-                                backgroundColor = Color.Transparent
-                            )
-                        }
                     }
                 }
-            }
 
-            item {
-                TodoCard(data = items)
+                item {
+                    TodoCard(data = items)
+                }
             }
         }
     }

@@ -5,7 +5,8 @@ enum class NavArgumentType(val label: String) {
     FIRST_NAME(label = "firstName"),
     LAST_NAME(label = "lastName"),
     PIN(label = "pin"),
-    URL(label = "url");
+    URL(label = "url"),
+    ID(label = "id");
 
     companion object {
         fun NavArgumentType.asPlaceholder(): String = "{${this.label}}"
