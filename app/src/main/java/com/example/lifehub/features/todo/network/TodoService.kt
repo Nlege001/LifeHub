@@ -7,7 +7,6 @@ import com.example.lifehub.network.Service
 import com.example.lifehub.network.auth.FirebaseAuthService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 import javax.inject.Inject
 
 class TodoService @Inject constructor(

@@ -91,6 +91,8 @@
     <string name="entry_saved">"Mood saved successfully. Swipe right to see the last 7 entries."</string>
     <string name="streak">You have started a mood streak! Record how you are feeling everyday to keep this streak going</string>
     <string name="streak_subtitle">day mood recording streak</string>
+    <string name="todo">Most recent todo item</string>
+    <string name="empty_todo">Create a todo list and it will populate here for quick access</string>
 
     <!-- Profile -->
     <string name="profile_background_picture">Profile background picture</string>

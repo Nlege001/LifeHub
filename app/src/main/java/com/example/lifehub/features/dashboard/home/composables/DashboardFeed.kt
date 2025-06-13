@@ -72,6 +72,8 @@ private fun Content(
             }
         }
 
+        item { TodoModal() }
+
         if (data.showMoodTracker) {
             item { MoodTracker() }
         }

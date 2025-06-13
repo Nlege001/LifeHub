@@ -5,6 +5,7 @@ import com.example.lifehub.encryptedsharedpreferences.SecurePreferences
 import com.example.lifehub.features.dashboard.home.repo.ArticleRepo
 import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
+import com.example.lifehub.features.dashboard.home.repo.TodoModalRepo
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
 import com.example.lifehub.features.profile.ProfileRepo
 import com.example.lifehub.features.todo.network.TodoRepo
@@ -76,5 +77,10 @@ class MainRepoModule {
     fun provideTodoRepo(
         service: TodoService,
     ): TodoRepo = TodoRepo(service)
+
+    @Provides
+    fun provideTodoModalRepo(
+        service: TodoService,
+    ): TodoModalRepo = TodoModalRepo(service)
 
 }
