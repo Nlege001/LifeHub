@@ -45,6 +45,5 @@ class NavFlowRegistry @Inject constructor(
         } else {
             Page.LOGIN
         }
-
     }
 }

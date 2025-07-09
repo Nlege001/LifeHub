@@ -15,6 +15,7 @@ enum class ProgressItems(
         lottie = R.raw.anim_goal,
         title = R.string.goal_title,
         subTitle = R.string.goal_subTitle,
+        route = Page.GOAL.route
     ),
     TODO(
         lottie = R.raw.anim_todo_list,
@@ -25,11 +26,13 @@ enum class ProgressItems(
     MOOD(
         lottie = R.raw.anim_mood_habit,
         title = R.string.mood_title,
-        subTitle = R.string.mood_subTitle
+        subTitle = R.string.mood_subTitle,
+        route = Page.MOOD.route
     ),
     REFLECTION(
         lottie = R.raw.anim_calendar_reflection,
         title = R.string.reflection_title,
-        subTitle = R.string.reflection_subTitle
+        subTitle = R.string.reflection_subTitle,
+        route = Page.REFLECT.route
     )
 }

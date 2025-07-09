@@ -36,4 +36,13 @@ fun NavGraphBuilder.progressNavBuilder(
             navBack = { navHostController.popBackStack() }
         )
     }
+    composable(
+        route = Page.MOOD.route
+    ) {  }
+    composable(
+        route = Page.GOAL.route
+    ) {  }
+    composable(
+        route = Page.REFLECT.route
+    ) {  }
 }

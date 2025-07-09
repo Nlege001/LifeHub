@@ -148,6 +148,8 @@ enum class Page(
         label = "Article List",
         route = "Article List",
     ),
+
+    // PROGRESS
     TODO(
         label = "Todo",
         route = "Todo?${NavArgumentType.ID.label}={${NavArgumentType.ID.label}}",
@@ -156,6 +158,18 @@ enum class Page(
     TODO_LIST(
         label = "Todo list",
         route = "Todo list",
+    ),
+    GOAL(
+        label = "Goal",
+        route = "Goal"
+    ),
+    REFLECT(
+        label = "Reflect",
+        route = "Reflect"
+    ),
+    MOOD(
+        label = "Mood",
+        route = "Mood"
     );
 
     fun buildRoute(vararg args: String?): String {
