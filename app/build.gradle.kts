@@ -90,6 +90,7 @@ dependencies {
     implementation(libs.compose.runtime)
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.charts)
 
     // Room
     implementation(libs.room.runtime)

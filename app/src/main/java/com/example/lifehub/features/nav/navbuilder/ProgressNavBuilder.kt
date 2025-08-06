@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.core.analytics.NavArgumentType
 import com.example.core.analytics.Page
+import com.example.lifehub.features.moodhabits.MoodHabitsScreen
 import com.example.lifehub.features.todo.TodoListScreen
 import com.example.lifehub.features.todo.TodosScreen
 
@@ -38,11 +39,13 @@ fun NavGraphBuilder.progressNavBuilder(
     }
     composable(
         route = Page.MOOD.route
-    ) {  }
+    ) {
+        MoodHabitsScreen()
+    }
     composable(
         route = Page.GOAL.route
-    ) {  }
+    ) { }
     composable(
         route = Page.REFLECT.route
-    ) {  }
+    ) { }
 }

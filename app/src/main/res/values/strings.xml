@@ -137,4 +137,18 @@
     <string name="complete">Complete</string>
     <string name="incomplete">Incomplete</string>
 
+    <!-- Mood -->
+    <string name="mood_summary">Mood Summary</string>
+    <string name="mood_heatmap">Past 30 day heat map</string>
+    <string name="mood_bar_chart">Mood Frequency</string>
+
+    <!-- Days of the week -->
+    <string name="mon">Monday</string>
+    <string name="tue">Tuesday</string>
+    <string name="wed">Wednesday</string>
+    <string name="thu">Thursday</string>
+    <string name="fri">Friday</string>
+    <string name="sat">Saturday</string>
+    <string name="sun">Sunday</string>
+
 </resources>

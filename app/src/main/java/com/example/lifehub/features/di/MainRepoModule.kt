@@ -7,6 +7,7 @@ import com.example.lifehub.features.dashboard.home.repo.DashboardFeedRepo
 import com.example.lifehub.features.dashboard.home.repo.MoodRepo
 import com.example.lifehub.features.dashboard.home.repo.TodoModalRepo
 import com.example.lifehub.features.dashboard.sidemenu.SideMenuRepo
+import com.example.lifehub.features.moodhabits.MoodHabitsRepo
 import com.example.lifehub.features.profile.ProfileRepo
 import com.example.lifehub.features.todo.network.TodoRepo
 import com.example.lifehub.features.todo.network.TodoService
@@ -82,5 +83,10 @@ class MainRepoModule {
     fun provideTodoModalRepo(
         service: TodoService,
     ): TodoModalRepo = TodoModalRepo(service)
+
+    @Provides
+    fun provideMoodHabitRepo(
+        service: MoodService
+    ): MoodHabitsRepo = MoodHabitsRepo(service)
 
 }

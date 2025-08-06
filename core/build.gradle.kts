@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.compose.charts)
 
     // material
     implementation(libs.androidx.material3)
